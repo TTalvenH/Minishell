@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/14 07:51:45 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/14 09:55:22 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 int	main(void)
 {
 	char		history_path[24];
+	char		*insanely_cool_buffer;
 	char		*line;
 	t_new_line	got_line;
-	int			i;
 
 	line = NULL;
+	insanely_cool_buffer = malloc(BIG_CHUNGUS);
 	get_history(history_path);
 	while (1)
 	{
@@ -31,16 +32,14 @@ int	main(void)
 			if(got_line.length)
 			{
 				read_line_parser(line, &got_line);
-				i = -1;
-				while(++i < got_line.line_count)
-				{
-					printf("We got the %dth line: %s\n", i + 1, got_line.exec_lines[i]);
-				}
 			//here we will put the fuction for execution handling pipes, builtins , execv
-			}	
+			}
+			free_got_line(&got_line);
 			free(line);
 		}
-		
+		if (got_line.exit_req == (-42))
+			break ;
 	}
+	free(insanely_cool_buffer);
 	return (0);
 }

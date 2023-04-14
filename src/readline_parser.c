@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/14 07:27:59 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/14 09:56:02 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ int	read_line_parser(char *str, t_new_line *got_line)
 		got_line->string = malloc((got_line->length + 1) * sizeof(char));
 		if (!got_line->exec_lines || !got_line->string)
 			return (free_got_line(got_line));
-		assign_pointers(str, got_line);
-	}	
+		assign_pointers(str, got_line, (-1));
+	}
 	return (0);
 }
 
-int	assign_pointers(char *str, t_new_line *got_line)
+int	assign_pointers(char *str, t_new_line *got_line, int i)
 {
 	int		line;
 	char	expecting;
@@ -61,23 +61,23 @@ int	assign_pointers(char *str, t_new_line *got_line)
 	line = 0;
 	expecting = 0;
 	got_line->exec_lines[line++] = str;
-	while (*str)
+	while (str[++i])
 	{
-		if (*str == '\'' || *str == '\"')
+		if (str[i] == '\'' || str[i] == '\"')
 		{
-			if (expecting && *str == expecting)
+			if (expecting && str[i] == expecting)
 				expecting = 0;
 			else if (!expecting)
-				expecting = *str;
+				expecting = str[i];
 		}
-		if (*str == '|' && !expecting)
+		if (str[i] == '|' && !expecting)
 		{
-			*str = '\0';
-			got_line->exec_lines[line++] = str + 1;
+			str[i] = '\0';
+			got_line->exec_lines[line++] = &str[i + 1];
 		}	
-		*(got_line->string)++ = *str++;
+		got_line->string[i] = str[i];
 	}
-	*(got_line->string) = '\0';
+	got_line->string[i] = '\0';
 	return (1);
 }
 
