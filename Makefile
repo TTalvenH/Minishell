@@ -13,7 +13,7 @@ DEBUG_FLAGS = -g -O0 -fsanitize=address
 # src files and path for them
 VPATH = src
 SRC = main.c smart_history.c ft_strlcpy.c get_next_line.c get_next_line_utils.c\
-readline_parser.c \
+readline_parser.c line_handling_func.c \
 
 # obj files and path for them
 OBJ_DIR = obj

@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/14 09:55:22 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/14 10:03:48 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ int	main(void)
 			if(got_line.length)
 			{
 				read_line_parser(line, &got_line);
+				line_handling_func(&got_line);
+				free_got_line(&got_line);
 			//here we will put the fuction for execution handling pipes, builtins , execv
 			}
-			free_got_line(&got_line);
 			free(line);
 		}
 		if (got_line.exit_req == (-42))

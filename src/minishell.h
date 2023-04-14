@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/14 09:54:17 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/14 10:27:00 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,10 @@ int		read_line_parser(char *line, t_new_line *got_line);
 int		count_substrings(char *str);
 int		assign_pointers(char *str, t_new_line *got_line, int i);
 int		free_got_line(t_new_line *got_line);
+
+//handling 
+int		word_compare(char *exec_line, char *word);
+int		has_builtin(char *exec_line);
+void	line_handling_func(t_new_line *handle_line);
 
 #endif
