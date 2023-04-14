@@ -12,7 +12,7 @@ DEBUG_FLAGS = -g -O0 -fsanitize=address
 
 # src files and path for them
 VPATH = src
-SRC = main.c
+SRC = main.c smart_history.c ft_strlcpy.c get_next_line.c get_next_line_utils.c
 
 # obj files and path for them
 OBJ_DIR = obj
@@ -39,7 +39,7 @@ clean:
 	rm -rf $(OBJ_DIR)
 
 fclean: 	clean
-	rm -rf $(NAME)
+	rm -rf $(NAME) /tmp/.minishell_history
 
 re: fclean all 
 

@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   gNL.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/14 03:59:56 by mkaratzi         ###   ########.fr       */
+/*   Created: 2022/11/11 12:20:32 by mkaratzi          #+#    #+#             */
+/*   Updated: 2022/11/22 11:25:17 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# include <stdlib.h>
+# include <unistd.h>
 
-int	main(void)
-{
-	char	history_path[24];
-	char	*line;
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
-	line = NULL;
-	get_history(history_path);
-	printf("We got the path %s\n", history_path);
-	while (1)
-	{
-		line = readline("minishell: ");
-		if (!line)
-			return (1);
-		add_to_history(line, history_path);
-		free(line);
-	}
-	return (0);
-}
+char	*get_next_line(int fd);
+int		ft_strlenmod(char *string, int instruction);
+int		join(char **dest, char *src, char *src2, int check);
+int		ft_checklast(char *string);
+
+#endif
