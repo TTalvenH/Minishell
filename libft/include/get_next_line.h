@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gNL.h                                    :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ttalvenh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/11 12:20:32 by mkaratzi          #+#    #+#             */
-/*   Updated: 2022/11/22 11:25:17 by mkaratzi         ###   ########.fr       */
+/*   Created: 2022/11/24 13:07:26 by ttalvenh          #+#    #+#             */
+/*   Updated: 2022/11/24 13:29:33 by ttalvenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+# define BUFF_SIZE 42
+
 # include <stdlib.h>
 # include <unistd.h>
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif
+typedef struct s_vec
+{
+	char	*str;
+	size_t	u;
+	size_t	i;
+}t_vec;
 
 char	*get_next_line(int fd);
-int		ft_strlenmod(char *string, int instruction);
-int		join(char **dest, char *src, char *src2, int check);
-int		ft_checklast(char *string);
+void	ft_gnl_strlcpy(char *dst, const char *src, size_t dstsize);
+char	*ft_gnl_strndup(const char *s1, size_t n);
+void	ft_gnl_strlcat(char *dst, const char *src, size_t dstsize, size_t dstl);
 
 #endif

@@ -35,11 +35,6 @@ typedef struct s_new_line
 	short	exit_req;
 }	t_new_line;
 
-//generally used from HIVE
-size_t	ft_strlen(const char *s);
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
-char	*get_next_line(int fd);
-
 //smart history
 int		get_history_path(char path_to_history_file[24]);
 int		get_history(char path_to_history_file[24]);

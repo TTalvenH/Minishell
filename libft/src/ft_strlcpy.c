@@ -3,38 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ttalvenh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/28 09:53:00 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/14 02:50:43 by mkaratzi         ###   ########.fr       */
+/*   Created: 2022/10/26 13:58:31 by ttalvenh          #+#    #+#             */
+/*   Updated: 2022/11/04 11:10:50 by ttalvenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	size_t	src_length;
+	int	src_len;
 
-	src_length = ft_strlen(src);
-	if (size == 0)
-		return (src_length);
-	while (--size > 0)
+	src_len = ft_strlen(src);
+	if (dstsize)
 	{
-		if (!*src)
-			break ;
-		*(dst++) = *(src++);
+		while (dstsize - 1 != 0 && *src != '\0')
+		{
+			*dst = *src;
+			dst++;
+			src++;
+			dstsize--;
+		}
+		*dst = '\0';
 	}
-	*dst = '\0';
-	return (src_length);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	int	length;
-
-	length = 0;
-	while (*(s++))
-		length++;
-	return (length);
+	return (src_len);
 }
