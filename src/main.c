@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/14 07:23:17 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/14 07:51:45 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(void)
 				i = -1;
 				while(++i < got_line.line_count)
 				{
-					printf("We got the %dth line: %s\n", i, got_line.exec_lines[i]);
+					printf("We got the %dth line: %s\n", i + 1, got_line.exec_lines[i]);
 				}
 			//here we will put the fuction for execution handling pipes, builtins , execv
 			}	
