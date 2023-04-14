@@ -1,0 +1,16 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    how_line_handling_func_works.txt                   :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/04/14 10:36:07 by mkaratzi          #+#    #+#              #
+#    Updated: 2023/04/14 10:38:00 by mkaratzi         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+Program goes line by lane checking the first significant character in the string
+if it a character that might have a built in it word compares. If it matches it
+returns a number which hopefully in the future can be used to with a struct containing 
+function pointers to be used to execute the desired commands.
