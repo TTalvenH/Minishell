@@ -12,8 +12,8 @@
 
 Smart history, is a history system that tries to replicate bashes history
 functionality. In its core, the first thing that it does is, it checks, does a
-.history file exist in the executables original absolute path. If it does, it loads
-all the commands found in that file, line by line into the history using addhistory().
-if it does not exit, it will create one after the first ever history is read.
+.minitalk_history file exist in the computers temp folder. If it does, it loads
+all the commands found in that file, line by line into the history using add_history().
+if it does not exit, it will create one after the first history is read.
 
-NEED TO MAKE SURE THAT MAKE FILE FCLEAN REMOVES ~/.minitalk_history !!!!!!!!!
+NEED TO MAKE SURE THAT MAKE FILE FCLEAN REMOVES /tmp/.minitalk_history !!!!!!!!!

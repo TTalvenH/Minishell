@@ -55,15 +55,14 @@ int	add_to_history(char *str, char path_to_history_file[24])
 	int	lenght;
 
 	lenght = ft_strlen(str);
-	if ((lenght == 0))
-		return (0);
+	if (lenght == 0)
+		return (lenght);
 	fd = open(path_to_history_file, O_CREAT | O_WRONLY | O_APPEND, 0777);
 	if (fd < 0)
 		exit(printf("Failed during history recording :(\n"));
-	printf("We got %d", lenght);
 	write(fd, str, lenght);
 	write(fd, "\n", 1);
 	add_history(str);
 	close(fd);
-	return (0);
+	return (lenght);
 }
