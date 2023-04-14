@@ -52,11 +52,16 @@ int	get_history(char path_to_history_file[24])
 int	add_to_history(char *str, char path_to_history_file[24])
 {
 	int	fd;
+	int	lenght;
 
+	lenght = ft_strlen(str);
+	if ((lenght == 0))
+		return (0);
 	fd = open(path_to_history_file, O_CREAT | O_WRONLY | O_APPEND, 0777);
-	if (fd < 0 || !str)
+	if (fd < 0)
 		exit(printf("Failed during history recording :(\n"));
-	write(fd, str, ft_strlen(str));
+	printf("We got %d", lenght);
+	write(fd, str, lenght);
 	write(fd, "\n", 1);
 	add_history(str);
 	close(fd);
