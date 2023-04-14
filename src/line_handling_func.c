@@ -12,8 +12,9 @@
 
 #include "minishell.h"
 
-int handle_catcher(t_new_line *handle_line, int index, int k, int i)
+int handle_catcher(t_new_line *handle_line, int index, int *k, int i)
 {
+	
 	return (0);
 }
 int	handle_built_in(t_new_line *handle_line, int index, int k, int i)
@@ -27,9 +28,9 @@ int	handle_built_in(t_new_line *handle_line, int index, int k, int i)
 			i++;
 		if (handle_line->exec_lines[index][i] == '\'' ||
 				handle_line->exec_lines[index][i] == '\"' ||
-				handle_line->exec_lines[index][i] == '<<>' ||
+				handle_line->exec_lines[index][i] == '<' ||
 				handle_line->exec_lines[index][i] == '>')
-			i += handle_catcher(handle_line, index, i, &k);
+			i += handle_catcher(handle_line, index, &k, i);
 		else
 			handle_line->exec_lines[index][i++] = handle_line->big_buffer[k++];
 		
