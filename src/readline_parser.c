@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/14 09:56:02 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/14 11:59:25 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ int	read_line_parser(char *str, t_new_line *got_line)
 		if (!got_line->exec_lines || !got_line->string)
 			return (free_got_line(got_line));
 		assign_pointers(str, got_line, (-1));
+		return (0);
 	}
-	return (0);
+	return (-1);
 }
 
 int	assign_pointers(char *str, t_new_line *got_line, int i)

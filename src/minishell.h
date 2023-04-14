@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/14 10:27:00 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/14 12:25:47 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ typedef struct s_new_line
 {
 	char	**exec_lines;
 	char	*string;
+	char 	*big_buffer;
 	int		length;
 	int		line_count;
+	int		output_fd;
 	short	exit_req;
 }	t_new_line;
 

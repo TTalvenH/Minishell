@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/14 10:03:48 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/14 11:59:08 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 int	main(void)
 {
 	char		history_path[24];
-	char		*insanely_cool_buffer;
 	char		*line;
 	t_new_line	got_line;
 
 	line = NULL;
-	insanely_cool_buffer = malloc(BIG_CHUNGUS);
+	got_line.big_buffer = malloc(BIG_CHUNGUS);
 	get_history(history_path);
 	while (1)
 	{
@@ -41,6 +40,6 @@ int	main(void)
 		if (got_line.exit_req == (-42))
 			break ;
 	}
-	free(insanely_cool_buffer);
+	free(got_line.big_buffer);
 	return (0);
 }
