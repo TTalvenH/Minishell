@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/14 11:59:08 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/16 04:18:46 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@ int	main(void)
 
 	line = NULL;
 	got_line.big_buffer = malloc(BIG_CHUNGUS);
+	get_environments(&got_line);
+	t_env *current;
+	current = got_line.environments;
+	while(current)
+	{
+		printf("We have this name:%s and value:%s\n", current->name, current->value);
+		current = current->next;
+	}
 	get_history(history_path);
 	while (1)
 	{
@@ -40,6 +48,7 @@ int	main(void)
 		if (got_line.exit_req == (-42))
 			break ;
 	}
+	free(got_line.environments);
 	free(got_line.big_buffer);
 	return (0);
 }

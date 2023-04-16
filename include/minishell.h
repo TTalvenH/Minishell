@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/14 12:25:47 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/16 04:14:20 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,39 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include "get_next_line.h"
+# include "../libft/include/get_next_line.h"
+# include "../libft/include/libft.h"
 # define BIG_CHUNGUS 3145728
 
 // if BIG_CHUNGUS gets bigger (currenly 3mbs), things start to get slower...
+typedef struct s_env
+{
+	char name[100];
+	char value[100];
+	struct s_env *next;
+	
+} t_env;
 
 typedef struct s_new_line
 {
 	char	**exec_lines;
 	char	*string;
 	char 	*big_buffer;
+	t_env	*environments;
 	int		length;
 	int		line_count;
 	int		output_fd;
 	short	exit_req;
 }	t_new_line;
+
+
+
+//handle envs
+int		get_environments(t_new_line *got_line);
+int		add_env(const char *env, t_env *new_env);
+int		free_all_env(t_env *head);
+int		add_new_env(t_env *head, const char *name, const char *value);
+int		remove_env(t_env *head, const char *name, const char *value);
 
 //smart history
 int		get_history_path(char path_to_history_file[24]);
