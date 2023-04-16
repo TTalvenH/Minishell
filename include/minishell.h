@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/16 04:14:20 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/16 06:35:08 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ typedef struct s_new_line
 int		get_environments(t_new_line *got_line);
 int		add_env(const char *env, t_env *new_env);
 int		free_all_env(t_env *head);
-int		add_new_env(t_env *head, const char *name, const char *value);
-int		remove_env(t_env *head, const char *name, const char *value);
+int		export_env(t_env *head, const char *export_env);
+int		unset_env(t_env **head, const char *name);
+int		valid_identifier(const char *export_env);
 
 //smart history
 int		get_history_path(char path_to_history_file[24]);

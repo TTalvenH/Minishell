@@ -1,36 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   env_helper_funcs.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/27 12:56:43 by ttalvenh          #+#    #+#             */
-/*   Updated: 2023/04/16 06:13:45 by mkaratzi         ###   ########.fr       */
+/*   Created: 2023/04/16 05:49:56 by mkaratzi          #+#    #+#             */
+/*   Updated: 2023/04/16 06:08:28 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	valid_identifier(const char *export_env)
 {
-	if (!n)
+	if (!export_env || (!ft_isalpha(*export_env) && *export_env != '_'))
 		return (0);
-	while ((n > 1 && *s1 == *s2) && (*s1 || *s2))
+	while (*export_env && *export_env != '=')
 	{
-		s1++;
-		s2++;
-		n--;
+		if ((!ft_isalnum(*export_env) && *export_env != '_'))
+			return (0);
+		export_env++;
 	}
-	return ((unsigned const char)*s1 - (unsigned const char)*s2);
-}
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	while ((*s1 == *s2) && (*s1 || *s2))
-	{
-		s1++;
-		s2++;
-	}
-	return ((unsigned const char)*s1 - (unsigned const char)*s2);
+	return (1);
 }

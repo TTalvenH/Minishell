@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:58:26 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/16 04:30:07 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/16 06:50:07 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,62 @@ int	add_env(const char *env, t_env *new_env)
 	new_env->value[k] = '\0';
 	new_env->next = (void *)0;
 	return (0);
+}
+
+int		export_env(t_env *head, const char *export_env)
+{
+	t_env	holder;
+	int		found;
+	
+	found = 0;
+	if(!valid_identifier(export_env) || !ft_strchr(export_env, '='))
+		return (1);
+	add_env(export_env, &holder);
+	while (head)
+	{
+		if(!ft_strcmp(head->name, holder.name))
+			found = 1;
+		if(!head->next || found)
+			break ;
+		head = head->next;
+	}
+	if(head && found)
+		return(ft_strlcpy(head->value, holder.value, 100));
+	head->next = malloc(sizeof(t_env));
+	if(!head->next)
+		return (1);
+	add_env(export_env, head->next);
+	return (0);
+}
+
+
+int		unset_env(t_env **list, const char *name)
+{
+	t_env 	*tmp;
+	t_env	*head;
+
+	if(!name)
+		return (EXIT_FAILURE);
+	if (ft_strcmp(name, (*list)->name) == 0)
+	{
+		tmp = (*list)->next;
+		free(*list);
+		*list = tmp;
+		// Need to remove first thing
+	}
+	head = *list;
+	next = head->next;
+	while (next)
+	{
+		if (ft_strcmp(name, head->name) == 0)
+		{
+			tmp = head->next;
+			free(head);
+			(*head)->next = tmp;
+			break ;
+		}
+		()
+	}
+	// Need to do jack shit
+	return (EXIT_SUCCESS);
 }
