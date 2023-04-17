@@ -57,6 +57,11 @@ int		word_compare(char *exec_line, char *word);
 int		has_builtin(char *exec_line);
 void	line_handling_func(t_new_line *handle_line);
 
+//minishell_utils
+char	check_quotes(char *str, int i, char expecting);
+int		free_got_line(t_new_line *got_line);
+
+
 //piping
 int	piping(t_new_line *got_line);
 

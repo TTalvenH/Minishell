@@ -18,7 +18,7 @@ int	main(void)
 	char		*line;
 	t_new_line	got_line;
 
-	line = NULL;
+	ft_bzero(&got_line, sizeof(t_new_line));
 	got_line.big_buffer = malloc(BIG_CHUNGUS);
 	get_history(history_path);
 	while (1)
