@@ -35,6 +35,12 @@ typedef struct s_new_line
 	short	exit_req;
 }	t_new_line;
 
+typedef struct s_pipe_chain
+{	
+	int		**pipe_fds;
+	pid_t 	*pids;
+}	t_pipe_chain;
+
 //smart history
 int		get_history_path(char path_to_history_file[24]);
 int		get_history(char path_to_history_file[24]);
@@ -50,5 +56,12 @@ int		free_got_line(t_new_line *got_line);
 int		word_compare(char *exec_line, char *word);
 int		has_builtin(char *exec_line);
 void	line_handling_func(t_new_line *handle_line);
+
+//piping
+int	piping(t_new_line *got_line);
+
+
+//!poista
+void	print_2d_array(char **arr);
 
 #endif
