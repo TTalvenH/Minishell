@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:58:26 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/16 06:50:07 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/17 21:55:54 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,15 @@ int	get_environments(t_new_line *got_line)
 {
 	extern char	**environ;
 	int			i;
-	int			k;
 	t_env		*current;
 
 	i = 0;
-	k = (-1);
 	got_line->environments = malloc(sizeof(t_env));
 	current = got_line->environments;
 	while (environ[i])
 	{
 		if (!current)
-			exit(free_all_env(got_line->environments));
+			exit(!free_all_env(got_line));
 		add_env(environ[i++], current);
 		if (environ[i])
 		{
@@ -34,105 +32,110 @@ int	get_environments(t_new_line *got_line)
 			current = current->next;
 		}
 	}
-	return (0);
+	// current = got_line->environments;
+	// free(got_line->envs_pointers);
+	// while (current)
+	// {
+	// 	ft_printf("Inside 1get_envswe got: %s\n", current->env);
+	// 	current = current->next;
+	// }
+	// exit(EXIT_SUCCESS);
+	return (llist_to_array(got_line));
 }
 
-int	free_all_env(t_env *head)
+int	free_all_env(t_new_line *new_line)
 {
 	t_env	*current;
+	t_env	*head;
 
+	head = new_line->environments;
 	while (head)
 	{
 		current = head->next;
 		free(head);
 		head = current;
 	}
-	return (1);
+	free(new_line->envs_pointers);
+	new_line->envs_pointers = NULL;
+	return (llist_to_array(new_line));
 }
 
 int	add_env(const char *env, t_env *new_env)
 {
 	int	i;
-	int	k;
 
 	i = 0;
-	k = 0;
 	while (env[i])
 	{
-		if (env[i] == '=')
-		{
-			new_env->name[i] = '\0';
-			i++;
-			break ;
-		}
-		new_env->name[i] = env[i];
+		new_env->env[i] = env[i];
 		i++;
 	}
-	while (env[i])
-	{
-		new_env->value[k] = env[i];
-		k++;
-		i++;
-	}
-	new_env->value[k] = '\0';
+	new_env->env[i] = '\0';
 	new_env->next = (void *)0;
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
-int		export_env(t_env *head, const char *export_env)
+int		export_env(t_new_line *got_line, const char *export_env)
 {
+	t_env	*head;
 	t_env	holder;
 	int		found;
 	
 	found = 0;
-	if(!valid_identifier(export_env) || !ft_strchr(export_env, '='))
+	head = got_line->environments;
+	if(valid_identifier(export_env) || !ft_strchr(export_env, '='))
 		return (1);
 	add_env(export_env, &holder);
 	while (head)
 	{
-		if(!ft_strcmp(head->name, holder.name))
+		if(!env_compare(head->env, holder.env))
 			found = 1;
 		if(!head->next || found)
 			break ;
 		head = head->next;
 	}
 	if(head && found)
-		return(ft_strlcpy(head->value, holder.value, 100));
+		return(update_env(holder.env , head->env));
 	head->next = malloc(sizeof(t_env));
 	if(!head->next)
 		return (1);
 	add_env(export_env, head->next);
-	return (0);
+	return (llist_to_array(got_line));
 }
 
 
-int		unset_env(t_env **list, const char *name)
+int		unset_env(t_new_line *got_line, const char *name)
 {
 	t_env 	*tmp;
-	t_env	*head;
+	t_env	*tmp2;
 
 	if(!name)
 		return (EXIT_FAILURE);
-	if (ft_strcmp(name, (*list)->name) == 0)
+	if (!env_compare(name, got_line->environments->env))
 	{
-		tmp = (*list)->next;
-		free(*list);
-		*list = tmp;
-		// Need to remove first thing
+		tmp = got_line->environments->next;
+		free(got_line->environments);
+		got_line->environments = tmp;
+		return (llist_to_array(got_line));
 	}
-	head = *list;
-	next = head->next;
-	while (next)
+	tmp = got_line->environments->next;
+	while (tmp)
 	{
-		if (ft_strcmp(name, head->name) == 0)
+		if (!env_compare(name, tmp->env))
 		{
-			tmp = head->next;
-			free(head);
-			(*head)->next = tmp;
+			tmp2 = tmp->next;
+			free(tmp);
+			tmp = tmp2;
 			break ;
 		}
-		()
+		tmp = tmp->next;
 	}
-	// Need to do jack shit
-	return (EXIT_SUCCESS);
+	tmp = got_line->environments;
+	while(tmp)
+	{
+		printf("We have: %s", tmp->env);
+		tmp = tmp->next;
+	}
+	return (0);
+	return (llist_to_array(got_line));
 }

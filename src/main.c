@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/17 20:01:11 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/17 21:54:28 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@ int	main(void)
 	get_environments(&got_line);
 	t_env *current;
 	current = got_line.environments;
-	export_env(got_line.environments, "_=");
-	export_env(got_line.environments, "NOT_AGAIN");
-	while(current)
-	{
-		// printf("We have this name:%s and value:%s\n", current->name, current->value);
-		current = current->next;
-	}
+	// export_env(&got_line, "_=");
+	export_env(&got_line, "NOT_AGAIN=HELLO");
+	//unset_env(&got_line, "TMPDIR");
+	// int i = -1;
+	// while(got_line.envs_pointers[++i])
+	// {
+	// 	printf("We have this env: %s\n",got_line.envs_pointers[i]);
+	// }
 	get_history(history_path);
 	while (1)
 	{
@@ -42,7 +43,7 @@ int	main(void)
 			{
 				read_line_parser(line, &got_line);
 				line_handling_func(&got_line);
-				ft_printf("%d\n", piping(&got_line)); // working on piping, right now checking that return is 0 (success)
+				//ft_printf("%d\n", piping(&got_line)); // working on piping, right now checking that return is 0 (success)
 				free_got_line(&got_line);
 			//here we will put the fuction for execution handling pipes, builtins , execv
 			}
