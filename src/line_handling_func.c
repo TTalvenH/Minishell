@@ -6,11 +6,40 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:04:00 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/16 02:21:58 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/17 20:01:01 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int handle_catcher(t_new_line *handle_line, int index, int *k, int i)
+{
+	handle_line = NULL;
+	index = 0;
+	k = NULL;
+	i = 0;
+	return (0);
+}
+int	handle_built_in(t_new_line *handle_line, int index, int k, int i)
+{
+	while (handle_line->exec_lines[index][i] == ' ')
+		i++;
+	while (handle_line->exec_lines[index][i])
+	{
+		while (handle_line->exec_lines[index][i] == ' ' &&
+				handle_line->exec_lines[index][i] == ' ')
+			i++;
+		if (handle_line->exec_lines[index][i] == '\'' ||
+				handle_line->exec_lines[index][i] == '\"' ||
+				handle_line->exec_lines[index][i] == '<' ||
+				handle_line->exec_lines[index][i] == '>')
+			i += handle_catcher(handle_line, index, &k, i);
+		else
+			handle_line->exec_lines[index][i++] = handle_line->big_buffer[k++];
+
+	}
+	return (0);
+}
 
 int	word_compare(char *exec_line, char *word)
 {

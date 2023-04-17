@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/16 06:35:08 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/17 20:01:28 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,11 @@ typedef struct s_new_line
 	short	exit_req;
 }	t_new_line;
 
-
-
-//handle envs
-int		get_environments(t_new_line *got_line);
-int		add_env(const char *env, t_env *new_env);
-int		free_all_env(t_env *head);
-int		export_env(t_env *head, const char *export_env);
-int		unset_env(t_env **head, const char *name);
-int		valid_identifier(const char *export_env);
+typedef struct s_pipe_chain
+{	
+	int		**pipe_fds;
+	pid_t 	*pids;
+}	t_pipe_chain;
 
 //smart history
 int		get_history_path(char path_to_history_file[24]);
@@ -69,5 +65,17 @@ int		free_got_line(t_new_line *got_line);
 int		word_compare(char *exec_line, char *word);
 int		has_builtin(char *exec_line);
 void	line_handling_func(t_new_line *handle_line);
+
+//minishell_utils
+char	check_quotes(char *str, int i, char expecting);
+int		free_got_line(t_new_line *got_line);
+
+
+//piping
+int	piping(t_new_line *got_line);
+
+
+//!poista
+void	print_2d_array(char **arr);
 
 #endif

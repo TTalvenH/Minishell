@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft.h" //! poista
 
 int	count_substrings(char *str)
 {
@@ -23,13 +24,7 @@ int	count_substrings(char *str)
 	expecting = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' || str[i] == '\"')
-		{
-			if (expecting && str[i] == expecting)
-				expecting = 0;
-			else if (!expecting)
-				expecting = str[i];
-		}
+		expecting = check_quotes(str, i, expecting);
 		if (str[i] == '|' && !expecting)
 			count++;
 		i++;
@@ -66,13 +61,7 @@ int	assign_pointers(char *str, t_new_line *got_line, int i)
 	got_line->exec_lines[line++] = str;
 	while (str[++i])
 	{
-		if (str[i] == '\'' || str[i] == '\"')
-		{
-			if (expecting && str[i] == expecting)
-				expecting = 0;
-			else if (!expecting)
-				expecting = str[i];
-		}
+		expecting = check_quotes(str, i, expecting);
 		if (str[i] == '|' && !expecting)
 		{
 			str[i] = '\0';
@@ -84,9 +73,3 @@ int	assign_pointers(char *str, t_new_line *got_line, int i)
 	return (1);
 }
 
-int	free_got_line(t_new_line *got_line)
-{
-	free(got_line->exec_lines);
-	free(got_line->string);
-	return (-1);
-}

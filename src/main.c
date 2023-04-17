@@ -6,32 +6,19 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/16 06:31:50 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/17 20:01:11 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	bar(int **x)
-{
-	int *a = malloc(sizeof(int));
-	*a = 3;
-	*x = a;
-}
- 
+#include "libft.h" //! for printf
 int	main(void)
 {
 	char		history_path[24];
 	char		*line;
 	t_new_line	got_line;
 
-	int	a = 2;
-	int *b = &a;
-	bar(&b);
-	printf("THIS IS GONNA BE 3 %i\n", *b);
-
-
-	line = NULL;
+	ft_bzero(&got_line, sizeof(t_new_line));
 	got_line.big_buffer = malloc(BIG_CHUNGUS);
 	get_environments(&got_line);
 	t_env *current;
@@ -55,6 +42,7 @@ int	main(void)
 			{
 				read_line_parser(line, &got_line);
 				line_handling_func(&got_line);
+				ft_printf("%d\n", piping(&got_line)); // working on piping, right now checking that return is 0 (success)
 				free_got_line(&got_line);
 			//here we will put the fuction for execution handling pipes, builtins , execv
 			}
