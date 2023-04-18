@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:04:00 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/18 13:21:41 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/18 14:19:24 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	line_handling_func(t_new_line *new_line)
 	int	i;
 
 	i = (-1);
+	printf("This line has count: %d\n", new_line->line_count);
 	while (++i < new_line->line_count)
 	{
 		if (has_builtin(new_line->exec_lines[i]) == (-1))
