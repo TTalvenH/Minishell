@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/18 15:32:17 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/18 16:54:16 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,34 +64,34 @@ int	read_line_parser(char *str, t_new_line *got_line)
 	return (-1);
 }
 
-// int	count_cmd_pointers(const char *str, int *c_args, int *c_redirects)
-// {
-// 	int	i;
-// 	int	key;
+int	count_cmd_pointers(const char *str, int *c_args, int *c_redirects)
+{
+	int	i;
 
-// 	i = 0;
-// 	*c_args = 0;
-// 	*c_redirects = 0;
-// 	if (!str)
-// 		return (EXIT_FAILURE);
-// 	while(str[i])
-// 	{
-// 		while(str[i] && str[i] == ' ')
-// 			i++;
-// 		if(str[i] && (str[i] == '<' || str[i] == '>'))
-// 		{
-// 			c_args++;
-// 			key = str[i++];
-// 			while(str[i] && str[i] != key)
-// 				i++;
-// 			i++;
-// 		}
-
-
-// 	}
-
-// 	return (EXIT_SUCCESS)
-// }
+	i = 0;
+	*c_args = 0;
+	*c_redirects = 0;
+	if (!str)
+		return (EXIT_FAILURE);
+	while(str[i])
+	{
+		while(str[i] && str[i] == ' ')
+			i++;
+		if(str[i] && (str[i] == '<' || str[i] == '>') && ++(*c_redirects))
+			i += skip_redirect(&str[i], str[i], 0, 1);
+		if(str[i] && str[i] != ' ')
+		{
+			(*c_args)++;
+			while(str[i] && str[i] != ' ')
+			{
+				if(str[i] && (str[i] == '\'' || str[i] == '\''))
+					i += skip_quotes(&str[i]);
+				i++;
+			}
+		}
+	}	
+	return (EXIT_SUCCESS);
+}
 
 int assign_cmd_pre(t_new_line *got_line)
 {
@@ -104,7 +104,8 @@ int assign_cmd_pre(t_new_line *got_line)
 	c_redirects = 0;
 	while(i < got_line->line_count)
 	{
-		// count_cmd_pointers(got_line->exec_lines[i], &c_args, &c_redirects);
+		count_cmd_pointers(got_line->exec_lines[i], &c_args, &c_redirects);
+		ft_printf("This line %s, has %d args and %d redirects\n",got_line->exec_lines[i], c_args, c_redirects );
 		i++;
 	}
 	return got_line->length;

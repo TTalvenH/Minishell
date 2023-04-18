@@ -33,7 +33,7 @@ int	free_got_line(t_new_line *got_line)
 	return (-1);
 }
 
-int	skip_redirect(char *str, int key, int	k, int	i)
+int	skip_redirect(const char *str, int key, int	k, int	i)
 {
 	int	found_something;
 
@@ -55,10 +55,10 @@ int	skip_redirect(char *str, int key, int	k, int	i)
 	}
 	if (!found_something)
 		return (-1);
-	return (i - 1);
+	return (i);
 }
 
-int	skip_quotes(char *str)
+int	skip_quotes(const char *str)
 {
 	int	i;
 	int	key;

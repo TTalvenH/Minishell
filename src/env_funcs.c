@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:58:26 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/18 13:18:06 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/18 16:34:02 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ int		unset_env(t_new_line *got_line, const char *name)
 	tmp2 = got_line->environments->next;
 	while (tmp2)
 	{
-		
 		if (!env_compare(name, tmp2->env, NO_EQUAL_SIGN))
 		{
 			tmp->next = tmp2->next;

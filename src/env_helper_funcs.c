@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 05:49:56 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/18 13:17:24 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/18 16:31:00 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,11 @@ int	env_compare(const char *env1, const char *env2, int instruction)
 	int	i;
 
 	i = 0;
-	while (env1[i] && env2[i] && env1[i] - env2[i] == 0 && env1[i] != '=' && env2[i] != '=')
+	while (env1[i] && env2[i] && env1[i] - env2[i] == 0 && env1[i] != '='
+		&& env2[i] != '=')
 		i++;
-	if (env1[i] && env2[i] && env1[i] == '=' && env2[i] == '=' && instruction == EQUAL_SIGN)
+	if (env1[i] && env2[i] && env1[i] == '=' && env2[i] == '='
+		&& instruction == EQUAL_SIGN)
 		return (EXIT_SUCCESS);
 	if (env1[i] == '\0' && env2[i] == '=' && instruction == NO_EQUAL_SIGN)
 		return (EXIT_SUCCESS);

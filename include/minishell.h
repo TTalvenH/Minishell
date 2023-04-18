@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/18 15:30:11 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/18 16:46:29 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ void	line_handling_func(t_new_line *handle_line);
 //minishell_utils
 char	check_quotes(char *str, int i, char expecting);
 int		free_got_line(t_new_line *got_line);
-int		skip_redirect(char *str, int key, int	k, int	i);
-int		skip_quotes(char *str);
+int		skip_redirect(const char *str, int key, int	k, int	i);
+int		skip_quotes(const char *str);
 
 //piping
 int		piping(t_new_line *got_line);
