@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/18 16:54:16 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/18 17:13:59 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ int	read_line_parser(char *str, t_new_line *got_line)
 		{
 			return (free_got_line(got_line));
 		}
-		assign_pointers(str, got_line, (-1));
-		assign_cmd_pre(got_line);
+		if (assign_pointers(str, got_line, (-1)) + assign_cmd_pre(got_line));
+			return (EXIT_FAILURE);
 		return (EXIT_SUCCESS);
 	}
-	return (-1);
+	return (EXIT_FAILURE);;
 }
 
 int	count_cmd_pointers(const char *str, int *c_args, int *c_redirects)
@@ -129,6 +129,6 @@ int	assign_pointers(char *str, t_new_line *got_line, int i)
 			got_line->exec_lines[line++] = &str[i + 1];
 		}
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }
 

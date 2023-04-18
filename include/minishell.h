@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/18 16:46:29 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/18 17:14:38 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_new_line
 	char				**exec_lines;
 	t_env				*environments;
 	char				**envs_pointers;
-	struct t_cmd_pre	**cmd_pre;
+	t_cmd_pre			**cmd_pre;
 	int					length;
 	int					line_count;
 	int					output_fd;
