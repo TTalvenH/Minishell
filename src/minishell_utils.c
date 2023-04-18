@@ -26,9 +26,6 @@ int	free_got_line(t_new_line *got_line)
 {
 	if (got_line->exec_lines)
 		free(got_line->exec_lines);
-	if (got_line->string)
-		free(got_line->string);
 	got_line->exec_lines = NULL;
-	got_line->string = NULL;
 	return (-1);
 }

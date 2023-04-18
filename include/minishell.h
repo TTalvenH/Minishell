@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/17 21:20:05 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/18 13:26:12 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 # include <stdlib.h>
 # include "../libft/include/get_next_line.h"
 # include "../libft/include/libft.h"
-# define BIG_CHUNGUS 3145728
+# define NO_EQUAL_SIGN 0
+# define EQUAL_SIGN 1
 
 // if BIG_CHUNGUS gets bigger (currenly 3mbs), things start to get slower...
 typedef struct s_env
@@ -34,8 +35,6 @@ typedef struct s_env
 typedef struct s_new_line
 {
 	char	**exec_lines;
-	char	*string;
-	char 	*big_buffer;
 	t_env	*environments;
 	char	**envs_pointers;
 	int		length;
@@ -53,12 +52,11 @@ typedef struct s_pipe_chain
 // environment functions
 int		get_environments(t_new_line *got_line);
 int		free_all_env(t_new_line *new_line);
-int		add_env(const char *env, t_env *new_env);
+int		update_env(const char *env, t_env *new_env);
 int		export_env(t_new_line *got_line, const char *export_env);
 int		unset_env(t_new_line *got_line, const char *name);
 int		llist_to_array(t_new_line *new_line);
-int		env_compare(const char *env1, const char *env2);
-int		update_env(const char *env1, char *env2);
+int		env_compare(const char *env1, const char *env2, int instrcution);
 int		valid_identifier(const char *export_env);
 
 

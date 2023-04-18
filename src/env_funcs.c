@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:58:26 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/17 21:55:54 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/18 13:18:06 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,14 @@ int	get_environments(t_new_line *got_line)
 	current = got_line->environments;
 	while (environ[i])
 	{
-		if (!current)
+		update_env(environ[i++], current);
+		current->next = malloc(sizeof(t_env));
+		if (!current->next)
 			exit(!free_all_env(got_line));
-		add_env(environ[i++], current);
-		if (environ[i])
-		{
-			current->next = malloc(sizeof(t_env));
-			current = current->next;
-		}
+		current = current->next;
+		current->env[0] = '\0';
+		current->next = NULL;
 	}
-	// current = got_line->environments;
-	// free(got_line->envs_pointers);
-	// while (current)
-	// {
-	// 	ft_printf("Inside 1get_envswe got: %s\n", current->env);
-	// 	current = current->next;
-	// }
-	// exit(EXIT_SUCCESS);
 	return (llist_to_array(got_line));
 }
 
@@ -60,7 +51,7 @@ int	free_all_env(t_new_line *new_line)
 	return (llist_to_array(new_line));
 }
 
-int	add_env(const char *env, t_env *new_env)
+int	update_env(const char *env, t_env *new_env)
 {
 	int	i;
 
@@ -71,7 +62,6 @@ int	add_env(const char *env, t_env *new_env)
 		i++;
 	}
 	new_env->env[i] = '\0';
-	new_env->next = (void *)0;
 	return (EXIT_SUCCESS);
 }
 
@@ -79,27 +69,27 @@ int		export_env(t_new_line *got_line, const char *export_env)
 {
 	t_env	*head;
 	t_env	holder;
-	int		found;
-	
-	found = 0;
+
 	head = got_line->environments;
 	if(valid_identifier(export_env) || !ft_strchr(export_env, '='))
 		return (1);
-	add_env(export_env, &holder);
+	update_env(export_env, &holder);
 	while (head)
 	{
-		if(!env_compare(head->env, holder.env))
-			found = 1;
-		if(!head->next || found)
+		if(!env_compare(head->env, holder.env, EQUAL_SIGN))
+		{
+			update_env(holder.env, head);
+			return (llist_to_array(got_line));	
+		}
+		if (!head->next)
 			break ;
 		head = head->next;
 	}
-	if(head && found)
-		return(update_env(holder.env , head->env));
+	update_env(holder.env, head);
 	head->next = malloc(sizeof(t_env));
 	if(!head->next)
-		return (1);
-	add_env(export_env, head->next);
+		return (EXIT_FAILURE);
+	ft_bzero(head->next, sizeof(t_env));
 	return (llist_to_array(got_line));
 }
 
@@ -111,31 +101,27 @@ int		unset_env(t_new_line *got_line, const char *name)
 
 	if(!name)
 		return (EXIT_FAILURE);
-	if (!env_compare(name, got_line->environments->env))
+	if (!env_compare(name, got_line->environments->env, NO_EQUAL_SIGN))
 	{
 		tmp = got_line->environments->next;
 		free(got_line->environments);
 		got_line->environments = tmp;
 		return (llist_to_array(got_line));
 	}
-	tmp = got_line->environments->next;
-	while (tmp)
+	tmp = got_line->environments;
+	tmp2 = got_line->environments->next;
+	while (tmp2)
 	{
-		if (!env_compare(name, tmp->env))
+		
+		if (!env_compare(name, tmp2->env, NO_EQUAL_SIGN))
 		{
-			tmp2 = tmp->next;
-			free(tmp);
-			tmp = tmp2;
+			tmp->next = tmp2->next;
+			free(tmp2);
+			tmp2 = NULL;
 			break ;
 		}
 		tmp = tmp->next;
+		tmp2 = tmp2->next;
 	}
-	tmp = got_line->environments;
-	while(tmp)
-	{
-		printf("We have: %s", tmp->env);
-		tmp = tmp->next;
-	}
-	return (0);
 	return (llist_to_array(got_line));
 }
