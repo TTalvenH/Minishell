@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/19 18:53:31 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/19 19:55:01 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,28 +110,33 @@ char	*make_arg_string(char *str, int len, int i)
 	
 	final = NULL;
 	k = 0;
+	expecting = 0;
+	len = ft_strlen(str);
 	final = malloc(sizeof(char) * (len + 1));
 	if(final)
 	{
-		while (str[i] && k < len && str[i] != ' ')
-		{
-			if (str[i] == '\'' || str[i] == '\"')
+		while (str[i] && i < len && str[i] == ' ')
+			i++;
+		while (str[i] && str[i] != ' ')
+		{	
+			if ((str[i] == '\'' || str[i] == '\"') && !expecting)
 			{
-				if (expecting == str[i])
+				
+				expecting = str[i];
+				str[i++] = ' ';
+				while (str[i] && str[i] != expecting)
 				{
-					expecting = 0;
-					i++;
-					str[i] = ' ';
-				}	
-				else if (!expecting)
-				{
-					expecting = str[i];
-					str[i] = ' ';
-					i++;
+					final[k++] = str[i];
+					str[i++] = ' ';
 				}
+				expecting = 0;
+				str[i++] = ' ';
 			}
-			final[k++] = str[i];
-			str[i++] = ' ';
+			else
+			{
+				final[k++] = str[i];
+				str[i++] = ' ';
+			}
 		}
 		final[k] = '\0';
 	}
@@ -255,7 +260,6 @@ int	get_in_fd(t_cmd_pre *cmd, char *line, int i)
 char	*get_next_arg(char *str, int i, int len)
 {
 	char 	*final = NULL;
-	int		key;
 	int		start;
 	int		pivot;
 
@@ -270,21 +274,12 @@ char	*get_next_arg(char *str, int i, int len)
 		start = i;
 		while(str[i] && str[i] != ' ')
 		{
-			if(str[i] && (str[i] == '\'' || str[i] == '\''))
-			{	
-				key = str[i];
-				while (str[++i])
-				{
-					if (str[i] == key)
-						break ;
-				}
-			}
 			len++;	
-			i++;
 			pivot = i;
+			i++;
 		}
 	}
-	final = make_arg_string(&str[start], pivot, 0);
+	final = make_arg_string(&str[start], 0, 0);
 	return (final);
 }
 
