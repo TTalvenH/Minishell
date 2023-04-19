@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/18 17:14:38 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/19 10:23:14 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 
 typedef struct s_cmd_pre{
 	char	**args;
-	char	**redirects;
+	int		in_fd;
+	int		out_fd;
 }	t_cmd_pre;
 
 typedef struct s_env

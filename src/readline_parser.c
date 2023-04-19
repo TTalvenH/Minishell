@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/18 17:13:59 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/19 10:05:19 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	read_line_parser(char *str, t_new_line *got_line)
 		{
 			return (free_got_line(got_line));
 		}
-		if (assign_pointers(str, got_line, (-1)) + assign_cmd_pre(got_line));
+		if (assign_pointers(str, got_line, (-1)) + assign_cmd_pre(got_line))
 			return (EXIT_FAILURE);
 		return (EXIT_SUCCESS);
 	}
@@ -95,19 +95,27 @@ int	count_cmd_pointers(const char *str, int *c_args, int *c_redirects)
 
 int assign_cmd_pre(t_new_line *got_line)
 {
-	int i;
-	int c_args;
-	int c_redirects;
+	int			i;
+	int			c_args;
+	int			c_redirects;
+	t_cmd_pre	**creation;
 
 	i = 0;
 	c_args = 0;
 	c_redirects = 0;
+	creation = malloc(sizeof(t_cmd_pre *) * got_line->line_count + 1);
+	if(!creation)
+		return (EXIT_FAILURE);
+	while(i <= got_line->line_count)
+	 	creation[i++] = (void *)0;
+	i = 0;
 	while(i < got_line->line_count)
 	{
 		count_cmd_pointers(got_line->exec_lines[i], &c_args, &c_redirects);
-		ft_printf("This line %s, has %d args and %d redirects\n",got_line->exec_lines[i], c_args, c_redirects );
+		ft_printf("This line: %s, has %d args and %d redirects\n",got_line->exec_lines[i], c_args, c_redirects );
 		i++;
 	}
+	got_line->cmd_pre = creation;
 	return got_line->length;
 }
 
