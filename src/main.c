@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/14 11:59:08 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/18 13:22:10 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int	main(void)
 	t_new_line	got_line;
 
 	ft_bzero(&got_line, sizeof(t_new_line));
-	got_line.big_buffer = malloc(BIG_CHUNGUS);
+	get_environments(&got_line);
+	t_env *current;
+	current = got_line.environments;
 	get_history(history_path);
 	while (1)
 	{
@@ -32,7 +34,7 @@ int	main(void)
 			{
 				read_line_parser(line, &got_line);
 				line_handling_func(&got_line);
-				ft_printf("%d\n", piping(&got_line)); // working on piping, right now checking that return is 0 (success)
+				//ft_printf("%d\n", piping(&got_line)); // working on piping, right now checking that return is 0 (success)
 				free_got_line(&got_line);
 			//here we will put the fuction for execution handling pipes, builtins , execv
 			}
@@ -41,6 +43,6 @@ int	main(void)
 		if (got_line.exit_req == (-42))
 			break ;
 	}
-	free(got_line.big_buffer);
+	free(got_line.environments);
 	return (0);
 }
