@@ -15,11 +15,12 @@ int		init_pipes(t_pipe_chain *pipes, t_new_line *got_line)
 		return (1);
 	while (i < got_line->line_count - 1)
 	{
-		pipes->pipe_fds[i] = malloc (sizeof(int) * 2);
+		pipes->pipe_fds[i] = malloc(sizeof(int) * 2);
 		if (pipe(pipes->pipe_fds[i++]) < 0)
 			return (1);
 	}
 	return (0);
+
 }
 
 // int	child_execve(char **arg, int input_fd, int output_fd, int close_fd)
