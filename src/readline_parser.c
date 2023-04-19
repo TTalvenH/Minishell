@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/19 10:05:19 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/19 12:55:16 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,29 +93,84 @@ int	count_cmd_pointers(const char *str, int *c_args, int *c_redirects)
 	return (EXIT_SUCCESS);
 }
 
+char	*get_next_arg(char *str, int i, int len)
+{
+	char 	*final = NULL;
+	int		key;
+	int		start;
+	int		check;
+
+	len = 0;
+	check = 0;
+	while(str[i] && !check)
+	{
+		while(str[i] && str[i] == ' ')
+			i++;
+		if(str[i] && (str[i] == '<' || str[i] == '>'))
+			i += skip_redirect(&str[i], str[i], 0, 1);
+		start = i;
+		while(str[i] && str[i] != ' ')
+		{
+			if(str[i] && (str[i] == '\'' || str[i] == '\''))
+			{	
+				key = str[i];
+				while (str[++i])
+				{
+					if (str[i] == key)
+						break ;
+				}
+			}
+			len++;	
+			i++;
+			check = i;
+		}
+	}
+	ft_printf("we have this checked: %d\n", check);
+	return (final);
+}
+
+int	fill_cmd_struct(char *line, t_cmd_pre *cmd, int ac, int rc)
+{
+	int i;
+
+	i = 0;
+	rc = 0;
+	ft_printf("We got firstly here wtih ac %d\n", ac);
+	if(!line)
+	{
+		
+		cmd->args = malloc((sizeof(char *) * ac) + 1);
+		ft_printf("We got here\n");
+		while(i <= ac)
+			cmd->args[i++] = get_next_arg(line, 0, 0);
+		return (EXIT_SUCCESS);
+	}
+	
+	return (EXIT_FAILURE);
+}
 int assign_cmd_pre(t_new_line *got_line)
 {
 	int			i;
-	int			c_args;
-	int			c_redirects;
-	t_cmd_pre	**creation;
+	int			ac;
+	int			rc;
+	t_cmd_pre	*creation;
 
 	i = 0;
-	c_args = 0;
-	c_redirects = 0;
-	creation = malloc(sizeof(t_cmd_pre *) * got_line->line_count + 1);
+	ac = 0;
+	rc = 0;
+	creation = malloc(sizeof(t_cmd_pre *));
 	if(!creation)
 		return (EXIT_FAILURE);
-	while(i <= got_line->line_count)
-	 	creation[i++] = (void *)0;
 	i = 0;
 	while(i < got_line->line_count)
 	{
-		count_cmd_pointers(got_line->exec_lines[i], &c_args, &c_redirects);
-		ft_printf("This line: %s, has %d args and %d redirects\n",got_line->exec_lines[i], c_args, c_redirects );
+		count_cmd_pointers(got_line->exec_lines[i], &ac, &rc);
+		ft_printf("This line: %s, has %d args and %d redirects\n",got_line->exec_lines[i], ac, got_line->line_count );
+		fill_cmd_struct(got_line->exec_lines[i], creation, ac, rc);
 		i++;
+		break ;
 	}
-	got_line->cmd_pre = creation;
+	got_line->cmd_pre = &creation;
 	return got_line->length;
 }
 
