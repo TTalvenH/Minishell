@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/19 16:02:16 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/19 21:18:20 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int		assign_cmd_pre(t_new_line *got_line);
 int		count_cmd_pointers(const char *str, int *c_args, int *c_redirects);
 
 //handling 
-int		word_compare(char *exec_line, char *word);
+int		word_compare(char *exec_line, char *word, int instruction);
 int		has_builtin(char *exec_line);
 void	line_handling_func(t_new_line *handle_line);
 

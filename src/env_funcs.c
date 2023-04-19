@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:58:26 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/18 16:34:02 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/19 19:59:16 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,33 +94,33 @@ int		export_env(t_new_line *got_line, const char *export_env)
 }
 
 
-int		unset_env(t_new_line *got_line, const char *name)
-{
-	t_env 	*tmp;
-	t_env	*tmp2;
+// int		unset_env(t_new_line *got_line, const char *name)
+// {
+// 	t_env 	*tmp;
+// 	t_env	*tmp2;
 
-	if(!name)
-		return (EXIT_FAILURE);
-	if (!env_compare(name, got_line->environments->env, NO_EQUAL_SIGN))
-	{
-		tmp = got_line->environments->next;
-		free(got_line->environments);
-		got_line->environments = tmp;
-		return (llist_to_array(got_line));
-	}
-	tmp = got_line->environments;
-	tmp2 = got_line->environments->next;
-	while (tmp2)
-	{
-		if (!env_compare(name, tmp2->env, NO_EQUAL_SIGN))
-		{
-			tmp->next = tmp2->next;
-			free(tmp2);
-			tmp2 = NULL;
-			break ;
-		}
-		tmp = tmp->next;
-		tmp2 = tmp2->next;
-	}
-	return (llist_to_array(got_line));
-}
+// 	if(!name)
+// 		return (EXIT_FAILURE);
+// 	if (!env_compare(name, got_line->environments->env, NO_EQUAL_SIGN))
+// 	{
+// 		tmp = got_line->environments->next;
+// 		free(got_line->environments);
+// 		got_line->environments = tmp;
+// 		return (llist_to_array(got_line));
+// 	}
+// 	tmp = got_line->environments;
+// 	tmp2 = got_line->environments->next;
+// 	while (tmp2)
+// 	{
+// 		if (!env_compare(name, tmp2->env, NO_EQUAL_SIGN))
+// 		{
+// 			tmp->next = tmp2->next;
+// 			free(tmp2);
+// 			tmp2 = NULL;
+// 			break ;
+// 		}
+// 		tmp = tmp->next;
+// 		tmp2 = tmp2->next;
+// 	}
+// 	return (llist_to_array(got_line));
+// }

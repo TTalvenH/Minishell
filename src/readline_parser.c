@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/19 19:55:01 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/19 21:47:32 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	count_substrings(char *str)
 		{
 			expecting = skip_quotes(&str[i]);
 			if (expecting < 0)
-				return (expecting);
+				return (-1);
 			i += expecting;
 		}
 		if(str[i] == '>' || str[i] == '<')
@@ -63,6 +63,7 @@ int	read_line_parser(char *str, t_new_line *got_line)
 	got_line->line_count = count_substrings(str);
 	if (got_line->line_count > 0)
 	{
+		
 		got_line->exec_lines = malloc(got_line->line_count * sizeof(char *));
 		if (!got_line->exec_lines)
 			return (free_got_line(got_line));
@@ -70,6 +71,7 @@ int	read_line_parser(char *str, t_new_line *got_line)
 			return (EXIT_FAILURE);
 		return (EXIT_SUCCESS);
 	}
+	printf("we have %d\n", got_line->line_count);
 	return (EXIT_FAILURE);;
 }
 
@@ -93,12 +95,13 @@ int	count_cmd_pointers(const char *str, int *c_args, int *c_redirects)
 			(*c_args)++;
 			while(str[i] && str[i] != ' ')
 			{
-				if(str[i] && (str[i] == '\'' || str[i] == '\''))
+				if(str[i] && (str[i] == '\'' || str[i] == '\"'))
 					i += skip_quotes(&str[i]);
 				i++;
 			}
 		}
-	}	
+		i++;
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -112,7 +115,7 @@ char	*make_arg_string(char *str, int len, int i)
 	k = 0;
 	expecting = 0;
 	len = ft_strlen(str);
-	final = malloc(sizeof(char) * (len + 1));
+	final = malloc(sizeof(char) * (500));
 	if(final)
 	{
 		while (str[i] && i < len && str[i] == ' ')
@@ -126,17 +129,16 @@ char	*make_arg_string(char *str, int len, int i)
 				str[i++] = ' ';
 				while (str[i] && str[i] != expecting)
 				{
+					if(str[i] == '$' && expecting == '\'')
+						str[i] = 1;
 					final[k++] = str[i];
 					str[i++] = ' ';
 				}
 				expecting = 0;
-				str[i++] = ' ';
 			}
 			else
-			{
-				final[k++] = str[i];
-				str[i++] = ' ';
-			}
+				final[k++] = str[i];	
+			str[i++] = ' ';
 		}
 		final[k] = '\0';
 	}
@@ -181,11 +183,14 @@ int	get_out_fd(t_cmd_pre *cmd, char *line, int i)
 int	create_heredoc(char *line)
 {
 	int		p[2];
+	int		i;
 	char	*rline;
 	int		len;
 
-	line = get_next_arg(line, 0, 0);
 	rline = NULL;
+	i = 0;
+	while(line[i] == ' ')
+		i++;
 	if(line && !pipe(p))
 	{
 		while (1)
@@ -197,7 +202,7 @@ int	create_heredoc(char *line)
 				write(p[1], rline, len);
 				write(p[1], "\n", 1);
 			}
-			if(!ft_strcmp(line, rline))
+			if(!word_compare(rline, &line[i], 1))
 				break ;
 			free(rline);
 		}
@@ -292,7 +297,7 @@ int	fill_cmd_struct(char *line, t_cmd_pre *cmd, int ac, int rc)
 	if(cmd->args)
 		free(cmd->args);
 	cmd->args = malloc(sizeof(char *) * (ac + 1));
-	if(line || cmd->args)
+	if(line && cmd->args)
 	{
 		while(i < ac)
 			cmd->args[i++] = get_next_arg(line, 0, 0);
@@ -303,6 +308,31 @@ int	fill_cmd_struct(char *line, t_cmd_pre *cmd, int ac, int rc)
 	}
 	return (EXIT_FAILURE);
 }
+
+// int dollar_subs(t_cmd_pre *cmd, int count, t_new_line *got_line)
+// {
+// 	char 	buffer[500];
+// 	int		i;
+// 	int		k;
+// 	int		dollar;
+// 	int		times;
+	
+// 	i = (-1);
+// 	k = (-1);
+// 	times = 0;
+// 	while (times < count && cmd->args)
+// 	{
+// 		while (++i < 500 && cmd->args[times][i])
+// 		{
+// 			if(cmd->args[times][i] == '$')
+// 			{
+// 				k = i;
+				
+// 			}
+// 				buffer[k] = '$';
+// 		}
+			
+// 	}
 
 int assign_cmd_pre(t_new_line *got_line)
 {
@@ -316,6 +346,7 @@ int assign_cmd_pre(t_new_line *got_line)
 	{
 		count_cmd_pointers(got_line->exec_lines[i], &ac, &rc);
 		fill_cmd_struct(got_line->exec_lines[i], &got_line->cmd_pre[i], ac, rc);
+		// dollar_subs(&got_line->cmd_pre[i], ac, got_line);
 		i++;
 	}
 	return got_line->length;

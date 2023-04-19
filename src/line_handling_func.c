@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:04:00 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/19 19:49:57 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/19 21:18:36 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int handle_catcher(t_new_line *new_line, int index, int *k, int i)
 	return (0);
 }
 
-int	word_compare(char *exec_line, char *word)
+int	word_compare(char *exec_line, char *word, int instruction)
 {
 	int	i;
 
@@ -33,9 +33,12 @@ int	word_compare(char *exec_line, char *word)
 		else
 			return (-1);
 	}
-	if (!exec_line[i])
+	if(instruction == 1 && !exec_line[i] && !word[i])
 		return (0);
-	if (exec_line[i] && (exec_line[i] == ' ' || exec_line[i] == '\0'))
+	if (!exec_line[i] && !instruction)
+		return (0);
+	if (!instruction && exec_line[i] && (exec_line[i] == ' '
+		|| exec_line[i] == '\0'))
 		return (0);
 	return (-1);
 }
@@ -47,19 +50,19 @@ int	has_builtin(char *exec_line)
 	i = 0;
 	while (exec_line[i] && exec_line[i] == ' ')
 		i++;
-	if (exec_line[i] == 'e' && !word_compare(&exec_line[i], "echo"))
+	if (exec_line[i] == 'e' && !word_compare(&exec_line[i], "echo", 0))
 		return (1);
-	else if (exec_line[i] == 'c' && !word_compare(&exec_line[i], "cd"))
+	else if (exec_line[i] == 'c' && !word_compare(&exec_line[i], "cd", 0))
 		return (2);
-	else if (exec_line[i] == 'p' && !word_compare(&exec_line[i], "pwd"))
+	else if (exec_line[i] == 'p' && !word_compare(&exec_line[i], "pwd", 0))
 		return (3);
-	else if (exec_line[i] == 'e' && !word_compare(&exec_line[i], "export"))
+	else if (exec_line[i] == 'e' && !word_compare(&exec_line[i], "export", 0))
 		return (4);
-	else if (exec_line[i] == 'u' && !word_compare(&exec_line[i], "unset"))
+	else if (exec_line[i] == 'u' && !word_compare(&exec_line[i], "unset", 0))
 		return (5);
-	else if (exec_line[i] == 'e' && !word_compare(&exec_line[i], "env"))
+	else if (exec_line[i] == 'e' && !word_compare(&exec_line[i], "env", 0))
 		return (6);
-	else if (exec_line[i] == 'e' && !word_compare(&exec_line[i], "exit"))
+	else if (exec_line[i] == 'e' && !word_compare(&exec_line[i], "exit", 0))
 		return (7);
 	return (-1);
 }
