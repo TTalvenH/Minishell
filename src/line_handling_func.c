@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:04:00 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/18 14:19:24 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/19 18:55:04 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,20 @@ int	has_builtin(char *exec_line)
 void	line_handling_func(t_new_line *new_line)
 {
 	int	i;
+	int k;
 
-	i = (-1);
-	printf("This line has count: %d\n", new_line->line_count);
-	while (++i < new_line->line_count)
+	i = 0;
+	printf("We broke down the lines with following:\n");
+	while (new_line->cmd_pre[i].args)
 	{
-		if (has_builtin(new_line->exec_lines[i]) == (-1))
-			printf("This line does not have a builtin: %s\n",
-				new_line->exec_lines[i]);
-		else
-			printf("This line has a builtin: %s\n",
-				new_line->exec_lines[i]);
+		k = 0;
+		printf("This lines command is: %s\n", new_line->cmd_pre[i].args[0]);
+		printf("\tThis arguments are as followed:\n");
+		while(new_line->cmd_pre[i].args[++k])
+			printf("\t\tThis is the %dth argument: %s\n", k, new_line->cmd_pre[i].args[k]);
+		printf("\t\tThese are the in_fd %d , and out_fd %d\n", new_line->cmd_pre[i].in_fd, new_line->cmd_pre[i].out_fd);
+		
+		i++;
 	}
 	return ;
 }

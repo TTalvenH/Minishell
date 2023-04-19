@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/19 17:42:52 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/19 18:53:31 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	*make_arg_string(char *str, int len, int i);
 int	count_cmd_pointers(const char *str, int *c_args, int *c_redirects);
 int	read_line_parser(char *str, t_new_line *got_line);
 int	create_heredoc(char *line);
+int	get_cmd_fds(t_cmd_pre *cmd, char *line, int i);
 
 int	count_substrings(char *str)
 {
@@ -64,9 +65,7 @@ int	read_line_parser(char *str, t_new_line *got_line)
 	{
 		got_line->exec_lines = malloc(got_line->line_count * sizeof(char *));
 		if (!got_line->exec_lines)
-		{
 			return (free_got_line(got_line));
-		}
 		if (assign_pointers(str, got_line, (-1)) + assign_cmd_pre(got_line))
 			return (EXIT_FAILURE);
 		return (EXIT_SUCCESS);
@@ -150,25 +149,23 @@ int	get_out_fd(t_cmd_pre *cmd, char *line, int i)
 	{
 		if(line[i] == '>')
 		{
+			
 			line[i] = ' ';
-			if(line[++i] == '>')
+			if(line[i + 1] == '>')
 			{
-				line[i] = ' ';
+				line[i + 1] = ' ';
 				holder = get_next_arg(line, 0, 0);
 				out_fd = open(holder, O_WRONLY |  O_CREAT | O_APPEND , 0666);
 			}
 			else
 			{
-				
 				holder = get_next_arg(line, 0, 0);
 				out_fd = open(holder, O_WRONLY | O_CREAT, 0666);
 			}
+			if(out_fd == (-1))
+				out_fd = (-2);
+			break ;
 		}	
-		if(out_fd == (-1))
-		{
-			free(holder);
-			return (EXIT_FAILURE);
-		}
 		i++;
 	}
 	cmd->out_fd = out_fd;
@@ -205,7 +202,23 @@ int	create_heredoc(char *line)
 	}
 	return (-1);
 }
-
+int	get_cmd_fds(t_cmd_pre *cmd, char *line, int i)
+{
+	i = 0;
+	
+	cmd->in_fd = (-5);
+	cmd->out_fd = (-5);
+	while (line[i] && cmd->in_fd != (-2) && cmd->out_fd != (-2))
+	{
+		
+		if(line[i] == '>')
+			get_out_fd(cmd, line, 0);
+		else if(line[i] == '<')
+			get_in_fd(cmd, line, 0);
+		i++;
+	}
+	return (EXIT_SUCCESS);
+}
 int	get_in_fd(t_cmd_pre *cmd, char *line, int i)
 {
 	int		in_fd;
@@ -228,11 +241,9 @@ int	get_in_fd(t_cmd_pre *cmd, char *line, int i)
 				holder = get_next_arg(line, 0, 0);
 				in_fd = open(holder, O_RDONLY, 0666);
 			}
-		}	
-		if(in_fd == (-1))
-		{
-			free(holder);
-			return (EXIT_FAILURE);
+			if(in_fd == (-1))
+				in_fd = (-2);
+			break ;
 		}
 		i++;
 	}
@@ -291,7 +302,7 @@ int	fill_cmd_struct(char *line, t_cmd_pre *cmd, int ac, int rc)
 		while(i < ac)
 			cmd->args[i++] = get_next_arg(line, 0, 0);
 		cmd->args[i] = NULL;
-		if(get_out_fd(cmd, line, 0) + get_in_fd(cmd, line, 0))
+		if(!get_cmd_fds(cmd, line, 0))
 			return (EXIT_FAILURE);
 		return (EXIT_SUCCESS);
 	}
