@@ -23,13 +23,23 @@ char	check_quotes(char *str, int i, char expecting)
 }
 
 int	free_got_line(t_new_line *got_line)
-{
+{	
+	int i;
+
+	i = 0;
 	if (got_line->exec_lines)
 		free(got_line->exec_lines);
-	if (got_line->cmd_pre)
-		free(got_line->cmd_pre);	
+	while(i < 100)
+	{
+		if(got_line->cmd_pre[i].args)
+			free(got_line->cmd_pre[i].args);
+		got_line->cmd_pre[i].args = NULL;
+		got_line->cmd_pre[i].in_fd = (-1);
+		got_line->cmd_pre[i].in_fd = (-1);
+		i++;
+	}
 	got_line->exec_lines = NULL;
-	got_line->cmd_pre = NULL;
+	
 	return (-1);
 }
 

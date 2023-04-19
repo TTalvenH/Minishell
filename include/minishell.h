@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/19 10:23:14 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/19 16:02:16 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 # define EQUAL_SIGN 1
 
 typedef struct s_cmd_pre{
-	char	**args;
-	int		in_fd;
-	int		out_fd;
+	char				**args;
+	int					in_fd;
+	int					out_fd;
 }	t_cmd_pre;
 
 typedef struct s_env
@@ -41,7 +41,7 @@ typedef struct s_new_line
 	char				**exec_lines;
 	t_env				*environments;
 	char				**envs_pointers;
-	t_cmd_pre			**cmd_pre;
+	t_cmd_pre			cmd_pre[100];
 	int					length;
 	int					line_count;
 	int					output_fd;

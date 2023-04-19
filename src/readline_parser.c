@@ -6,12 +6,23 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/19 12:55:16 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/19 17:42:52 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h" //! poista
+
+char	*get_next_arg(char *str, int i, int len);
+int	fill_cmd_struct(char *line, t_cmd_pre *cmd, int ac, int rc);
+int assign_cmd_pre(t_new_line *got_line);
+int	assign_pointers(char *str, t_new_line *got_line, int i);
+int	get_out_fd(t_cmd_pre *cmd, char *line, int i);
+int	get_in_fd(t_cmd_pre *cmd, char *line, int i);
+char	*make_arg_string(char *str, int len, int i);
+int	count_cmd_pointers(const char *str, int *c_args, int *c_redirects);
+int	read_line_parser(char *str, t_new_line *got_line);
+int	create_heredoc(char *line);
 
 int	count_substrings(char *str)
 {
@@ -52,8 +63,7 @@ int	read_line_parser(char *str, t_new_line *got_line)
 	if (got_line->line_count > 0)
 	{
 		got_line->exec_lines = malloc(got_line->line_count * sizeof(char *));
-		got_line->cmd_pre = malloc(got_line->line_count * sizeof(t_cmd_pre));
-		if (!got_line->exec_lines || !got_line->cmd_pre)
+		if (!got_line->exec_lines)
 		{
 			return (free_got_line(got_line));
 		}
@@ -93,16 +103,154 @@ int	count_cmd_pointers(const char *str, int *c_args, int *c_redirects)
 	return (EXIT_SUCCESS);
 }
 
+char	*make_arg_string(char *str, int len, int i)
+{
+	int		k;
+	char	*final;
+	int		expecting;
+	
+	final = NULL;
+	k = 0;
+	final = malloc(sizeof(char) * (len + 1));
+	if(final)
+	{
+		while (str[i] && k < len && str[i] != ' ')
+		{
+			if (str[i] == '\'' || str[i] == '\"')
+			{
+				if (expecting == str[i])
+				{
+					expecting = 0;
+					i++;
+					str[i] = ' ';
+				}	
+				else if (!expecting)
+				{
+					expecting = str[i];
+					str[i] = ' ';
+					i++;
+				}
+			}
+			final[k++] = str[i];
+			str[i++] = ' ';
+		}
+		final[k] = '\0';
+	}
+	return (final);
+}
+
+int	get_out_fd(t_cmd_pre *cmd, char *line, int i)
+{
+	int		out_fd;
+	char	*holder;
+	
+	holder = NULL;
+	out_fd = -2;
+	while(line[i])
+	{
+		if(line[i] == '>')
+		{
+			line[i] = ' ';
+			if(line[++i] == '>')
+			{
+				line[i] = ' ';
+				holder = get_next_arg(line, 0, 0);
+				out_fd = open(holder, O_WRONLY |  O_CREAT | O_APPEND , 0666);
+			}
+			else
+			{
+				
+				holder = get_next_arg(line, 0, 0);
+				out_fd = open(holder, O_WRONLY | O_CREAT, 0666);
+			}
+		}	
+		if(out_fd == (-1))
+		{
+			free(holder);
+			return (EXIT_FAILURE);
+		}
+		i++;
+	}
+	cmd->out_fd = out_fd;
+	free(holder);
+	return (EXIT_SUCCESS);
+}
+
+int	create_heredoc(char *line)
+{
+	int		p[2];
+	char	*rline;
+	int		len;
+
+	line = get_next_arg(line, 0, 0);
+	rline = NULL;
+	if(line && !pipe(p))
+	{
+		while (1)
+		{
+			rline = readline(">");
+			len = ft_strlen(rline);
+			if(len > 1)
+			{
+				write(p[1], rline, len);
+				write(p[1], "\n", 1);
+			}
+			if(!ft_strcmp(line, rline))
+				break ;
+			free(rline);
+		}
+		close(p[1]);
+		free(rline);
+		return(p[0]);
+	}
+	return (-1);
+}
+
+int	get_in_fd(t_cmd_pre *cmd, char *line, int i)
+{
+	int		in_fd;
+	char	*holder;
+	
+	holder = NULL;
+	in_fd = -2;
+	while(line[i])
+	{
+		if(line[i] == '<')
+		{
+			line[i] = ' ';
+			if(line[++i] == '<')
+			{
+				line[i] = ' ';
+				in_fd =  create_heredoc(line);
+			}
+			else
+			{
+				holder = get_next_arg(line, 0, 0);
+				in_fd = open(holder, O_RDONLY, 0666);
+			}
+		}	
+		if(in_fd == (-1))
+		{
+			free(holder);
+			return (EXIT_FAILURE);
+		}
+		i++;
+	}
+	cmd->in_fd = in_fd;
+	free(holder);
+	return (EXIT_SUCCESS);
+}
+
 char	*get_next_arg(char *str, int i, int len)
 {
 	char 	*final = NULL;
 	int		key;
 	int		start;
-	int		check;
+	int		pivot;
 
 	len = 0;
-	check = 0;
-	while(str[i] && !check)
+	pivot = 0;
+	while(str[i] && !pivot)
 	{
 		while(str[i] && str[i] == ' ')
 			i++;
@@ -122,10 +270,10 @@ char	*get_next_arg(char *str, int i, int len)
 			}
 			len++;	
 			i++;
-			check = i;
+			pivot = i;
 		}
 	}
-	ft_printf("we have this checked: %d\n", check);
+	final = make_arg_string(&str[start], pivot, 0);
 	return (final);
 }
 
@@ -135,45 +283,37 @@ int	fill_cmd_struct(char *line, t_cmd_pre *cmd, int ac, int rc)
 
 	i = 0;
 	rc = 0;
-	ft_printf("We got firstly here wtih ac %d\n", ac);
-	if(!line)
+	if(cmd->args)
+		free(cmd->args);
+	cmd->args = malloc(sizeof(char *) * (ac + 1));
+	if(line || cmd->args)
 	{
-		
-		cmd->args = malloc((sizeof(char *) * ac) + 1);
-		ft_printf("We got here\n");
-		while(i <= ac)
+		while(i < ac)
 			cmd->args[i++] = get_next_arg(line, 0, 0);
+		cmd->args[i] = NULL;
+		if(get_out_fd(cmd, line, 0) + get_in_fd(cmd, line, 0))
+			return (EXIT_FAILURE);
 		return (EXIT_SUCCESS);
 	}
-	
 	return (EXIT_FAILURE);
 }
+
 int assign_cmd_pre(t_new_line *got_line)
 {
 	int			i;
 	int			ac;
 	int			rc;
-	t_cmd_pre	*creation;
 
 	i = 0;
 	ac = 0;
-	rc = 0;
-	creation = malloc(sizeof(t_cmd_pre *));
-	if(!creation)
-		return (EXIT_FAILURE);
-	i = 0;
 	while(i < got_line->line_count)
 	{
 		count_cmd_pointers(got_line->exec_lines[i], &ac, &rc);
-		ft_printf("This line: %s, has %d args and %d redirects\n",got_line->exec_lines[i], ac, got_line->line_count );
-		fill_cmd_struct(got_line->exec_lines[i], creation, ac, rc);
+		fill_cmd_struct(got_line->exec_lines[i], &got_line->cmd_pre[i], ac, rc);
 		i++;
-		break ;
 	}
-	got_line->cmd_pre = &creation;
 	return got_line->length;
 }
-
 
 int	assign_pointers(char *str, t_new_line *got_line, int i)
 {
