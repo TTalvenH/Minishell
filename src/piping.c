@@ -23,7 +23,7 @@ int		init_pipes(t_pipe_chain *pipes, t_new_line *got_line)
 
 }
 
-// int	child_execve(char **arg, int input_fd, int output_fd, int close_fd)
+// int	child_execve(char **arg, int input_fd, int output_fd)
 // {
 // 	int	pid;
 
@@ -37,9 +37,7 @@ int		init_pipes(t_pipe_chain *pipes, t_new_line *got_line)
 // 	{
 // 		dup2(input_fd, STDIN_FILENO);
 // 		dup2(output_fd, STDOUT_FILENO);
-// 		close(output_fd);
-// 		close(input_fd);
-// 		close(close_fd);
+
 // 		execve(find_cmd_path(arg[0]), arg, 0);
 // 		ft_printf_fd(2, "pipex: %s: %s\n", strerror(errno), arg[0]);
 // 		exit(-1);
@@ -47,11 +45,17 @@ int		init_pipes(t_pipe_chain *pipes, t_new_line *got_line)
 // 	return (pid);
 // }
 
-int	piping(t_new_line *got_line)
-{
-	t_pipe_chain pipes;
-
-	if (init_pipes(&pipes, got_line) < 0)
-		return (1);
-	return (0);
-}
+// int	piping(t_new_line *got_line)
+// {
+// 	t_pipe_chain pipes;
+// 	int i;
+// 	if (init_pipes(&pipes, got_line) < 0)
+// 		return (1);
+// 	while (i < got_line->line_count)
+// 	{
+// 		if (!i)
+// 			child_execve(got_line->cmd_pre.args, 0, pipes.pipe_fds[i][1])
+// 		child_execve(got_line->cmd_pre.args, )
+// 	}
+// 	return (0);
+// }
