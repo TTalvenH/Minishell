@@ -3,11 +3,14 @@
 
 int	close_pipes(t_pipe_chain *pipes)
 {
-	while (pipes->pipe_count > 0)
+	int i;
+
+	i = 0;
+	while (i < pipes->pipe_count)
 	{
-		close(pipes->pipe_fds[pipes->pipe_count - 1][0]);
-		close(pipes->pipe_fds[pipes->pipe_count - 1][1]);
-		pipes->pipe_count--;
+		close(pipes->pipe_fds[i][0]);
+		close(pipes->pipe_fds[i][1]);
+		i++;
 	}
 	return (0);
 }

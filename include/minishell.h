@@ -52,7 +52,7 @@ typedef struct s_pipe_chain
 {	
 	int		**pipe_fds;
 	int		pipe_count;
-	pid_t	*pids;
+	pid_t	pids[100];
 }	t_pipe_chain;
 
 // environment functions

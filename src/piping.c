@@ -39,8 +39,7 @@ int		init_pipes(t_pipe_chain *pipes)
 	if(pipes->pipe_count < 0)
 		return(1);
 	pipes->pipe_fds = malloc (sizeof(int *) * (pipes->pipe_count));
-	pipes->pids = malloc (sizeof(pid_t) * pipes->pipe_count + 1); 
-	if (!pipes->pipe_fds || !pipes->pids)
+	if (!pipes->pipe_fds)
 		return (1);
 	while (i < pipes->pipe_count)
 	{
@@ -52,11 +51,12 @@ int		init_pipes(t_pipe_chain *pipes)
 
 }
 
-int	child_execve(char **arg, int input_fd, int output_fd, t_pipe_chain *pipes)
+pid_t	child_execve(char **arg, int input_fd, int output_fd, t_pipe_chain *pipes)
 {
 	extern char **environ;
-	int	pid;
+	pid_t	pid;
 	pid = fork();
+	ft_printf("after fork pid: %d\n", pid);
 	char *cmd_path;
 	cmd_path = NULL;
 	if (pid == -1)
@@ -66,7 +66,6 @@ int	child_execve(char **arg, int input_fd, int output_fd, t_pipe_chain *pipes)
 	}
 	if (pid == 0 && (input_fd >= 0 && output_fd >= 0))
 	{
-		ft_printf("%s\n", find_cmd_path(arg[0]));
 		dup2(input_fd, STDIN_FILENO);
 		dup2(output_fd, STDOUT_FILENO);
 		if (input_fd != 0)
@@ -87,32 +86,45 @@ int	child_execve(char **arg, int input_fd, int output_fd, t_pipe_chain *pipes)
 
 int	piping(t_new_line *got_line)
 {
-	char	*test1[] = {"echo", "test\n", NULL};
-	char	*test4[] = {"wc", "-l", NULL};
-	char	*test3[] = {"cat", "-e", NULL};
-	char	*test2[] = {"grep", "test", NULL};
-	char	**test_arr2[] = {test1, test2, test3, test4, NULL};
+	// char	*test1[] = {"echo", "test\n", NULL};
+	// char	*test4[] = {"wc", "-l", NULL};
+	// char	*test3[] = {"cat", "-e", NULL};
+	// char	*test2[] = {"grep", "test", NULL};
+	// char	**test_arr2[] = {test1, test2, test3, test4, NULL};
 	int				i;
 	t_pipe_chain	pipes;
 
+	ft_bzero(&pipes, sizeof(t_pipe_chain));
 	pipes.pipe_count = got_line->line_count - 1;
 	i = 0;
 	if (pipes.pipe_count && init_pipes(&pipes) < 0)
 		return (1);
+	ft_printf("init pid1: %d\n", pipes.pids[0]);
 	while (i <= pipes.pipe_count)
 	{
 		if (!pipes.pipe_count)
-			child_execve(test_arr2[i], 0, 1, &pipes);
+			child_execve(got_line->cmd_pre[i].args, 0, 1, &pipes);
 		else if (!i)
-			child_execve(test_arr2[i], 0, pipes.pipe_fds[i][1], &pipes);
+			pipes.pids[i] = child_execve(got_line->cmd_pre[i].args, 0, pipes.pipe_fds[i][1], &pipes);
 		else if (i == pipes.pipe_count)
-			child_execve(test_arr2[i], pipes.pipe_fds[i - 1][0], 1, &pipes);
+			pipes.pids[i] = child_execve(got_line->cmd_pre[i].args, pipes.pipe_fds[i - 1][0], 1, &pipes);
 		else
-			child_execve(test_arr2[i], pipes.pipe_fds[i - 1][0],
+			pipes.pids[i] = child_execve(got_line->cmd_pre[i].args, pipes.pipe_fds[i - 1][0],
 				 pipes.pipe_fds[i][1], &pipes);
 		i++;
 	}
 	if (pipes.pipe_count)
 		close_pipes(&pipes);
+	i = 0;
+	if (pipes.pipe_count)
+	{
+		while(i < pipes.pipe_count + 1)
+		{
+			printf("pipes pids[%d]: %d\n", i, *pipes.pipe_fds[i]);
+			waitpid(pipes.pids[i++], NULL, 0);
+		}
+	}
+	else 
+		wait(0);
 	return (0);
 }
