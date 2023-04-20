@@ -1,6 +1,8 @@
 #include "minishell.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <sys/errno.h>
 #include <unistd.h>
 
 char	*find_cmd_path(char *cmd)
@@ -29,18 +31,18 @@ char	*find_cmd_path(char *cmd)
 	return (NULL);
 }
 
-int		init_pipes(t_pipe_chain *pipes, t_new_line *got_line)
+int		init_pipes(t_pipe_chain *pipes)
 {
 	int i;
 	
 	i = 0;
-	if(!got_line->line_count)
+	if(pipes->pipe_count < 0)
 		return(1);
-	pipes->pipe_fds = malloc (sizeof(int *) * (got_line->line_count - 1));
-	pipes->pids = malloc (sizeof(pid_t) * got_line->line_count); 
+	pipes->pipe_fds = malloc (sizeof(int *) * (pipes->pipe_count));
+	pipes->pids = malloc (sizeof(pid_t) * pipes->pipe_count + 1); 
 	if (!pipes->pipe_fds || !pipes->pids)
 		return (1);
-	while (i < got_line->line_count - 1)
+	while (i < pipes->pipe_count)
 	{
 		pipes->pipe_fds[i] = malloc(sizeof(int) * 2);
 		if (pipe(pipes->pipe_fds[i++]) < 0)
@@ -50,41 +52,58 @@ int		init_pipes(t_pipe_chain *pipes, t_new_line *got_line)
 
 }
 
-// int	child_execve(char **arg, int input_fd, int output_fd)
-// {
-// 	int	pid;
+int	child_execve(char **arg, int input_fd, int output_fd, t_pipe_chain *pipes)
+{
+	int	pid;
+	pid = fork();
+	char *cmd_path;
 
-// 	pid = fork();
-// 	if (pid == -1)
-// 	{
-// 		perror("fork");
-// 		exit(0);
-// 	}
-// 	if (pid == 0 && (input_fd >= 0 && output_fd >= 0))
-// 	{
-// 		dup2(input_fd, STDIN_FILENO);
-// 		dup2(output_fd, STDOUT_FILENO);
-
-// 		execve(find_cmd_path(arg[0]), arg, 0);
-// 		ft_printf_fd(2, "pipex: %s: %s\n", strerror(errno), arg[0]);
-// 		exit(-1);
-// 	}
-// 	return (pid);
-// }
+	cmd_path = NULL;
+	if (pid == -1)
+	{
+		perror("fork");
+		exit(0);
+	}
+	if (pid == 0 && (input_fd >= 0 && output_fd >= 0))
+	{
+		dup2(input_fd, STDIN_FILENO);
+		dup2(output_fd, STDOUT_FILENO);
+		close_pipes(pipes);
+		if (cmd_path == NULL)
+			ft_printf_fd(2, "Bad command\n");
+		else
+			execve(cmd_path, NULL, 0);
+		cmd_path = find_cmd_path(arg[0]);
+		ft_printf_fd(2, "Execve: %s: %s\n", strerror(errno), arg[0]);
+		exit(-1);
+	}
+	return (pid);
+}
 
 int	piping(t_new_line *got_line)
 {
-	got_line = NULL;
-	ft_printf("%s\n", find_cmd_path("cat"));
-	// t_pipe_chain pipes;
-	// int i;
-	// if (init_pipes(&pipes, got_line) < 0)
-	// 	return (1);
-	// while (i < got_line->line_count)
-	// {
-	// 	if (!i)
-	// 		child_execve(got_line->cmd_pre.args, 0, pipes.pipe_fds[i][1])
-	// 	child_execve(got_line->cmd_pre.args, )
-	// }
+	char *test_arr2[][2] = {{"ct", "-e"}, {"cat", "-e"}, {"cat", "-e"}};
+	int				i;
+	t_pipe_chain	pipes;
+
+	pipes.pipe_count = got_line->line_count - 1;
+	i = 0;
+	if (pipes.pipe_count && init_pipes(&pipes) < 0)
+		return (1);
+	while (i <= pipes.pipe_count)
+	{
+		if (!pipes.pipe_count)
+			child_execve(test_arr2[i], 0, 1, &pipes);
+		else if (!i)
+			child_execve(test_arr2[i], 0, pipes.pipe_fds[i][1], &pipes);
+		else if (i == pipes.pipe_count)
+			child_execve(test_arr2[i], pipes.pipe_fds[i - 1][0], 1, &pipes);
+		else
+			child_execve(test_arr2[i], pipes.pipe_fds[i - 1][0],
+				 pipes.pipe_fds[i][1], &pipes);
+		i++;
+	}
+	if (pipes.pipe_count)
+		close_pipes(&pipes);
 	return (0);
 }

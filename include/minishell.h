@@ -51,6 +51,7 @@ typedef struct s_new_line
 typedef struct s_pipe_chain
 {	
 	int		**pipe_fds;
+	int		pipe_count;
 	pid_t	*pids;
 }	t_pipe_chain;
 
@@ -83,6 +84,7 @@ int		has_builtin(char *exec_line);
 void	line_handling_func(t_new_line *handle_line);
 
 //minishell_utils
+int		close_pipes(t_pipe_chain *pipes);
 char	check_quotes(char *str, int i, char expecting);
 int		free_got_line(t_new_line *got_line);
 int		skip_redirect(const char *str, int key, int	k, int	i);

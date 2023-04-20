@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
+#include <sys/wait.h>
 #include "minishell.h"
 #include "libft.h" //! for printf
 int	main(void)
@@ -32,9 +34,11 @@ int	main(void)
 			got_line.length = add_to_history(line, history_path);
 			if(got_line.length)
 			{
+				ft_printf("Test1\n"); 
 				read_line_parser(line, &got_line);
 				line_handling_func(&got_line);
-				ft_printf("%d\n", piping(&got_line)); // working on piping, right now checking that return is 0 (success)
+				piping(&got_line); 
+				wait(0);
 				free_got_line(&got_line);
 			//here we will put the fuction for execution handling pipes, builtins , execv
 			}

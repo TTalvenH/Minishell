@@ -1,13 +1,15 @@
 #include "minishell.h"
 #include "libft.h"
 
-void	print_2d_array(char **arr) //!poista
+int	close_pipes(t_pipe_chain *pipes)
 {
-	while(*arr)
+	while (pipes->pipe_count > 0)
 	{
-		ft_printf("%s\n", *arr);
-		arr++;
+		close(pipes->pipe_fds[pipes->pipe_count - 1][0]);
+		close(pipes->pipe_fds[pipes->pipe_count - 1][1]);
+		pipes->pipe_count--;
 	}
+	return (0);
 }
 
 char	check_quotes(char *str, int i, char expecting)
