@@ -30,7 +30,7 @@ all: $(LIBFT) $(NAME)
 
 debug: CFLAGS := $(filter-out -O3,$(CFLAGS))
 debug: CFLAGS += $(DEBUG_FLAGS)
-debug: $(NAME)
+debug: all
 
 $(LIBFT):
 	make -C libft
