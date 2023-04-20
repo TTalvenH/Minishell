@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/19 21:18:20 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/20 18:32:52 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,11 @@ typedef struct s_cmd_pre{
 
 typedef struct s_env
 {
-	char			env[200];
+	char			env[250];
 	struct s_env	*next;
 }	t_env;
+
+t_env *g_environ;
 
 typedef struct s_new_line
 {
@@ -56,10 +58,10 @@ typedef struct s_pipe_chain
 }	t_pipe_chain;
 
 // environment functions
-int		get_environments(t_new_line *got_line);
-int		free_all_env(t_new_line *new_line);
+int		get_environments(void);
+int		free_all_env(t_env *head);
 int		update_env(const char *env, t_env *new_env);
-int		export_env(t_new_line *got_line, const char *export_env);
+int		export_env(const char *export_env);
 int		unset_env(t_new_line *got_line, const char *name);
 int		llist_to_array(t_new_line *new_line);
 int		env_compare(const char *env1, const char *env2, int instrcution);

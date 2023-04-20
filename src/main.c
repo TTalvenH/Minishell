@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/19 18:43:43 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/20 18:10:41 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,24 @@ int	main(void)
 	char		*line;
 	t_new_line	got_line;
 
-	t_env *current;
-	current = got_line.environments;
+	if(get_environments())
+		return (EXIT_FAILURE);
 	get_history(history_path);
 	while (1)
 	{
 		ft_bzero(&got_line, sizeof(t_new_line));
-		get_environments(&got_line);
-		got_line.exec_lines = NULL;
+		llist_to_array(&got_line);
 		line = readline("minishell: ");
 		if (line)
 		{
 			got_line.length = add_to_history(line, history_path);
 			if(got_line.length)
 			{
-				ft_printf("Test1\n"); 
 				read_line_parser(line, &got_line);
 				line_handling_func(&got_line);
-				piping(&got_line); 
-				wait(0);
-				wait(0);
+				// piping(&got_line); 
+				// wait(0);
+				// wait(0);
 				free_got_line(&got_line);
 			//here we will put the fuction for execution handling pipes, builtins , execv
 			}
@@ -49,5 +47,6 @@ int	main(void)
 			break ;
 	}
 	free(got_line.environments);
-	return (0);
+	free_all_env(g_environ);
+	return (EXIT_SUCCESS);
 }

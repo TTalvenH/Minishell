@@ -31,21 +31,17 @@ int	free_got_line(t_new_line *got_line)
 	i = 0;
 	if (got_line->exec_lines)
 		free(got_line->exec_lines);
+	free(got_line->envs_pointers);
 	while(i < 100)
 	{
 		if(got_line->cmd_pre[i].args)
 			free(got_line->cmd_pre[i].args);
-		got_line->cmd_pre[i].args = NULL;
 		if(got_line->cmd_pre[i].in_fd > 0)
 			close(got_line->cmd_pre[i].in_fd);
 		if(got_line->cmd_pre[i].out_fd > 0)
 			close(got_line->cmd_pre[i].out_fd);
-		got_line->cmd_pre[i].in_fd = (-1);
-		got_line->cmd_pre[i].out_fd = (-1);
 		i++;
 	}
-	got_line->exec_lines = NULL;
-	
 	return (-1);
 }
 

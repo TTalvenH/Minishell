@@ -6,49 +6,47 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:58:26 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/19 19:59:16 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/20 17:58:13 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	get_environments(t_new_line *got_line)
+int	get_environments(void)
 {
 	extern char	**environ;
 	int			i;
 	t_env		*current;
 
 	i = 0;
-	got_line->environments = malloc(sizeof(t_env));
-	current = got_line->environments;
+	g_environ = malloc(sizeof(t_env));
+	if(!g_environ)
+		return (EXIT_FAILURE);
+	current = g_environ;
 	while (environ[i])
 	{
 		update_env(environ[i++], current);
 		current->next = malloc(sizeof(t_env));
 		if (!current->next)
-			exit(!free_all_env(got_line));
+			exit(!free_all_env(g_environ));
 		current = current->next;
 		current->env[0] = '\0';
 		current->next = NULL;
 	}
-	return (llist_to_array(got_line));
+	return (EXIT_SUCCESS);
 }
 
-int	free_all_env(t_new_line *new_line)
+int	free_all_env(t_env *head)
 {
 	t_env	*current;
-	t_env	*head;
 
-	head = new_line->environments;
 	while (head)
 	{
 		current = head->next;
 		free(head);
 		head = current;
 	}
-	free(new_line->envs_pointers);
-	new_line->envs_pointers = NULL;
-	return (llist_to_array(new_line));
+	return (0);
 }
 
 int	update_env(const char *env, t_env *new_env)
@@ -65,12 +63,12 @@ int	update_env(const char *env, t_env *new_env)
 	return (EXIT_SUCCESS);
 }
 
-int		export_env(t_new_line *got_line, const char *export_env)
+int		export_env(const char *export_env)
 {
 	t_env	*head;
 	t_env	holder;
 
-	head = got_line->environments;
+	head = g_environ;
 	if(valid_identifier(export_env) || !ft_strchr(export_env, '='))
 		return (1);
 	update_env(export_env, &holder);
@@ -79,7 +77,7 @@ int		export_env(t_new_line *got_line, const char *export_env)
 		if(!env_compare(head->env, holder.env, EQUAL_SIGN))
 		{
 			update_env(holder.env, head);
-			return (llist_to_array(got_line));	
+			return (EXIT_SUCCESS);	
 		}
 		if (!head->next)
 			break ;
@@ -90,7 +88,7 @@ int		export_env(t_new_line *got_line, const char *export_env)
 	if(!head->next)
 		return (EXIT_FAILURE);
 	ft_bzero(head->next, sizeof(t_env));
-	return (llist_to_array(got_line));
+	return (EXIT_SUCCESS);
 }
 
 
