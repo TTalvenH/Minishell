@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/20 19:16:29 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/20 19:19:00 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,17 +325,15 @@ int	replace_env(const char *str, int fd, char **ptrs)
 	buffer[i] = '\0';
 	i = -1;
 	while (ptrs[++i] && !found)
-	{
 		if(!env_compare(&buffer[1], ptrs[i], NO_EQUAL_SIGN))
 			found = ptrs[i];
-	}
 	i = 0;
 	if(!found)
 		while(buffer[i])
 			write(fd, &buffer[i++], 1);
-	while (found && found[i] && found[i] != '=')
+	while(found && found[i] && found[i] != '=')
 		i++;
-	while (found[++i])
+	while (found && found[++i])
 		write(fd, &found[i], 1);	
 	return(ft_strlen(buffer));
 }
