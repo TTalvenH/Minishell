@@ -54,10 +54,10 @@ int		init_pipes(t_pipe_chain *pipes)
 
 int	child_execve(char **arg, int input_fd, int output_fd, t_pipe_chain *pipes)
 {
+	extern char **environ;
 	int	pid;
 	pid = fork();
 	char *cmd_path;
-
 	cmd_path = NULL;
 	if (pid == -1)
 	{
@@ -66,15 +66,20 @@ int	child_execve(char **arg, int input_fd, int output_fd, t_pipe_chain *pipes)
 	}
 	if (pid == 0 && (input_fd >= 0 && output_fd >= 0))
 	{
+		ft_printf("%s\n", find_cmd_path(arg[0]));
 		dup2(input_fd, STDIN_FILENO);
 		dup2(output_fd, STDOUT_FILENO);
-		close_pipes(pipes);
+		if (input_fd != 0)
+			close(input_fd);
+		if (output_fd != 1)
+			close(output_fd);
+		cmd_path = find_cmd_path(arg[0]);
 		if (cmd_path == NULL)
 			ft_printf_fd(2, "Bad command\n");
 		else
-			execve(cmd_path, NULL, 0);
-		cmd_path = find_cmd_path(arg[0]);
-		ft_printf_fd(2, "Execve: %s: %s\n", strerror(errno), arg[0]);
+			execve(cmd_path, arg, environ);
+		printf("test: %s\n", strerror(errno));
+		close_pipes(pipes);
 		exit(-1);
 	}
 	return (pid);
@@ -82,7 +87,11 @@ int	child_execve(char **arg, int input_fd, int output_fd, t_pipe_chain *pipes)
 
 int	piping(t_new_line *got_line)
 {
-	char *test_arr2[][2] = {{"ct", "-e"}, {"cat", "-e"}, {"cat", "-e"}};
+	char	*test1[] = {"echo", "test\n", NULL};
+	char	*test4[] = {"wc", "-l", NULL};
+	char	*test3[] = {"cat", "-e", NULL};
+	char	*test2[] = {"grep", "test", NULL};
+	char	**test_arr2[] = {test1, test2, test3, test4, NULL};
 	int				i;
 	t_pipe_chain	pipes;
 

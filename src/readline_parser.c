@@ -103,6 +103,7 @@ int assign_cmd_pre(t_new_line *got_line)
 	i = 0;
 	c_args = 0;
 	c_redirects = 0;
+	ft_printf("%d\n", got_line->line_count);
 	creation = malloc(sizeof(t_cmd_pre *) * got_line->line_count + 1);
 	if(!creation)
 		return (EXIT_FAILURE);

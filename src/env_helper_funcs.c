@@ -30,7 +30,7 @@ int	llist_to_array(t_new_line *new_line)
 	t_env	*current;
 	int		i;
 
-	i = -1;
+	i = 0;
 	current = new_line->environments;
 	free(new_line->envs_pointers);
 	new_line->envs_pointers = NULL;

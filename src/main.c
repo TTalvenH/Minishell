@@ -39,6 +39,7 @@ int	main(void)
 				line_handling_func(&got_line);
 				piping(&got_line); 
 				wait(0);
+				wait(0);
 				free_got_line(&got_line);
 			//here we will put the fuction for execution handling pipes, builtins , execv
 			}
