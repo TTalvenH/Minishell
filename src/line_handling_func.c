@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:04:00 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/19 21:18:36 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/20 16:58:53 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	line_handling_func(t_new_line *new_line)
 	while (new_line->cmd_pre[i].args)
 	{
 		k = 0;
-		printf("%d) lines command is: %s\n", i + 1 , new_line->cmd_pre[i].args[0]);
+		printf("%d) lines command is: %s\n", i + 1 , new_line->cmd_pre[i].args[k]);
 		printf("\tThis arguments are as followed:\n");
 		while(new_line->cmd_pre[i].args[++k])
 			printf("\t\tThis is the %dth argument: %s\n", k, new_line->cmd_pre[i].args[k]);

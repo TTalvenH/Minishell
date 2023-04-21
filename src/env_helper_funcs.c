@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 05:49:56 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/18 16:31:00 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/20 17:52:18 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ int	llist_to_array(t_new_line *new_line)
 	int		i;
 
 	i = 0;
-	current = new_line->environments;
-	free(new_line->envs_pointers);
-	new_line->envs_pointers = NULL;
+	current = g_environ;
 	while(current)
 	{
 		current = current->next;
@@ -43,7 +41,7 @@ int	llist_to_array(t_new_line *new_line)
 	if(!new_line->envs_pointers)
 		return (EXIT_FAILURE);
 	i = 0;
-	current = new_line->environments;
+	current = g_environ;
 	while(current->env[0])
 	{
 		new_line->envs_pointers[i] = &(current->env[0]);

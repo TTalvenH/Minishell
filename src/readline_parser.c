@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/19 21:47:32 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/20 19:19:00 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,30 +309,65 @@ int	fill_cmd_struct(char *line, t_cmd_pre *cmd, int ac, int rc)
 	return (EXIT_FAILURE);
 }
 
-// int dollar_subs(t_cmd_pre *cmd, int count, t_new_line *got_line)
-// {
-// 	char 	buffer[500];
-// 	int		i;
-// 	int		k;
-// 	int		dollar;
-// 	int		times;
+int	replace_env(const char *str, int fd, char **ptrs)
+{
+	char	buffer[250];
+	char	*found;
+	int		i;
+
+	i = 0;
+	found = NULL;
+	while(str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '\"')
+	{
+		buffer[i] = str[i];
+		i++;
+	}
+	buffer[i] = '\0';
+	i = -1;
+	while (ptrs[++i] && !found)
+		if(!env_compare(&buffer[1], ptrs[i], NO_EQUAL_SIGN))
+			found = ptrs[i];
+	i = 0;
+	if(!found)
+		while(buffer[i])
+			write(fd, &buffer[i++], 1);
+	while(found && found[i] && found[i] != '=')
+		i++;
+	while (found && found[++i])
+		write(fd, &found[i], 1);	
+	return(ft_strlen(buffer));
+}
+
+
+int dollar_subs(t_cmd_pre *cmd, int count, t_new_line *got_line)
+{
+	int			i;
+	int			k;
+	int			p[2];
+
+	i = 0;
 	
-// 	i = (-1);
-// 	k = (-1);
-// 	times = 0;
-// 	while (times < count && cmd->args)
-// 	{
-// 		while (++i < 500 && cmd->args[times][i])
-// 		{
-// 			if(cmd->args[times][i] == '$')
-// 			{
-// 				k = i;
-				
-// 			}
-// 				buffer[k] = '$';
-// 		}
-			
-// 	}
+	while (--count >= 0 && !pipe(p))
+	{
+		k = -1;
+		while (cmd->args[count][++k])
+		{
+			if(cmd->args[count][k] == 1)
+				write(p[1], "$", 1);
+			else if(cmd->args[count][k] == '$')
+				k = replace_env(&cmd->args[count][k], p[1], got_line->envs_pointers);
+			else
+				write(p[1], &cmd->args[count][k], 1);
+		}
+		close(p[1]);
+		k = 0;
+		while(read(p[0], &cmd->args[count][k], 1))
+			k++;
+		cmd->args[count][k] = '\0';
+		close(p[0]);
+	}
+	return (EXIT_SUCCESS);
+}
 
 int assign_cmd_pre(t_new_line *got_line)
 {
@@ -346,7 +381,7 @@ int assign_cmd_pre(t_new_line *got_line)
 	{
 		count_cmd_pointers(got_line->exec_lines[i], &ac, &rc);
 		fill_cmd_struct(got_line->exec_lines[i], &got_line->cmd_pre[i], ac, rc);
-		// dollar_subs(&got_line->cmd_pre[i], ac, got_line);
+		dollar_subs(&got_line->cmd_pre[i], ac, got_line);
 		i++;
 	}
 	return got_line->length;
