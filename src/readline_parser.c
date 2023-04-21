@@ -116,6 +116,7 @@ char	*make_arg_string(char *str, int len, int i)
 	expecting = 0;
 	len = ft_strlen(str);
 	final = malloc(sizeof(char) * (500));
+	ft_bzero(final, 500);
 	if(final)
 	{
 		while (str[i] && i < len && str[i] == ' ')
@@ -350,8 +351,9 @@ int dollar_subs(t_cmd_pre *cmd, int count, t_new_line *got_line)
 	while (--count >= 0 && !pipe(p))
 	{
 		k = -1;
-		while (cmd->args[count][++k])
+		while (++k < 500 && cmd->args[count][k])
 		{
+
 			if(cmd->args[count][k] == 1)
 				write(p[1], "$", 1);
 			else if(cmd->args[count][k] == '$')
@@ -361,7 +363,7 @@ int dollar_subs(t_cmd_pre *cmd, int count, t_new_line *got_line)
 		}
 		close(p[1]);
 		k = 0;
-		while(read(p[0], &cmd->args[count][k], 1))
+		while(k < 499 && read(p[0], &cmd->args[count][k], 1))
 			k++;
 		cmd->args[count][k] = '\0';
 		close(p[0]);
