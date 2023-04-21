@@ -52,8 +52,10 @@ typedef struct s_new_line
 
 typedef struct s_pipe_chain
 {	
-	int		**pipe_fds;
+	int		pipe_fds[100][2];
 	int		pipe_count;
+	int		in_fd;
+	int		out_fd;
 	pid_t	pids[100];
 }	t_pipe_chain;
 
