@@ -4,6 +4,7 @@
 #include <string.h>
 #include <sys/errno.h>
 #include <unistd.h>
+#include <signal.h>
 
 char	*find_cmd_path(char *cmd)
 {
@@ -56,7 +57,6 @@ pid_t	child_execve(char **arg, int input_fd, int output_fd, t_pipe_chain *pipes)
 	extern char **environ;
 	pid_t	pid;
 	pid = fork();
-	ft_printf("after fork pid: %d\n", pid);
 	char *cmd_path;
 	cmd_path = NULL;
 	if (pid == -1)
@@ -66,19 +66,21 @@ pid_t	child_execve(char **arg, int input_fd, int output_fd, t_pipe_chain *pipes)
 	}
 	if (pid == 0 && (input_fd >= 0 && output_fd >= 0))
 	{
+		if (pipes->pids[0] != 0)
+			waitpid(pipes->pids[0], NULL, 0);
 		dup2(input_fd, STDIN_FILENO);
 		dup2(output_fd, STDOUT_FILENO);
 		if (input_fd != 0)
 			close(input_fd);
 		if (output_fd != 1)
 			close(output_fd);
+		close_pipes(pipes);
 		cmd_path = find_cmd_path(arg[0]);
 		if (cmd_path == NULL)
 			ft_printf_fd(2, "Bad command\n");
 		else
 			execve(cmd_path, arg, environ);
 		printf("test: %s\n", strerror(errno));
-		close_pipes(pipes);
 		exit(-1);
 	}
 	return (pid);
@@ -99,7 +101,6 @@ int	piping(t_new_line *got_line)
 	i = 0;
 	if (pipes.pipe_count && init_pipes(&pipes) < 0)
 		return (1);
-	ft_printf("init pid1: %d\n", pipes.pids[0]);
 	while (i <= pipes.pipe_count)
 	{
 		if (!pipes.pipe_count)
@@ -119,10 +120,7 @@ int	piping(t_new_line *got_line)
 	if (pipes.pipe_count)
 	{
 		while(i < pipes.pipe_count + 1)
-		{
-			printf("pipes pids[%d]: %d\n", i, *pipes.pipe_fds[i]);
 			waitpid(pipes.pids[i++], NULL, 0);
-		}
 	}
 	else 
 		wait(0);
