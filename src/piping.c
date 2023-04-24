@@ -89,15 +89,27 @@ void	set_io_fd(t_new_line *got_line, t_pipe_chain *pipes, int i)
 		pipes->out_fd = got_line->cmd_pre[i].out_fd;
 }
 
+int	init_pipes(t_pipe_chain *pipes)
+{
+	int i;
+
+	i = 0;
+	while (i < pipes->pipe_count)
+	{
+		if (pipe(pipes->pipe_fds[i++]))
+			return (1);			
+	}
+	return (0);
+}
 int	piping(t_new_line *got_line)
 {
 	int				i;
 	t_pipe_chain	pipes;
 
 	ft_bzero(&pipes, sizeof(t_pipe_chain));
-	pipes.pipe_count = got_line->line_count - 1;
 	i = 0;
-	if (pipes.pipe_count < 0)
+	pipes.pipe_count = got_line->line_count - 1;
+	if (init_pipes(&pipes))
 		return (1);
 	while (i <= pipes.pipe_count)
 	{
