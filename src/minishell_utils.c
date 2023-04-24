@@ -12,7 +12,6 @@ int	close_pipes(t_pipe_chain *pipes)
 		close(pipes->pipe_fds[i][1]);
 		i++;
 	}
-	i = 0;
 	return (0);
 }
 
