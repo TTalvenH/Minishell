@@ -98,7 +98,7 @@ int		skip_quotes(const char *str);
 //piping
 int		piping(t_new_line *got_line);
 
-//!poista
-void	print_2d_array(char **arr);
+//builtins
+int	cd(char	*dir);
 
 #endif

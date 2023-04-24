@@ -5,7 +5,7 @@
 
 int	cd(char	*dir)
 {
-	char	*cwd[PATH_MAX];
+	char	cwd[PATH_MAX];
 
 	if (!dir || !ft_strlen(dir))
 		return(1);
@@ -16,7 +16,19 @@ int	cd(char	*dir)
 			perror("cd");
 			return (1);
 		}
-		
+		dir = ft_realloc(dir, ft_strlen(dir) + ft_strlen(cwd) + 2);
+		if (!dir)
+		{
+			perror("cd");
+			return (1);
+		}
+		ft_strlcat(dir, "/", ft_strlen(dir) + 2);
+		ft_strlcat(dir, cwd, ft_strlen(dir) + ft_strlen(cwd) + 1);
+	}
+	if (chdir(dir))
+	{
+		perror("cd");
+		return (1);
 	}
 	return (0);
 }
