@@ -55,5 +55,7 @@ int			ft_putnbr_fd(int n, int fd);
 int			ft_printf(const char *str, ...);
 int			ft_printf_fd(int fd, const char *str, ...);
 void		ft_free_array(char **arr);
+char		*ft_realloc(char *str, int new_size);
+
 
 #endif

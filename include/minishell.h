@@ -23,6 +23,7 @@
 # include "../libft/include/libft.h"
 # define NO_EQUAL_SIGN 0
 # define EQUAL_SIGN 1
+# define PATH_MAX 1024
 
 typedef struct s_cmd_pre{
 	char				**args;

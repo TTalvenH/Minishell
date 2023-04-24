@@ -11,7 +11,7 @@ LIB = -lreadline
 DEBUG_FLAGS = -g -O0 -fsanitize=address
 
 # src files and path for them
-VPATH = src
+VPATH = src:src/builtins
 SRC = main.c smart_history.c readline_parser.c line_handling_func.c env_funcs.c env_helper_funcs.c minishell_utils.c piping.c
 
 # obj files and path for them

@@ -32,26 +32,6 @@ char	*find_cmd_path(char *cmd)
 	return (NULL);
 }
 
-// int		init_pipes(t_pipe_chain *pipes)
-// {
-// 	int i;
-	
-// 	i = 0;
-// 	if(pipes->pipe_count < 0)
-// 		return(1);
-// 	pipes->pipe_fds = malloc (sizeof(int *) * (pipes->pipe_count));
-// 	if (!pipes->pipe_fds)
-// 		return (1);
-// 	while (i < pipes->pipe_count)
-// 	{
-// 		pipes->pipe_fds[i] = malloc(sizeof(int) * 2);
-// 		if (pipe(pipes->pipe_fds[i++]) < 0)
-// 			return (1);
-// 	}
-// 	return (0);
-
-// }
-
 pid_t	child_execve(char **arg, int input_fd, int output_fd, t_pipe_chain *pipes)
 {
 	extern char **environ;
