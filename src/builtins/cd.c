@@ -3,10 +3,12 @@
 #include <unistd.h>
 #include <stdio.h>
 
-int	cd(char	*dir)
+int	cd(char	*path)
 {
 	char	cwd[PATH_MAX];
+	char	*dir;
 
+	dir = ft_strdup(path);
 	if (!dir || !ft_strlen(dir))
 		return(1);
 	if (dir[0] != '/')
@@ -23,12 +25,13 @@ int	cd(char	*dir)
 			return (1);
 		}
 		ft_strlcat(dir, "/", ft_strlen(dir) + 2);
-		ft_strlcat(dir, cwd, ft_strlen(dir) + ft_strlen(cwd) + 1);
+		ft_strlcat(cwd, dir, ft_strlen(dir) + ft_strlen(cwd) + 1);
 	}
 	if (chdir(dir))
 	{
 		perror("cd");
 		return (1);
 	}
+	free (dir);
 	return (0);
 }
