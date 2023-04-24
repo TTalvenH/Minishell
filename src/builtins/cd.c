@@ -9,9 +9,9 @@ int	cd(char	*path)
 	char	*dir;
 
 	dir = ft_strdup(path);
-	if (!dir || !ft_strlen(dir))
+	if (!ft_strlen(dir))
 		return(1);
-	if (dir[0] != '/')
+	if (dir && dir[0] != '/')
 	{
 		if (!getcwd(cwd, sizeof(cwd)))
 		{
