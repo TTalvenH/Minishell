@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/25 07:32:02 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/25 07:55:10 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,7 @@
 void	handler(int sig)
 {
 	(void)sig;
-	struct termios t;
-	tcgetattr(STDIN_FILENO, &t);
-	t.c_lflag &= ~(ICANON | ECHO);
-	t.c_cc[VMIN] = 0;
-	t.c_cc[VTIME] = 0;
-	tcsetattr(STDIN_FILENO, TCSANOW, &t);
-	write(0, "", 1);
+	close(STDIN_FILENO);
 }
 
 int	main(void)
@@ -43,6 +37,7 @@ int	main(void)
 	ft_bzero(&got_line, sizeof(t_new_line));
 	while (1)
 	{
+		dup2(copy, STDIN_FILENO);
 		line = NULL;
 		ft_bzero(&got_line, sizeof(t_new_line));
 		llist_to_array(&got_line);
