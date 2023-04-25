@@ -55,7 +55,6 @@ pid_t	child_execve(char **arg, int input_fd, int output_fd, t_pipe_chain *pipes)
 			ft_printf_fd(2, "Bad command for %s\n", arg[0]);
 		else
 			execve(cmd_path, arg, environ);
-		printf("test: %s\n", strerror(errno));
 		exit(-1);
 	}
 	return (pid);

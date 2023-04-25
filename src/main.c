@@ -45,8 +45,9 @@ int	main(void)
 		if (line)
 		{
 			got_line.length = add_to_history(line, history_path);
-			if(got_line.length && !read_line_parser(line, &got_line))
+			if(got_line.length)
 			{
+				read_line_parser(line, &got_line);
 				// line_handling_func(&got_line);
 				piping(&got_line); 
 				// ft_printf("%d\n", cd("/bin/usr"));
