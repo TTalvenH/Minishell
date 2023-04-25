@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/25 07:55:10 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/25 10:35:45 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 void	handler(int sig)
 {
 	(void)sig;
+	exit(2);
 	close(STDIN_FILENO);
 }
 
