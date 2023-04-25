@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/20 18:32:52 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/25 07:23:31 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <termios.h>
+# include <signal.h>
 # include "../libft/include/get_next_line.h"
 # include "../libft/include/libft.h"
 # define NO_EQUAL_SIGN 0
@@ -29,6 +31,7 @@ typedef struct s_cmd_pre{
 	char				**args;
 	int					in_fd;
 	int					out_fd;
+	int					stopped_heredoc;
 }	t_cmd_pre;
 
 typedef struct s_env
@@ -42,6 +45,7 @@ t_env *g_environ;
 typedef struct s_new_line
 {
 	char				**exec_lines;
+	char				*parsed_line;
 	t_env				*environments;
 	char				**envs_pointers;
 	t_cmd_pre			cmd_pre[100];
