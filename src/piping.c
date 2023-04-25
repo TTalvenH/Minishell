@@ -52,7 +52,7 @@ pid_t	child_execve(char **arg, int input_fd, int output_fd, t_pipe_chain *pipes)
 		close_pipes(pipes);
 		cmd_path = find_cmd_path(arg[0]);
 		if (cmd_path == NULL)
-			ft_printf_fd(2, "Bad command\n");
+			ft_printf_fd(2, "Bad command for %s\n", arg[0]);
 		else
 			execve(cmd_path, arg, environ);
 		printf("test: %s\n", strerror(errno));

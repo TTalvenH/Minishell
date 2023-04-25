@@ -35,6 +35,7 @@ int	free_got_line(t_new_line *got_line)
 	if (got_line->exec_lines)
 		free(got_line->exec_lines);
 	free(got_line->envs_pointers);
+	free(got_line->parsed_line);
 	while(i < 100)
 	{
 		if(got_line->cmd_pre[i].args)
