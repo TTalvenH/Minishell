@@ -19,6 +19,7 @@
 void	handler(int sig)
 {
 	(void)sig;
+	exit(0); //! DELETE THIS
 	close(STDIN_FILENO);
 }
 
