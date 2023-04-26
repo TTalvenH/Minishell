@@ -1,36 +1,39 @@
 #include "minishell.h"
 #include "libft.h"
 #include <unistd.h>
-#include <stdio.h>
+#include <stdio.h> //! OI
 
-int	cd(char	*path)
+static int	error()
+{
+	perror("cd");
+	return (1);
+}
+
+int	cd(char	*dir)
 {
 	char	cwd[PATH_MAX];
-	char	*dir;
+	char	*path;
 
-	if (!dir)
-		dir = getenv("HOME");
-	else if (dir[0] != '/')
+	if (dir && dir[0] != '/')
 	{
 		if (!getcwd(cwd, sizeof(cwd)))
-		{
-			perror("cd");
-			return (1);
-		}
-		dir = ft_realloc(dir, ft_strlen(dir) + ft_strlen(cwd) + 2);
-		if (!dir)
-		{
-			perror("cd");
-			return (1);
-		}
-		ft_strlcat(dir, "/", ft_strlen(dir) + 2);
-		ft_strlcat(cwd, dir, ft_strlen(dir) + ft_strlen(cwd) + 1);
+			return (error());
+		path = ft_strjoin_slash(cwd, dir);
+		if (!path)
+			return (error());
+		if (chdir(path))
+			return (error());
+		return (0);
 	}
-	if (!ft_strlen(dir) && chdir(dir))
+	if (dir && ft_strlen(dir))
 	{
-		perror("cd");
-		return (1);
+		if (chdir(dir))
+			return (error());
 	}
-	free (dir);
+	else if (!dir)
+	{
+		if (chdir(getenv("HOME")))
+			return (error());
+	}
 	return (0);
 }
