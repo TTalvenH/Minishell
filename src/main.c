@@ -51,7 +51,7 @@ int	main(void)
 				read_line_parser(line, &got_line);
 				// line_handling_func(&got_line);
 				piping(&got_line); 
-				ft_printf("%d\n", cd("../"));
+				// ft_printf("%d\n", cd("../"));
 				free_got_line(&got_line);
 			//here we will put the fuction for execution handling pipes, builtins , execv
 			}
