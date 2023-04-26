@@ -7,9 +7,9 @@ int	cd(char	*dir)
 {
 	char	cwd[PATH_MAX];
 
-	if (!dir || !ft_strlen(dir))
-		return(1);
-	if (dir[0] != '/')
+	if (!dir)
+		dir = getenv("HOME");
+	else if (dir[0] != '/')
 	{
 		if (!getcwd(cwd, sizeof(cwd)))
 		{
@@ -25,7 +25,7 @@ int	cd(char	*dir)
 		ft_strlcat(dir, "/", ft_strlen(dir) + 2);
 		ft_strlcat(dir, cwd, ft_strlen(dir) + ft_strlen(cwd) + 1);
 	}
-	if (chdir(dir))
+	if (!ft_strlen(dir) && chdir(dir))
 	{
 		perror("cd");
 		return (1);
