@@ -31,8 +31,7 @@ int	get_history(char path_to_history_file[33])
 	char	*gnl;
 	int		fd;
 
-	if (get_history_path(path_to_history_file))
-		exit(printf("Failed to initialise history path string :(\n"));
+	get_history_path(path_to_history_file);
 	fd = open(path_to_history_file, O_RDONLY);
 	gnl = get_next_line(fd);
 	while (gnl)

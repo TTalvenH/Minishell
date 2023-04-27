@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/27 09:24:56 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/27 12:13:03 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 void	handler(int sig)
 {
 	(void)sig;
-	exit(2);
 	close(STDIN_FILENO);
 }
 
@@ -42,25 +41,22 @@ int	main(void)
 		line = NULL;
 		ft_bzero(&got_line, sizeof(t_new_line));
 		llist_to_array(&got_line);
-		line = readline("minishell: ");
+		line = readline("Minishell: ");
+		if(line == NULL && !write(0, NULL, 0))
+			if(printf("\b\bexit"))
+				break ;
 		if (line)
 		{
 			got_line.length = add_to_history(line, history_path);
-			if(got_line.length)
-			{
-				read_line_parser(line, &got_line);
-				// line_handling_func(&got_line);
-				piping(&got_line); 
-				// ft_printf("%d\n", cd("/bin/usr"));
-				free_got_line(&got_line);
-			//here we will put the fuction for execution handling pipes, builtins , execv
-			}
+			if(!got_line.length)
+				continue ;
+			read_line_parser(line, &got_line);
+			piping(&got_line); 
+			free_got_line(&got_line);
 			free(line);
 		}
 		else
 			write(1, "\n", 1);
-		if (got_line.exit_req == (-42))
-			break ;
 	}
 	free_all_env(g_environ);
 	return (EXIT_SUCCESS);
