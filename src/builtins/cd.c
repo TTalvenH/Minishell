@@ -1,7 +1,6 @@
 #include "minishell.h"
 #include "libft.h"
 #include <unistd.h>
-#include <stdio.h> //! OI
 
 static int	error()
 {
