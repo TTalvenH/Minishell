@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:58:26 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/20 17:58:13 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/04/27 09:14:57 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,46 @@ int		export_env(const char *export_env)
 	return (EXIT_SUCCESS);
 }
 
+int unset_env(const char *name)
+{
+	t_env	*tmp;
+	t_env	*previous;
+	t_env	*next;
+
+	if(!g_environ)
+		return (EXIT_SUCCESS);
+	tmp = g_environ->next;
+	if (!env_compare(name, g_environ->env, NO_EQUAL_SIGN))
+	{
+		free(g_environ);
+		g_environ = tmp;
+		return (EXIT_SUCCESS);
+	}
+	previous = g_environ;
+	while(tmp->env[0])
+	{
+		next = tmp->next;
+		if(!env_compare(name, tmp->env, NO_EQUAL_SIGN))
+		{
+			free(tmp);
+			previous->next = next;
+			return (EXIT_SUCCESS);
+		}
+		previous = tmp;
+		tmp = next;
+	}
+	return(EXIT_SUCCESS);
+}
+
+int	print_all_envs(t_new_line *got_line)
+{
+	int i;
+
+	i = 0;
+	while(got_line->envs_pointers[i])
+		ft_printf("%s\n", got_line->envs_pointers[i++]);
+	return (EXIT_SUCCESS);
+}
 
 // int		unset_env(t_new_line *got_line, const char *name)
 // {
