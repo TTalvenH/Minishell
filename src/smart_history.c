@@ -13,31 +13,25 @@
 #include "minishell.h"
 #include "libft.h"
 
-int	get_history_path(char path_to_history_file[24])
+int	get_history_path(char path_to_history_file[33])
 {
 	int	check;
 	int	i;
+	int	pid;
 
 	i = 0;
 	check = 0;
-	ft_strlcpy(path_to_history_file, "/tmp/.minishell_history", 24);
-	while (path_to_history_file[i])
-	{
-		check += path_to_history_file[i];
-		i++;
-	}
-	if (check != 2323)
-		return (1);
+	pid = getpid();
+	ft_strlcpy(path_to_history_file, "/Users/Shared/.minishell_history", 33);
 	return (0);
 }
 
-int	get_history(char path_to_history_file[24])
+int	get_history(char path_to_history_file[33])
 {
 	char	*gnl;
 	int		fd;
 
-	if (get_history_path(path_to_history_file))
-		exit(printf("Failed to initialise history path string :(\n"));
+	get_history_path(path_to_history_file);
 	fd = open(path_to_history_file, O_RDONLY);
 	gnl = get_next_line(fd);
 	while (gnl)
@@ -50,7 +44,7 @@ int	get_history(char path_to_history_file[24])
 	return (0);
 }
 
-int	add_to_history(char *str, char path_to_history_file[24])
+int	add_to_history(char *str, char path_to_history_file[33])
 {
 	int	fd;
 	int	lenght;
