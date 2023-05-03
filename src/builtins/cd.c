@@ -9,23 +9,8 @@ static int	error()
 	return (1);
 }
 
-// int	set_wd(char *cwd, )
-int	cd(char	*dir)
+static int	absolute_path(char *dir, char *cwd, char *old_pwd)
 {
-	char	cwd[PATH_MAX];
-	char	*path;
-	if (!getcwd(cwd, sizeof(cwd)))
-		return (error());
-	if (dir && dir[0] != '/')
-	{
-		path = ft_strjoin_slash(cwd, dir);
-		if (!path)
-			return (error());
-		if (chdir(path))
-			return (error());
-		printf("%s\n", path);
-		return (0);
-	}
 	if (dir && ft_strlen(dir))
 	{
 		if (chdir(dir))
@@ -37,4 +22,42 @@ int	cd(char	*dir)
 			return (error());
 	}
 	return (0);
+}
+
+static int	relative_path(char *dir, char *cwd, char *old_pwd)
+{
+	char *path;
+
+	path = ft_strjoin_slash(cwd, dir);
+	if (!path)
+		return (error());
+	if (chdir(path))
+		return (error());
+	if (export_env(old_pwd))
+		return (error());
+	printf("%s\n", path);
+	return (0);
+}
+
+int	cd(char	*dir)
+{
+	char	cwd[PATH_MAX];
+	char	env_pwd[5];
+	char	env_oldpwd[8];
+	char 	*old_pwd;
+
+	ft_strlcpy(env_pwd, "PWD=", 5);
+	ft_strlcpy(env_oldpwd, "OLDPWD=", 8);
+	if (!getcwd(cwd, sizeof(cwd)))
+		return (error());
+	old_pwd = ft_strjoin(env_pwd, cwd);
+	if (dir && dir[0] != '/')
+	{
+		relative_path(dir, cwd, old_pwd);
+		
+	}
+	else
+	{
+		absolute_path(dir, cwd, old_pwd);
+	}
 }
