@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:04:00 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/20 16:58:53 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/04 09:39:47 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ int	word_compare(char *exec_line, char *word, int instruction)
 	int	i;
 
 	i = 0;
-	while (word[i])
+	while (word[i] && word[i] != ' ')
 	{
 		if (exec_line[i] && word[i] == exec_line[i])
 			i++;
 		else
 			return (-1);
 	}
-	if(instruction == 1 && !exec_line[i] && !word[i])
+	if(instruction == 1 && !exec_line[i] && (!word[i] || word[i] == ' '))
 		return (0);
 	if (!exec_line[i] && !instruction)
 		return (0);

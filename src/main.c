@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/27 12:41:59 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/04 10:21:55 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@
 void	handler(int sig)
 {
 	(void)sig;
-	exit(0); //! DELETE THIS
 	close(STDIN_FILENO);
 }
 
 int	main(void)
 {
-	char		history_path[33];
+	char		history_path[21];
 	char		*line;
 	t_new_line	got_line;
 	int			copy;
@@ -49,9 +48,8 @@ int	main(void)
 		if (line)
 		{
 			got_line.length = add_to_history(line, history_path);
-			if(!got_line.length)
+			if(!got_line.length || read_line_parser(line, &got_line))
 				continue ;
-			read_line_parser(line, &got_line);
 			piping(&got_line); 
 			free_got_line(&got_line);
 			free(line);

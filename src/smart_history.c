@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "libft.h"
 
-int	get_history_path(char path_to_history_file[33])
+int	get_history_path(char path_to_history_file[21])
 {
 	int	check;
 	int	i;
@@ -22,11 +22,11 @@ int	get_history_path(char path_to_history_file[33])
 	i = 0;
 	check = 0;
 	pid = getpid();
-	ft_strlcpy(path_to_history_file, "/Users/Shared/.minishell_history", 33);
+	ft_strlcpy(path_to_history_file, "./.minishell_history", 21);
 	return (0);
 }
 
-int	get_history(char path_to_history_file[33])
+int	get_history(char path_to_history_file[21])
 {
 	char	*gnl;
 	int		fd;
@@ -44,7 +44,7 @@ int	get_history(char path_to_history_file[33])
 	return (0);
 }
 
-int	add_to_history(char *str, char path_to_history_file[33])
+int	add_to_history(char *str, char path_to_history_file[21])
 {
 	int	fd;
 	int	lenght;

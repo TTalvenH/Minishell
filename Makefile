@@ -47,7 +47,7 @@ clean:
 	make clean -C libft
 
 fclean: clean
-	rm -rf $(NAME) /Users/Shared/.minishell_history
+	rm -rf $(NAME) ./.minishell_history
 	make fclean -C libft
 
 re: fclean all 
