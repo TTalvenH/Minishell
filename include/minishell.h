@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/27 11:51:55 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/04 11:53:07 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ int		env_compare(const char *env1, const char *env2, int instrcution);
 int		valid_identifier(const char *export_env);
 
 //smart history
-int		get_history_path(char path_to_history_file[24]);
-int		get_history(char path_to_history_file[24]);
-int		add_to_history(char *str, char path_to_history_file[24]);
+int		get_history_path(char path_to_history_file[35]);
+int		get_history(char path_to_history_file[35]);
+int		add_to_history(char *str, char path_to_history_file[35]);
 
 //parsing
 int		read_line_parser(char *line, t_new_line *got_line);
@@ -85,7 +85,17 @@ int		count_substrings(char *str);
 int		assign_pointers(char *str, t_new_line *got_line, int i);
 int		free_got_line(t_new_line *got_line);
 int		assign_cmd_pre(t_new_line *got_line);
+char	*get_next_arg(char *str, int i, int len);
 int		count_cmd_pointers(const char *str, int *c_args, int *c_redirects);
+int		fill_cmd_struct(char *line, t_cmd_pre *cmd, int ac,
+			t_new_line *got_line);
+int		get_out_fd(t_cmd_pre *cmd, char *line, int i);
+int		get_in_fd(t_cmd_pre *cmd, char *line, int i);
+char	*make_arg_string(char *str, int len, int i);
+int		count_cmd_pointers(const char *str, int *c_args, int *c_redirects);
+int		create_heredoc(char *line);
+int		get_cmd_fds(t_cmd_pre *cmd, char *line, int i);
+int		replace_env(const char *str, int fd, char **ptrs, int *size);
 
 //handling 
 int		word_compare(char *exec_line, char *word, int instruction);

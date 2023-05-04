@@ -6,25 +6,12 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/04 10:06:26 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/04 11:39:22 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h" //! poista
-
-char	*get_next_arg(char *str, int i, int len);
-int	fill_cmd_struct(char *line, t_cmd_pre *cmd, int ac, t_new_line *got_line);
-int assign_cmd_pre(t_new_line *got_line);
-int	assign_pointers(char *str, t_new_line *got_line, int i);
-int	get_out_fd(t_cmd_pre *cmd, char *line, int i);
-int	get_in_fd(t_cmd_pre *cmd, char *line, int i);
-char	*make_arg_string(char *str, int len, int i);
-int	count_cmd_pointers(const char *str, int *c_args, int *c_redirects);
-int	read_line_parser(char *str, t_new_line *got_line);
-int	create_heredoc(char *line);
-int	get_cmd_fds(t_cmd_pre *cmd, char *line, int i);
-int	replace_env(const char *str, int fd, char **ptrs, int *size);
 
 int	count_substrings(char *str)
 {

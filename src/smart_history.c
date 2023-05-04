@@ -13,20 +13,43 @@
 #include "minishell.h"
 #include "libft.h"
 
-int	get_history_path(char path_to_history_file[21])
+
+int	copy_to_location(const char *str, char *dst)
 {
-	int	check;
-	int	i;
-	int	pid;
+	int i;
 
 	i = 0;
-	check = 0;
-	pid = getpid();
-	ft_strlcpy(path_to_history_file, "./.minishell_history", 21);
-	return (0);
+	while(str[i])
+	{
+		dst[i] = str[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (i);
 }
 
-int	get_history(char path_to_history_file[21])
+int	get_history_path(char path_to_history_file[35])
+{
+	int					i;
+	static const char	*file_name = "/.minishell_history";
+	t_env				*head;
+
+	i = 0;
+	head = g_environ;
+	while(head)
+	{
+		if(!env_compare(head->env, "HOME=", EQUAL_SIGN))
+			break ;
+		head = head->next;
+	}
+	while(head->env[i++] != '=')
+		;
+	i = copy_to_location(&head->env[i], &path_to_history_file[0]);
+	copy_to_location(file_name, &path_to_history_file[i]);
+	return (EXIT_SUCCESS);
+}
+
+int	get_history(char path_to_history_file[35])
 {
 	char	*gnl;
 	int		fd;
@@ -44,7 +67,7 @@ int	get_history(char path_to_history_file[21])
 	return (0);
 }
 
-int	add_to_history(char *str, char path_to_history_file[21])
+int	add_to_history(char *str, char path_to_history_file[35])
 {
 	int	fd;
 	int	lenght;
