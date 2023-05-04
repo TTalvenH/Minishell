@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/04 11:53:07 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/04 11:57:43 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ int		env_compare(const char *env1, const char *env2, int instrcution);
 int		valid_identifier(const char *export_env);
 
 //smart history
-int		get_history_path(char path_to_history_file[35]);
-int		get_history(char path_to_history_file[35]);
-int		add_to_history(char *str, char path_to_history_file[35]);
+int		get_history_path(char path_to_history_file[50]);
+int		get_history(char path_to_history_file[50]);
+int		add_to_history(char *str, char path_to_history_file[50]);
 
 //parsing
 int		read_line_parser(char *line, t_new_line *got_line);

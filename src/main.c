@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/04 11:52:11 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/04 11:57:33 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	handler(int sig)
 
 int	main(void)
 {
-	char		history_path[35];
+	char		history_path[50];
 	char		*line;
 	t_new_line	got_line;
 	int			copy;

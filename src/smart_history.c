@@ -28,7 +28,7 @@ int	copy_to_location(const char *str, char *dst)
 	return (i);
 }
 
-int	get_history_path(char path_to_history_file[35])
+int	get_history_path(char path_to_history_file[50])
 {
 	int					i;
 	static const char	*file_name = "/.minishell_history";
@@ -49,7 +49,7 @@ int	get_history_path(char path_to_history_file[35])
 	return (EXIT_SUCCESS);
 }
 
-int	get_history(char path_to_history_file[35])
+int	get_history(char path_to_history_file[50])
 {
 	char	*gnl;
 	int		fd;
@@ -67,7 +67,7 @@ int	get_history(char path_to_history_file[35])
 	return (0);
 }
 
-int	add_to_history(char *str, char path_to_history_file[35])
+int	add_to_history(char *str, char path_to_history_file[50])
 {
 	int	fd;
 	int	lenght;
