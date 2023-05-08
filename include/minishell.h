@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/08 10:55:33 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/08 11:08:57 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,6 @@ int		piping(t_new_line *got_line);
 int		cd(char	*dir);
 int		pwd(char *args);
 int		exit_builtin(char *args);
+int		echo(char **args, char **environments);
 
 #endif

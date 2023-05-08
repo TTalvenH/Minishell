@@ -12,7 +12,7 @@ DEBUG_FLAGS = -g -O0 -fsanitize=address
 
 # src files and path for them
 VPATH = src:src/builtins
-SRC = main.c smart_history.c readline_parser.c line_handling_func.c env_funcs.c env_helper_funcs.c minishell_utils.c piping.c cd.c pwd.c exit.c
+SRC = main.c smart_history.c readline_parser.c line_handling_func.c env_funcs.c env_helper_funcs.c minishell_utils.c piping.c cd.c pwd.c exit.c env.c export.c unset.c echo.c
 
 # obj files and path for them
 OBJ_DIR = obj

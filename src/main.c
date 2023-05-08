@@ -6,14 +6,11 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/04 12:29:48 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/08 11:25:02 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <sys/wait.h>
 #include "minishell.h"
-#include "libft.h" //! for printf
 
 static void	handler(int sig)
 {
@@ -29,7 +26,7 @@ int	main(void)
 	int			copy;
 
 	signal(SIGINT, &handler);
-	if(get_environments())
+	if (get_environments())
 		return (EXIT_FAILURE);
 	copy = dup(STDIN_FILENO);
 	get_history(history_path);
@@ -41,15 +38,15 @@ int	main(void)
 		ft_bzero(&got_line, sizeof(t_new_line));
 		llist_to_array(&got_line);
 		line = readline("Minishell: ");
-		if(line == NULL && !write(0, NULL, 0))
-			if(printf("\b\bexit"))
+		if (line == NULL && !write(0, NULL, 0))
+			if (printf("\b\bexit"))
 				break ;
 		if (line)
 		{
 			got_line.length = add_to_history(line, history_path);
-			if(!got_line.length || read_line_parser(line, &got_line))
+			if (!got_line.length || read_line_parser(line, &got_line))
 				continue ;
-			piping(&got_line); 
+			piping(&got_line);
 			free_got_line(&got_line);
 			free(line);
 		}
