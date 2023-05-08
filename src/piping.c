@@ -32,8 +32,7 @@ char	*find_cmd_path(char *cmd)
 	return (NULL);
 }
 
-// NEED TO MAKE OUR FUNCTION TO USE OUR ENVS, FDs AND BUILTINS
-pid_t	child_execve(char **arg, int input_fd, int output_fd, t_pipe_chain *pipes)
+pid_t	child_execve(char **arg, t_pipe_chain *pipes)
 {
 	extern char **environ;
 	pid_t	pid;
@@ -46,10 +45,10 @@ pid_t	child_execve(char **arg, int input_fd, int output_fd, t_pipe_chain *pipes)
 		perror("fork");
 		exit(0);
 	}
-	if (pid == 0 && (input_fd >= 0 && output_fd >= 0))
+	if (pid == 0 && (pipes->in_fd >= 0 && pipes->out_fd >= 0))
 	{
-		dup2(input_fd, STDIN_FILENO);
-		dup2(output_fd, STDOUT_FILENO);
+		dup2(pipes->in_fd, STDIN_FILENO);
+		dup2(pipes->out_fd, STDOUT_FILENO);
 		close_pipes(pipes);
 		cmd_path = find_cmd_path(arg[0]);
 		if (cmd_path == NULL)
@@ -114,7 +113,7 @@ int	piping(t_new_line *got_line)
 	while (i <= pipes.pipe_count)
 	{
 		set_io_fd(got_line, &pipes, i);
-		pipes.pids[i] = child_execve(got_line->cmd_pre[i].args, pipes.in_fd, pipes.out_fd, &pipes);
+		pipes.pids[i] = child_execve(got_line->cmd_pre[i].args, &pipes);
 		i++;
 	}
 	if (pipes.pipe_count)
