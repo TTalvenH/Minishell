@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:04:00 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/04 09:39:47 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/08 09:13:20 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	has_builtin(char *exec_line)
 		return (6);
 	else if (exec_line[i] == 'e' && !word_compare(&exec_line[i], "exit", 0))
 		return (7);
-	return (-1);
+	return (0);
 }
 
 void	line_handling_func(t_new_line *new_line)

@@ -13,13 +13,12 @@
 #include "minishell.h"
 #include "libft.h"
 
-
 int	copy_to_location(const char *str, char *dst)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		dst[i] = str[i];
 		i++;
@@ -36,13 +35,13 @@ int	get_history_path(char path_to_history_file[50])
 
 	i = 0;
 	head = g_environ;
-	while(head)
+	while (head)
 	{
-		if(!env_compare(head->env, "HOME=", EQUAL_SIGN))
+		if (!env_compare(head->env, "HOME=", EQUAL_SIGN))
 			break ;
 		head = head->next;
 	}
-	while(head->env[i++] != '=')
+	while (head->env[i++] != '=')
 		;
 	i = copy_to_location(&head->env[i], &path_to_history_file[0]);
 	copy_to_location(file_name, &path_to_history_file[i]);

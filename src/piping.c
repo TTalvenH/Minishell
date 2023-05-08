@@ -32,6 +32,7 @@ char	*find_cmd_path(char *cmd)
 	return (NULL);
 }
 
+// NEED TO MAKE OUR FUNCTION TO USE OUR ENVS, FDs AND BUILTINS
 pid_t	child_execve(char **arg, int input_fd, int output_fd, t_pipe_chain *pipes)
 {
 	extern char **environ;

@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/04 11:57:43 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/08 10:46:54 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <termios.h>
 # include <signal.h>
 # include "../libft/include/get_next_line.h"
-# include "../libft/include/libft.h"
+# include "libft.h"
 # define NO_EQUAL_SIGN 0
 # define EQUAL_SIGN 1
 # define PATH_MAX 1024
@@ -75,6 +75,7 @@ int		env_compare(const char *env1, const char *env2, int instrcution);
 int		valid_identifier(const char *export_env);
 
 //smart history
+int		copy_to_location(const char *str, char *dst);
 int		get_history_path(char path_to_history_file[50]);
 int		get_history(char path_to_history_file[50]);
 int		add_to_history(char *str, char path_to_history_file[50]);
@@ -106,13 +107,13 @@ void	line_handling_func(t_new_line *handle_line);
 int		close_pipes(t_pipe_chain *pipes);
 char	check_quotes(char *str, int i, char expecting);
 int		free_got_line(t_new_line *got_line);
-int		skip_redirect(const char *str, int key, int	k, int	i);
+int		skip_redirect(const char *str, int key, int k, int i);
 int		skip_quotes(const char *str);
 
 //piping
 int		piping(t_new_line *got_line);
 
 //builtins
-int	cd(char	*dir);
+int		cd(char	*dir);
 
 #endif

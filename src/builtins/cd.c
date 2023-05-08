@@ -1,8 +1,18 @@
-#include "minishell.h"
-#include "libft.h"
-#include <unistd.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/08 10:45:21 by mkaratzi          #+#    #+#             */
+/*   Updated: 2023/05/08 10:47:30 by mkaratzi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static int	error()
+#include "minishell.h"
+
+static int	error(void)
 {
 	perror("cd");
 	return (1);

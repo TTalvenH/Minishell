@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/04 11:57:33 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/04 12:29:48 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 #include "minishell.h"
 #include "libft.h" //! for printf
 
-
-void	handler(int sig)
+static void	handler(int sig)
 {
 	(void)sig;
 	close(STDIN_FILENO);
