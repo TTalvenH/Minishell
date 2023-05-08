@@ -104,5 +104,7 @@ int		piping(t_new_line *got_line);
 
 //builtins
 int	cd(char	*dir);
+int	pwd(char *args);
+int	exit_builtin(char *args);
 
 #endif
