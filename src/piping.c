@@ -62,22 +62,13 @@ pid_t	child_execve(char **arg, t_pipe_chain *pipes)
 
 void	set_io_fd(t_new_line *got_line, t_pipe_chain *pipes, int i)
 {
-	if (!pipes->pipe_count)
-	{
-		pipes->in_fd = 0;
-		pipes->out_fd = 1;
-	}
-	else if (!i)
-	{
-		pipes->in_fd = 0;
+	pipes->in_fd = 0;
+	pipes->out_fd = 1;
+	if (pipes->pipe_count && !i)
 		pipes->out_fd = pipes->pipe_fds[i][1];
-	}
-	else if (i == pipes->pipe_count)
-	{
+	else if (pipes->pipe_count && i == pipes->pipe_count)
 		pipes->in_fd = pipes->pipe_fds[i - 1][0];
-		pipes->out_fd = 1;
-	}
-	else
+	else if (pipes->pipe_count)
 	{
 		pipes->in_fd = pipes->pipe_fds[i - 1][0];
 		pipes->out_fd = pipes->pipe_fds[i][1];
