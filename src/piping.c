@@ -32,7 +32,7 @@ char	*find_cmd_path(char *cmd)
 	return (NULL);
 }
 
-pid_t	child_execve(char **arg, t_pipe_chain *pipes)
+pid_t	child_execve(char **arg, t_pipe_chain *pipes, t_new_line *got_line)
 {
 	extern char **environ;
 	pid_t	pid;
@@ -54,7 +54,7 @@ pid_t	child_execve(char **arg, t_pipe_chain *pipes)
 		if (cmd_path == NULL)
 			ft_printf_fd(2, "Bad command for %s\n", arg[0]);
 		else
-			execve(cmd_path, arg, environ);
+			execve(cmd_path, arg, got_line->envs_pointers);
 		exit(-1);
 	}
 	return (pid);
@@ -104,7 +104,7 @@ int	piping(t_new_line *got_line)
 	while (i <= pipes.pipe_count)
 	{
 		set_io_fd(got_line, &pipes, i);
-		pipes.pids[i] = child_execve(got_line->cmd_pre[i].args, &pipes);
+		pipes.pids[i] = child_execve(got_line->cmd_pre[i].args, &pipes, got_line);
 		i++;
 	}
 	if (pipes.pipe_count)
