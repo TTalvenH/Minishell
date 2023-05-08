@@ -6,11 +6,13 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 05:49:56 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/04/25 05:25:26 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/08 12:01:48 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+extern t_env	*g_environ;
 
 int	valid_identifier(const char *export_env)
 {
@@ -37,18 +39,18 @@ int	llist_to_array(t_new_line *new_line)
 		current = current->next;
 		i++;
 	}
-	new_line->envs_pointers = malloc((i) * sizeof(char *));
-	if(!new_line->envs_pointers)
+	new_line->our_environ = malloc((i) * sizeof(char *));
+	if(!new_line->our_environ)
 		return (EXIT_FAILURE);
 	i = 0;
 	current = g_environ;
 	while(current->env[0])
 	{
-		new_line->envs_pointers[i] = &(current->env[0]);
+		new_line->our_environ[i] = &(current->env[0]);
 		current = current->next;
 		i++;
 	}
-	new_line->envs_pointers[i] = NULL;
+	new_line->our_environ[i] = NULL;
 	return (EXIT_SUCCESS);
 }
 

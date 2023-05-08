@@ -54,7 +54,7 @@ pid_t	child_execve(char **arg, t_pipe_chain *pipes, t_new_line *got_line)
 		if (cmd_path == NULL || pipes->in_fd == -2 || pipes->out_fd == -2)
 			ft_printf_fd(2, "Bad command/Broken I/O: %s\n", arg[0]);
 		else
-			execve(cmd_path, arg, got_line->envs_pointers);
+			execve(cmd_path, arg, got_line->our_environ);
 		exit(-1);
 	}
 	return (pid);

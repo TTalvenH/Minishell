@@ -6,11 +6,14 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/08 11:25:02 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/08 13:51:33 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern t_env	*g_environ;
+
 
 static void	handler(int sig)
 {

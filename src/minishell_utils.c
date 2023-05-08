@@ -34,7 +34,7 @@ int	free_got_line(t_new_line *got_line)
 	i = 0;
 	if (got_line->exec_lines)
 		free(got_line->exec_lines);
-	free(got_line->envs_pointers);
+	free(got_line->our_environ);
 	free(got_line->parsed_line);
 	while(i < 100)
 	{

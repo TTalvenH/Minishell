@@ -6,11 +6,13 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 10:46:21 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/08 10:48:22 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/08 12:01:51 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern t_env	*g_environ;
 
 int	unset_env(const char *name)
 {

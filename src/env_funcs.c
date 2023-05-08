@@ -6,11 +6,13 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:58:26 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/08 10:44:53 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/08 12:01:48 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+extern t_env	*g_environ;
 
 int	get_environments(void)
 {

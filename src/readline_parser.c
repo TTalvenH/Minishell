@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/04 11:39:22 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/08 11:52:54 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char *initial_parse(const char *str, t_new_line *got_line)
 			i += write_and_count(p[1], str[i], &size);
 		}
 		else if(str[i] == '$' && expecting != '\'')
-			i += replace_env(&str[i], p[1], got_line->envs_pointers, &size);
+			i += replace_env(&str[i], p[1], got_line->our_environ, &size);
 		else
 			i += write_and_count(p[1], str[i], &size);
 	}

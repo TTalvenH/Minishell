@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:02:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/08 11:09:33 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/08 11:55:45 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	echo(char **args, char **environments)
 	}
 	while (args[i])
 	{
-		write(1, &args[i], ft_strlen(args[i]));
+		ft_printf("%s", args[i]);
 		i++;
 	}
 	if (!linebreak)
