@@ -14,7 +14,6 @@
 
 extern t_env	*g_environ;
 
-
 static void	handler(int sig)
 {
 	(void)sig;

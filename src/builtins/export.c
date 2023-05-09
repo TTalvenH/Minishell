@@ -28,7 +28,7 @@ int	export_env(const char *export_env)
 		if (!env_compare(head->env, holder.env, EQUAL_SIGN))
 		{
 			update_env(holder.env, head);
-			return (EXIT_SUCCESS);	
+			return (EXIT_SUCCESS);
 		}
 		if (!head->next)
 			break ;

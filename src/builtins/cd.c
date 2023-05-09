@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 10:45:21 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/08 10:52:22 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/09 12:38:53 by ttalvenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	absolute_path(char *dir, char *old_pwd)
 
 static int	relative_path(char *dir, char *cwd, char *old_pwd)
 {
-	char *path;
+	char	*path;
 
 	path = ft_strjoin_slash(cwd, dir);
 	if (!path)
@@ -55,7 +55,7 @@ int	cd(char	*dir)
 	char	cwd[PATH_MAX];
 	char	env_pwd[5];
 	char	env_oldpwd[8];
-	char 	*pwd;
+	char	*pwd;
 
 	ft_strlcpy(env_pwd, "PWD=", 5);
 	ft_strlcpy(env_oldpwd, "OLDPWD=", 8);

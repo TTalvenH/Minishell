@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   piping.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ttalvenh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/09 12:39:51 by ttalvenh          #+#    #+#             */
+/*   Updated: 2023/05/09 12:39:54 by ttalvenh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -32,13 +44,13 @@ char	*find_cmd_path(char *cmd)
 	return (NULL);
 }
 
-pid_t	child_execve(char **arg, t_pipe_chain *pipes, t_new_line *got_line)
+pid_t	child_exe(char **arg, t_pipe_chain *pipes, t_new_line *got_line)
 {
-	extern char **environ;
-	pid_t	pid;
-	pid = fork();
-	char *cmd_path;
+	extern char	**environ;
+	char		*cmd_path;
+	pid_t		pid;
 
+	pid = fork();
 	cmd_path = NULL;
 	if (pid == -1)
 	{
@@ -81,16 +93,17 @@ void	set_io_fd(t_new_line *got_line, t_pipe_chain *pipes, int i)
 
 int	init_pipes(t_pipe_chain *pipes)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < pipes->pipe_count)
 	{
 		if (pipe(pipes->pipe_fds[i++]))
-			return (1);			
+			return (1);
 	}
 	return (0);
 }
+
 int	piping(t_new_line *got_line)
 {
 	int				i;
@@ -104,7 +117,7 @@ int	piping(t_new_line *got_line)
 	while (i <= pipes.pipe_count)
 	{
 		set_io_fd(got_line, &pipes, i);
-		pipes.pids[i] = child_execve(got_line->cmd_pre[i].args, &pipes, got_line);
+		pipes.pids[i] = child_exe(got_line->cmd_pre[i].args, &pipes, got_line);
 		i++;
 	}
 	if (pipes.pipe_count)
@@ -112,10 +125,10 @@ int	piping(t_new_line *got_line)
 	i = 0;
 	if (pipes.pipe_count)
 	{
-		while(i < pipes.pipe_count + 1)
+		while (i < pipes.pipe_count + 1)
 			waitpid(pipes.pids[i++], NULL, 0);
 	}
-	else 
+	else
 		wait(0);
 	return (0);
 }
