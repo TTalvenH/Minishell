@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-
-extern t_env	*g_environ;
+#include "minishell.h"
 
 int	get_environments(void)
 {

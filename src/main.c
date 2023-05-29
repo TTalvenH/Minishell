@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-extern t_env	*g_environ;
+t_env	*g_environ = NULL;
 
 static void	handler(int sig)
 {

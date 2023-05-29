@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-
-extern t_env	*g_environ;
+#include "minishell.h"
 
 int	valid_identifier(const char *export_env)
 {
@@ -34,17 +32,17 @@ int	llist_to_array(t_new_line *new_line)
 
 	i = 0;
 	current = g_environ;
-	while(current)
+	while (current)
 	{
 		current = current->next;
 		i++;
 	}
 	new_line->our_environ = malloc((i) * sizeof(char *));
-	if(!new_line->our_environ)
+	if (!new_line->our_environ)
 		return (EXIT_FAILURE);
 	i = 0;
 	current = g_environ;
-	while(current->env[0])
+	while (current->env[0])
 	{
 		new_line->our_environ[i] = &(current->env[0]);
 		current = current->next;

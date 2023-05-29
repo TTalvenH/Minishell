@@ -21,7 +21,7 @@
 # include <stdlib.h>
 # include <termios.h>
 # include <signal.h>
-# include "../libft/include/get_next_line.h"
+# include "get_next_line.h"
 # include "libft.h"
 # define NO_EQUAL_SIGN 0
 # define EQUAL_SIGN 1
@@ -40,7 +40,7 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-t_env	*g_environ;
+extern t_env	*g_environ;
 
 typedef struct s_new_line
 {

@@ -13,8 +13,6 @@
 #include "minishell.h"
 #include "libft.h"
 
-extern t_env	*g_environ;
-
 int	copy_to_location(const char *str, char *dst)
 {
 	int	i;

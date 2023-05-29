@@ -46,7 +46,6 @@ char	*find_cmd_path(char *cmd)
 
 pid_t	child_exe(char **arg, t_pipe_chain *pipes, t_new_line *got_line)
 {
-	extern char	**environ;
 	char		*cmd_path;
 	pid_t		pid;
 

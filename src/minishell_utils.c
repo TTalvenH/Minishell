@@ -3,7 +3,7 @@
 
 int	close_pipes(t_pipe_chain *pipes)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < pipes->pipe_count)
@@ -18,31 +18,31 @@ int	close_pipes(t_pipe_chain *pipes)
 char	check_quotes(char *str, int i, char expecting)
 {
 	if (str[i] == '\'' || str[i] == '\"')
-		{
-			if (expecting && str[i] == expecting)
-				expecting = 0;
-			else if (!expecting)
-				expecting = str[i];
-		}
+	{
+		if (expecting && str[i] == expecting)
+			expecting = 0;
+		else if (!expecting)
+			expecting = str[i];
+	}
 	return (expecting);
 }
 
 int	free_got_line(t_new_line *got_line)
 {	
-	int i;
+	int	i;
 
 	i = 0;
 	if (got_line->exec_lines)
 		free(got_line->exec_lines);
 	free(got_line->our_environ);
 	free(got_line->parsed_line);
-	while(i < 100)
+	while (i < 100)
 	{
-		if(got_line->cmd_pre[i].args)
+		if (got_line->cmd_pre[i].args)
 			free(got_line->cmd_pre[i].args);
-		if(got_line->cmd_pre[i].in_fd > 0)
+		if (got_line->cmd_pre[i].in_fd > 0)
 			close(got_line->cmd_pre[i].in_fd);
-		if(got_line->cmd_pre[i].out_fd > 0)
+		if (got_line->cmd_pre[i].out_fd > 0)
 			close(got_line->cmd_pre[i].out_fd);
 		i++;
 	}
