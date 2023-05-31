@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttalvenh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:39:51 by ttalvenh          #+#    #+#             */
-/*   Updated: 2023/05/09 12:39:54 by ttalvenh         ###   ########.fr       */
+/*   Updated: 2023/05/31 23:25:57 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int	piping(t_new_line *got_line)
 	i = 0;
 	while (pipes.pids[i])
 	{
-		waitpid(pipes.pids[i++], NULL, 0);
+		waitpid(pipes.pids[i++], &j, 0);
 	}
-	return (0);
+	return (j);
 }

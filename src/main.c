@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/08 13:51:33 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/01 00:14:09 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,31 @@ static void	handler(int sig)
 	close(STDIN_FILENO);
 }
 
+int	add_previous_result(char *str)
+{
+	char		numberstr[20];
+	int			i;
+	int			k;
+
+	i = -1;
+	k = 2;
+	numberstr[0] = '?';
+	numberstr[1] = '=';
+	while (str && str[++i])
+		numberstr[k++] = str[i];
+	numberstr[k] = '\0';
+	ft_printf("WE got %s$\n", numberstr);
+	export_env(numberstr);
+	return (0);
+}
+
 int	main(void)
 {
 	char		history_path[50];
 	char		*line;
 	t_new_line	got_line;
 	int			copy;
+	static char	*result = NULL;
 
 	signal(SIGINT, &handler);
 	if (get_environments())
@@ -38,6 +57,8 @@ int	main(void)
 		dup2(copy, STDIN_FILENO);
 		line = NULL;
 		ft_bzero(&got_line, sizeof(t_new_line));
+		//add_previous_result(result);
+		add_previous_result(result);
 		llist_to_array(&got_line);
 		line = readline("Minishell: ");
 		if (line == NULL && !write(0, NULL, 0))
@@ -48,7 +69,7 @@ int	main(void)
 			got_line.length = add_to_history(line, history_path);
 			if (!got_line.length || read_line_parser(line, &got_line))
 				continue ;
-			piping(&got_line);
+			result = ft_itoa(piping(&got_line));
 			free_got_line(&got_line);
 			free(line);
 		}

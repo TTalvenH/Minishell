@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/08 12:02:22 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/05/31 23:30:22 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_new_line
 {
 	char				**exec_lines;
 	char				*parsed_line;
+	char				*previous_result;
 	char				**our_environ;
 	t_cmd_pre			cmd_pre[100];
 	int					length;

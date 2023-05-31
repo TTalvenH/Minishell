@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttalvenh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:39:10 by ttalvenh          #+#    #+#             */
-/*   Updated: 2023/05/09 12:39:15 by ttalvenh         ###   ########.fr       */
+/*   Updated: 2023/05/31 20:08:24 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int	exit_builtin(char *args)
 {
-	args = NULL;
-	exit(0);
+	int	status;
+
+	ft_printf("%s\n", args);
+	status = ft_itoa(args);
+	exit(status);
 }
