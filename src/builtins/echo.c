@@ -33,5 +33,5 @@ int	echo(char **args, char **environments)
 	}
 	if (!linebreak)
 		write(1, "\n", 1);
-	exit(EXIT_SUCCESS);
+	return (0);
 }

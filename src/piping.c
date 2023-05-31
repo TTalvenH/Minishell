@@ -106,28 +106,29 @@ int	init_pipes(t_pipe_chain *pipes)
 int	piping(t_new_line *got_line)
 {
 	int				i;
+	int				j;
 	t_pipe_chain	pipes;
 
-	ft_bzero(&pipes, sizeof(t_pipe_chain));
+	j = 0;
 	i = 0;
+	ft_bzero(&pipes, sizeof(t_pipe_chain));
 	pipes.pipe_count = got_line->line_count - 1;
 	if (init_pipes(&pipes))
 		return (1);
 	while (i <= pipes.pipe_count)
 	{
 		set_io_fd(got_line, &pipes, i);
-		pipes.pids[i] = child_exe(got_line->cmd_pre[i].args, &pipes, got_line);
+		if (handle_builtins(got_line->cmd_pre[i].args, &pipes, got_line))
+			pipes.pids[j++] = child_exe(got_line->cmd_pre[i].args,
+					&pipes, got_line);
 		i++;
 	}
 	if (pipes.pipe_count)
 		close_pipes(&pipes);
 	i = 0;
-	if (pipes.pipe_count)
+	while (pipes.pids[i])
 	{
-		while (i < pipes.pipe_count + 1)
-			waitpid(pipes.pids[i++], NULL, 0);
+		waitpid(pipes.pids[i++], NULL, 0);
 	}
-	else
-		wait(0);
 	return (0);
 }

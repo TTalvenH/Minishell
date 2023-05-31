@@ -112,6 +112,7 @@ int		skip_quotes(const char *str);
 
 //piping
 int		piping(t_new_line *got_line);
+int		handle_builtins(char **args, t_pipe_chain *pipes, t_new_line *got_line);
 
 //builtins
 int		cd(char	*dir);

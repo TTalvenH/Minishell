@@ -386,7 +386,6 @@ int	replace_env(const char *str, int fd, char **ptrs, int *size)
 	return (k);
 }
 
-
 int assign_cmd_pre(t_new_line *got_line)
 {
 	int			i;
