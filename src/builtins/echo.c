@@ -12,23 +12,40 @@
 
 #include "minishell.h"
 
-int	echo(char **args, char **environments)
+int	check_flag(char *flag)
+{
+	int	i;
+
+	i = 1;
+	while (flag[i])
+	{
+		if (flag[i] != 'n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	echo(char **args)
 {
 	int	linebreak;
 	int	i;
 
 	linebreak = 0;
 	i = 0;
-	(void)environments;
-	if (args[i][0] && args[i][0] == '-' && args[i][1]
-		&& args[i][0] == 'n' && args[i][2] && args[i][0] == '\0')
+	if (args[i][0] == '-')
 	{
-		linebreak = 1;
-		i++;
+		if (!check_flag(args[i]))
+		{
+			linebreak = 1;
+			i++;
+		}
 	}
 	while (args[i])
 	{
 		ft_printf("%s", args[i]);
+		if (args[i + 1])
+			ft_printf(" ");
 		i++;
 	}
 	if (!linebreak)

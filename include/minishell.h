@@ -119,6 +119,6 @@ int		handle_builtins(char **args, t_pipe_chain *pipes, t_new_line *got_line);
 int		cd(char	*dir);
 int		pwd(char *args);
 int		exit_builtin(char *args);
-int		echo(char **args, char **environments);
+int		echo(char **args);
 
 #endif

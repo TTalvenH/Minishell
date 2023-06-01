@@ -16,7 +16,7 @@ int	handle_builtins(char **args, t_pipe_chain *pipes, t_new_line *got_line)
 	{
 		dup2(pipes->out_fd, STDOUT_FILENO);
 		if (cmd == 1)
-			echo(&args[1], NULL);
+			echo(&args[1]);
 		else if (cmd == 2)
 			cd(args[1]);
 		else if (cmd == 3)

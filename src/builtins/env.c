@@ -26,6 +26,5 @@ int	print_all_envs(t_new_line *got_line)
 		}
 		ft_printf("%s\n", got_line->our_environ[i++]);
 	}
-		
 	return (EXIT_SUCCESS);
 }
