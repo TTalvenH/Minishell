@@ -30,7 +30,7 @@ static int	absolute_path(char *dir, char *old_pwd)
 		if (chdir(getenv("HOME")))
 			return (error());
 	}
-	if (export_env(old_pwd))
+	if (export_env(old_pwd, 0))
 		return (error());
 	return (0);
 }
@@ -45,7 +45,7 @@ static int	relative_path(char *dir, char *cwd, char *old_pwd)
 	if (chdir(path))
 		return (error());
 	free (path);
-	if (export_env(old_pwd))
+	if (export_env(old_pwd, 0))
 		return (error());
 	return (0);
 }
@@ -70,7 +70,7 @@ int	cd(char	*dir)
 	if (!getcwd(cwd, sizeof(cwd)))
 		return (error());
 	pwd = ft_strjoin(env_pwd, cwd);
-	export_env(pwd);
+	export_env(pwd, 0);
 	free (pwd);
 	return (0);
 }

@@ -34,7 +34,7 @@ int	add_previous_result(char *str)
 		numberstr[k++] = str[i];
 	numberstr[k] = '\0';
 	ft_printf("WE got %s$\n", numberstr);
-	export_env(numberstr);
+	export_env(numberstr, 1);
 	return (0);
 }
 

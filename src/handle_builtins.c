@@ -22,7 +22,7 @@ int	handle_builtins(char **args, t_pipe_chain *pipes, t_new_line *got_line)
 		else if (cmd == 3)
 			pwd(NULL);
 		else if (cmd == 4)
-			export_env(args[1]);
+			export_env(args[1], 0);
 		else if (cmd == 5)
 			unset_env(args[1]);
 		else if (cmd == 6)
