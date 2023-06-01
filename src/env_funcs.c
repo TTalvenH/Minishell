@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:58:26 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/08 12:01:48 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:08:12 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,12 @@ int	get_environments(void)
 
 	i = 0;
 	g_environ = malloc(sizeof(t_env));
+	g_environ->env[0] = '\0';
+	export_env("?=0", 1);
+	g_environ->next = malloc(sizeof(t_env));
 	if (!g_environ)
 		return (EXIT_FAILURE);
-	current = g_environ;
+	current = g_environ->next;
 	while (environ[i])
 	{
 		update_env(environ[i++], current);

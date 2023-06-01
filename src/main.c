@@ -6,13 +6,13 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/01 00:14:09 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:08:02 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*g_environ = NULL;
+t_env	*g_environ;
 
 static void	handler(int sig)
 {
@@ -20,7 +20,7 @@ static void	handler(int sig)
 	close(STDIN_FILENO);
 }
 
-int	add_previous_result(char *str)
+int	add_previous_result(char **str)
 {
 	char		numberstr[20];
 	int			i;
@@ -30,9 +30,11 @@ int	add_previous_result(char *str)
 	k = 2;
 	numberstr[0] = '?';
 	numberstr[1] = '=';
-	while (str && str[++i])
-		numberstr[k++] = str[i];
-	numberstr[k] = '\0'; // memoery leak remember to free str.
+	while (str[0] && str[0][++i])
+		numberstr[k++] = str[0][i];
+	numberstr[k] = '\0';
+	free(str[0]);
+	str[0] = NULL;
 	export_env(numberstr, 1);
 	return (0);
 }
@@ -45,6 +47,7 @@ int	main(void)
 	int			copy;
 	static char	*result = NULL;
 
+	
 	signal(SIGINT, &handler);
 	if (get_environments())
 		return (EXIT_FAILURE);
@@ -56,8 +59,7 @@ int	main(void)
 		dup2(copy, STDIN_FILENO);
 		line = NULL;
 		ft_bzero(&got_line, sizeof(t_new_line));
-		//add_previous_result(result);
-		add_previous_result(result);
+		add_previous_result(&result);
 		llist_to_array(&got_line);
 		line = readline("Minishell: ");
 		if (line == NULL && !write(0, NULL, 0))

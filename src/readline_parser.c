@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/08 11:52:54 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:31:06 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,7 +350,18 @@ int	fill_cmd_struct(char *line, t_cmd_pre *cmd, int ac, t_new_line *got_line)
 	}
 	return (EXIT_FAILURE);
 }
+int	question_mark_found(int fd, int *size, const char *str)
+{
+	int	i;
 
+	i = 2;
+	while (str[i])
+	{
+		write(fd, &str[i++], 1);
+		(*size)++;
+	}
+	return (2);
+}
 int	replace_env(const char *str, int fd, char **ptrs, int *size)
 {
 	char	*buffer;
@@ -358,16 +369,15 @@ int	replace_env(const char *str, int fd, char **ptrs, int *size)
 	int		k;
 	int		i;
 
+	if (str[1] == '?')
+		return (question_mark_found(fd, size, ptrs[0]));
 	i = ft_strlen(str);
 	buffer = malloc(i + 1);
 	buffer[0] = str[0];
-	k = 1;
+	k = 0;
 	found = NULL;
-	while (str[k] && str[k] != ' ' && (ft_isalnum(str[k]) || str[k] == '_'))
-	{
+	while (str[++k] && str[k] != ' ' && (ft_isalnum(str[k]) || str[k] == '_'))
 		buffer[k] = str[k];
-		k++;
-	}
 	buffer[k] = '\0';
 	i = -1;
 	while (ptrs[++i] && !found)

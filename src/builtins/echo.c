@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:02:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/08 11:55:45 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:18:10 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	echo(char **args)
 
 	linebreak = 0;
 	i = 0;
-	if (args[i][0] == '-')
+	if (args[i] && args[i][0] == '-') //added the args[i] check because else we segfault
 	{
 		if (!check_flag(args[i]))
 		{
