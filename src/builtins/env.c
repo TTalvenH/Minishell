@@ -18,6 +18,14 @@ int	print_all_envs(t_new_line *got_line)
 
 	i = 0;
 	while (got_line->our_environ[i])
+	{
+		if (got_line->our_environ[i] && got_line->our_environ[i][0] == '?')
+		{
+			i++;
+			continue ;
+		}
 		ft_printf("%s\n", got_line->our_environ[i++]);
+	}
+		
 	return (EXIT_SUCCESS);
 }
