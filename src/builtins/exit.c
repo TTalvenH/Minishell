@@ -11,12 +11,45 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "libft.h"
 
-int	exit_builtin(char *args)
+static int	check_argument(char *argument)
+{
+	int	i;
+
+	i = 0;
+	if (!argument[i])
+		return (1);
+	while (argument[i])
+	{
+		if (!ft_isdigit(argument[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	exit_builtin(char **args)
 {
 	int	status;
 
-	ft_printf("%s\n", args);
-	status = ft_itoa(args);
+	status = 0;
+	ft_printf("exit\n");
+	if (args[1])
+	{
+		if (check_argument(args[1]))
+		{
+			ft_printf_fd(2, "Minishell: exit: %s: ", args[1]);
+			ft_printf_fd(2, "numeric argument required\n");
+			exit (255);
+		}
+		else
+			status = ft_atoi(args[1]);
+	}
+	if (args[1] && args[2])
+	{
+		ft_printf_fd(2, "Minishell: exit: too many arguments\n");
+		return (0);
+	}
 	exit(status);
 }

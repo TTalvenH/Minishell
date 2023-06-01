@@ -5,11 +5,11 @@ int	handle_builtins(char **args, t_pipe_chain *pipes, t_new_line *got_line)
 	int	cmd;
 	int	stdout;
 	
-	int i; //remove
-	i = -1; //remove
-	while(args[++i])//remove
-		ft_printf ("We have %d) %s\n", i + 1, args[i]); //remove
-	ft_printf("We have %d) %s\n", i + 1, args[i]); //remove
+	// int i; //remove
+	// i = -1; //remove
+	// while(args[++i])//remove
+	// 	ft_printf ("We have %d) %s\n", i + 1, args[i]); //remove
+	// ft_printf("We have %d) %s\n", i + 1, args[i]); //remove
 	stdout = dup(STDOUT_FILENO);
 	cmd = has_builtin(args[0]);
 	if (cmd)
@@ -28,7 +28,7 @@ int	handle_builtins(char **args, t_pipe_chain *pipes, t_new_line *got_line)
 		else if (cmd == 6)
 			print_all_envs(got_line);
 		else if (cmd == 7)
-			exit (ft_atoi(args[2]));//remove
+			exit_builtin(args);
 		dup2(stdout, STDOUT_FILENO);
 		return (0);
 	}

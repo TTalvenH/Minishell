@@ -27,6 +27,7 @@
 # define EQUAL_SIGN 1
 # define PATH_MAX 1024
 
+
 typedef struct s_cmd_pre{
 	char				**args;
 	int					in_fd;
@@ -40,7 +41,6 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-extern t_env	*g_environ;
 
 typedef struct s_new_line
 {
@@ -63,6 +63,8 @@ typedef struct s_pipe_chain
 	int		out_fd;
 	pid_t	pids[100];
 }	t_pipe_chain;
+
+extern t_env	*g_environ;
 
 // environment functions
 int		get_environments(void);
@@ -118,7 +120,7 @@ int		handle_builtins(char **args, t_pipe_chain *pipes, t_new_line *got_line);
 //builtins
 int		cd(char	*dir);
 int		pwd(char *args);
-int		exit_builtin(char *args);
+int		exit_builtin(char **args);
 int		echo(char **args);
 
 #endif

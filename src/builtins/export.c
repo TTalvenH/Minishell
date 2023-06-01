@@ -12,15 +12,13 @@
 
 #include "minishell.h"
 
-extern t_env	*g_environ;
-
 int	export_env(const char *export_env, int instruction)
 {
 	t_env	*head;
 	t_env	holder;
 
 	head = g_environ;
-	if (instruction == 0 && valid_identifier(export_env) || !ft_strchr(export_env, '='))
+	if ((instruction == 0 && valid_identifier(export_env)) || !ft_strchr(export_env, '='))
 		return (1);
 	update_env(export_env, &holder);
 	while (head)

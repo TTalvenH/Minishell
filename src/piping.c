@@ -127,8 +127,6 @@ int	piping(t_new_line *got_line)
 		close_pipes(&pipes);
 	i = 0;
 	while (pipes.pids[i])
-	{
 		waitpid(pipes.pids[i++], &j, 0);
-	}
 	return (j);
 }
