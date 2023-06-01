@@ -68,7 +68,7 @@ typedef struct s_pipe_chain
 int		get_environments(void);
 int		free_all_env(t_env *head);
 int		update_env(const char *env, t_env *new_env);
-int		export_env(const char *export_env);
+int		export_env(const char *export_env, int instruction);
 int		unset_env(const char *name);
 int		print_all_envs(t_new_line *got_line);
 int		llist_to_array(t_new_line *new_line);

@@ -32,7 +32,7 @@ int	add_previous_result(char *str)
 	numberstr[1] = '=';
 	while (str && str[++i])
 		numberstr[k++] = str[i];
-	numberstr[k] = '\0';
+	numberstr[k] = '\0'; // memoery leak remember to free str.
 	export_env(numberstr, 1);
 	return (0);
 }
