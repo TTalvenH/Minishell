@@ -12,6 +12,7 @@
 
 #include <stdlib.h>
 #include "libft.h"
+#include "minishell.h"
 
 static int	check_argument(char *argument)
 {
@@ -29,12 +30,13 @@ static int	check_argument(char *argument)
 	return (0);
 }
 
-int	exit_builtin(char **args)
+int	exit_builtin(char **args, t_pipe_chain *pipes)
 {
 	int	status;
 
 	status = 0;
-	ft_printf("exit\n");
+	if (!pipes->pipe_count)
+		ft_printf("exit\n");
 	if (args[1])
 	{
 		if (check_argument(args[1]))
@@ -49,7 +51,7 @@ int	exit_builtin(char **args)
 	if (args[1] && args[2])
 	{
 		ft_printf_fd(2, "Minishell: exit: too many arguments\n");
-		return (0);
+		return (1);
 	}
 	exit(status);
 }

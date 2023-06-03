@@ -47,7 +47,6 @@ int	main(void)
 	int			copy;
 	static char	*result = NULL;
 
-	
 	signal(SIGINT, &handler);
 	if (get_environments())
 		return (EXIT_FAILURE);

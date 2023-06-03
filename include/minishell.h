@@ -52,6 +52,7 @@ typedef struct s_new_line
 	int					length;
 	int					line_count;
 	int					output_fd;
+	int					builtin;
 	short				exit_req;
 }	t_new_line;
 
@@ -116,11 +117,15 @@ int		skip_quotes(const char *str);
 //piping
 int		piping(t_new_line *got_line);
 int		handle_builtins(char **args, t_pipe_chain *pipes, t_new_line *got_line);
+int		run_builtin(char **args, t_pipe_chain *pipes, t_new_line *got_line);
+pid_t	create_child(char **arg, t_pipe_chain *pipes, t_new_line *got_line);
+
+
 
 //builtins
 int		cd(char	*dir);
 int		pwd(char *args);
-int		exit_builtin(char **args);
+int		exit_builtin(char **args, t_pipe_chain *pipes);
 int		echo(char **args);
 
 #endif

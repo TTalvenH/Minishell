@@ -33,7 +33,7 @@ int	echo(char **args)
 
 	linebreak = 0;
 	i = 0;
-	if (args[i] && args[i][0] == '-') //added the args[i] check because else we segfault
+	if (args[i] && args[i][0] == '-')
 	{
 		if (!check_flag(args[i]))
 		{
