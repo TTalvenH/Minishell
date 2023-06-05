@@ -59,6 +59,8 @@ int	pipe_logic(t_pipe_chain *pipes, t_new_line *got_line)
 	{
 		got_line->builtin = has_builtin(got_line->cmd_pre[i].args[0]);
 		set_io_fd(got_line, pipes, i);
+		if (got_line->builtin < 0)
+			break ;
 		if (pipes->pipe_count || !got_line->builtin)
 			pipes->pids[i]
 				= create_child(got_line->cmd_pre[i].args, pipes, got_line);

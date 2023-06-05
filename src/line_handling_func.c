@@ -48,7 +48,9 @@ int	has_builtin(char *exec_line)
 	int	i;
 
 	i = 0;
-	while (exec_line[i] && exec_line[i] == ' ')
+	if (exec_line == NULL)
+		return (-1);
+	while (exec_line[i] && exec_line[i] == ' ' && exec_line[i])
 		i++;
 	if (exec_line[i] == 'e' && !word_compare(&exec_line[i], "echo", 0))
 		return (1);

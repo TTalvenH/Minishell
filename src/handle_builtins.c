@@ -27,6 +27,7 @@ int	handle_builtins(char **args, t_pipe_chain *pipes, t_new_line *got_line)
 	int	stdout;
 	int	status;
 
+	
 	stdout = dup(STDOUT_FILENO);
 	if (dup2(pipes->out_fd, STDOUT_FILENO) < 0)
 		return (-1);
