@@ -12,9 +12,7 @@
 
 #include "minishell.h"
 
-extern t_env	*g_environ;
-
-int	unset_env(const char *name)
+int	builtin_unset(const char *name)
 {
 	t_env	*tmp;
 	t_env	*previous;
@@ -42,3 +40,15 @@ int	unset_env(const char *name)
 	}
 	return (EXIT_SUCCESS);
 }
+
+int	unset_env(char **name)
+{
+	int	i;
+
+	i = 0;
+	while (name[i])
+		builtin_unset(name[i++]);
+	return (EXIT_SUCCESS);
+}
+
+
