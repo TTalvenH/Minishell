@@ -21,6 +21,8 @@ static int	check_argument(char *argument)
 	i = 0;
 	if (!argument[i])
 		return (1);
+	if (argument[i] == '-' || argument[i] == '+' )
+		i++;
 	while (argument[i])
 	{
 		if (!ft_isdigit(argument[i]))

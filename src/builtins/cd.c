@@ -18,7 +18,7 @@ static int	error(void)
 	return (1);
 }
 
-static int	absolute_path(char *dir, char *old_pwd)
+static int	absolute_path(char *dir, char *old_pwd, t_new_line *got_line)
 {
 	if (dir && ft_strlen(dir))
 	{
@@ -27,7 +27,7 @@ static int	absolute_path(char *dir, char *old_pwd)
 	}
 	else if (!dir)
 	{
-		if (chdir(getenv("HOME")))
+		if (chdir(our_getenv("HOME", got_line) + 5))
 			return (error());
 	}
 	if (export_env(old_pwd, 0))
@@ -50,7 +50,7 @@ static int	relative_path(char *dir, char *cwd, char *old_pwd)
 	return (0);
 }
 
-int	cd(char	*dir)
+int	cd(char	*dir, t_new_line *got_line)
 {
 	char	cwd[PATH_MAX];
 	char	env_pwd[5];
@@ -65,7 +65,7 @@ int	cd(char	*dir)
 	if (dir && dir[0] != '/')
 		relative_path(dir, cwd, pwd);
 	else
-		absolute_path(dir, pwd);
+		absolute_path(dir, pwd, got_line);
 	free (pwd);
 	if (!getcwd(cwd, sizeof(cwd)))
 		return (error());

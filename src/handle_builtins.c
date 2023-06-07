@@ -8,7 +8,7 @@ int	run_builtin(char **args, t_pipe_chain *pipes, t_new_line *got_line)
 	if (got_line->builtin == 1)
 		status = echo(&args[1]);
 	else if (got_line->builtin == 2)
-		status = cd(args[1]);
+		status = cd(args[1], got_line);
 	else if (got_line->builtin == 3)
 		status = pwd(NULL);
 	else if (got_line->builtin == 4)
@@ -27,7 +27,7 @@ int	handle_builtins(char **args, t_pipe_chain *pipes, t_new_line *got_line)
 	int	stdout;
 	int	status;
 
-	
+
 	stdout = dup(STDOUT_FILENO);
 	if (dup2(pipes->out_fd, STDOUT_FILENO) < 0)
 		return (-1);

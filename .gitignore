@@ -2,4 +2,5 @@
 Minishell
 obj
 *.dSYM
-
+a.out
+hello_world.c

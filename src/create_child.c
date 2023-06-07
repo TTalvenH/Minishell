@@ -18,7 +18,6 @@
 #include <unistd.h>
 #include <signal.h>
 
-
 char	*our_getenv(char *str, t_new_line *got_line)
 {
 	int	i;
@@ -37,6 +36,21 @@ char	*our_getenv(char *str, t_new_line *got_line)
 	return (NULL);
 }
 
+char	*relative_path(char *cmd)
+{
+	char	cwd[PATH_MAX];
+	char	*cmd_path;
+
+	cmd_path = NULL;
+	if (!getcwd(cwd, sizeof(cwd)))
+		return (NULL);
+	cmd_path = ft_strjoin_slash(cwd, cmd);
+	if (!access(cmd_path, F_OK))
+		return (cmd_path);
+	else
+		return (NULL);
+}
+
 char	*find_cmd_path(char *cmd, t_new_line *got_line)
 {
 	int			i;
@@ -48,11 +62,13 @@ char	*find_cmd_path(char *cmd, t_new_line *got_line)
 		return (NULL);
 	if ((cmd[0] == '/' && !access(cmd, F_OK)))
 		return (cmd);
-	paths = ft_split(our_getenv("PATH", got_line), ':');
+	else if (!ft_strncmp(cmd, "./", 2) || !ft_strncmp(cmd, "../", 3))
+		return (relative_path(cmd));
+	paths = ft_split(our_getenv("PATH", got_line) + 5, ':');
 	while (paths[i] != NULL)
-	{
+	{	
 		cmd_path = ft_strjoin_slash(paths[i++], cmd);
-		if (access(cmd_path, F_OK) == 0)
+		if (!access(cmd_path, F_OK))
 		{
 			ft_free_array(paths);
 			return (cmd_path);

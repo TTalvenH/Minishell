@@ -113,6 +113,7 @@ char	check_quotes(char *str, int i, char expecting);
 int		free_got_line(t_new_line *got_line);
 int		skip_redirect(const char *str, int key, int k, int i);
 int		skip_quotes(const char *str);
+char	*our_getenv(char *str, t_new_line *got_line);
 
 //piping
 int		piping(t_new_line *got_line);
@@ -123,7 +124,7 @@ pid_t	create_child(char **arg, t_pipe_chain *pipes, t_new_line *got_line);
 
 
 //builtins
-int		cd(char	*dir);
+int		cd(char	*dir, t_new_line *got_line);
 int		pwd(char *args);
 int		exit_builtin(char **args, t_pipe_chain *pipes);
 int		echo(char **args);

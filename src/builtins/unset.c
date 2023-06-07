@@ -20,7 +20,7 @@ int	unset_env(const char *name)
 	t_env	*previous;
 	t_env	*next;
 
-	if (!g_environ)
+	if (!g_environ || !name)
 		return (EXIT_SUCCESS);
 	tmp = g_environ->next;
 	if (!env_compare(name, g_environ->env, NO_EQUAL_SIGN))
