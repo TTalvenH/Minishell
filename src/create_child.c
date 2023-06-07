@@ -18,7 +18,26 @@
 #include <unistd.h>
 #include <signal.h>
 
-char	*find_cmd_path(char *cmd)
+
+char	*our_getenv(char *str, t_new_line *got_line)
+{
+	int	i;
+	int	str_len;
+
+	str_len = ft_strlen(str);
+	i = 0;
+	if (!str)
+		return (NULL);
+	while (got_line->our_environ[i])
+	{
+		if (!ft_strncmp(str, got_line->our_environ[i], str_len))
+			return (got_line->our_environ[i]);
+		i++;
+	}
+	return (NULL);
+}
+
+char	*find_cmd_path(char *cmd, t_new_line *got_line)
 {
 	int			i;
 	char		**paths;
@@ -29,7 +48,7 @@ char	*find_cmd_path(char *cmd)
 		return (NULL);
 	if ((cmd[0] == '/' && !access(cmd, F_OK)))
 		return (cmd);
-	paths = ft_split(getenv("PATH"), ':');
+	paths = ft_split(our_getenv("PATH", got_line), ':');
 	while (paths[i] != NULL)
 	{
 		cmd_path = ft_strjoin_slash(paths[i++], cmd);
@@ -54,7 +73,7 @@ int	child_process(char **arg, t_pipe_chain *pipes, t_new_line *got_line)
 	if (dup2(pipes->out_fd, STDOUT_FILENO) < 0)
 		return (-1);
 	close_pipes(pipes);
-	cmd_path = find_cmd_path(arg[0]);
+	cmd_path = find_cmd_path(arg[0], got_line);
 	if (got_line->builtin == 0
 		&& (cmd_path == NULL || pipes->in_fd == -2 || pipes->out_fd == -2))
 		ft_printf_fd(2, "Bad command/Broken I/O: %s\n", arg[0]);
