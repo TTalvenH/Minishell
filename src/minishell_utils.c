@@ -64,17 +64,17 @@ int	skip_redirect(const char *str, int key, int k, int i)
 		k = 0;
 		found_something = 1;
 		if (str[i] == '\'' || str[i] == '\"')
-			k = skip_quotes(&str[i]);
+			k = skip_quotes(&str[i], &i, NULL);
 		if (k < 0)
 			return (-1);
-		i += k + 1;
+		i++;
 	}
 	if (!found_something)
 		return (-1);
 	return (i);
 }
 
-int	skip_quotes(const char *str)
+int	skip_quotes(const char *str, int *counter, int *error)
 {
 	int	i;
 	int	key;
@@ -84,7 +84,12 @@ int	skip_quotes(const char *str)
 	while (str[++i])
 	{
 		if (str[i] == key)
+		{
+			*counter += i;
 			return (i);
+		}	
 	}
+	if (error != NULL)
+		*error = -1;
 	return (-1);
 }

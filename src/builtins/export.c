@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 10:48:55 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 16:16:20 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 18:33:19 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	export_env(const char *export_env, int instruction)
 	{
 		if (!env_compare(head->env, holder.env))
 		{
-			update_env(holder.env, head);
+			if ((ft_strchr(holder.env, '=')) != 0)
+				update_env(holder.env, head);
 			return (EXIT_SUCCESS);
 		}
 		if (!head->next)

@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 18:11:12 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 18:22:09 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,27 @@ int	count_cmd_pointers(const char *str, int *c_args, int *c_redirects)
 	int	test;
 
 	test = ft_strlen(str);
-	i = 0;
+	i = -1;
 	*c_args = 0;
 	*c_redirects = 0;
 	if (!str)
 		return (EXIT_FAILURE);
-	while (i < test && str[i])
+	while (++i < test && str[i])
 	{
 		while (i < test && str[i] && str[i] == ' ')
 			i++;
-		if (i < test && str[i] && (str[i] == '<' || str[i] == '>') && ++(*c_redirects))
+		if (i < test && str[i] && (str[i] == '<' || str[i] == '>')
+			&& ++(*c_redirects))
 			i += skip_redirect(&str[i], str[i], 0, 1);
-		if (i < test && str[i] && str[i] != ' ')
+		if (i < test && str[i] && str[i] != ' ' && ++(*c_args))
 		{
-			(*c_args)++;
 			while (str[i] && str[i] != ' ')
 			{
 				if (str[i] && (str[i] == '\'' || str[i] == '\"'))
-					i += skip_quotes(&str[i]);
+					skip_quotes(&str[i], &i, NULL);
 				i++;
 			}
 		}
-		i++;
 	}
 	return (EXIT_SUCCESS);
 }

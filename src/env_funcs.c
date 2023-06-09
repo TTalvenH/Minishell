@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:58:26 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/01 18:08:12 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 18:39:41 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	update_env(const char *env, t_env *new_env)
 
 	i = 0;
 	holder = ft_strchr(env, '=');
+	if (holder == NULL && ft_strchr(new_env->env, '=') == 0)
+		return (EXIT_SUCCESS);
 	while (i <= 248 && env[i])
 	{
 		new_env->env[i] = env[i];
@@ -66,7 +68,7 @@ int	update_env(const char *env, t_env *new_env)
 	}
 	if (holder == NULL)
 	{
-		if (i <= 248 )
+		if (i <= 248)
 			new_env->env[i++] = '=';
 	}
 	new_env->env[i] = '\0';

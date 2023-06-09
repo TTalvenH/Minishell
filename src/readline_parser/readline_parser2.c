@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 16:40:07 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 16:54:36 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 18:24:29 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	count_substring_return(int count, int expecting)
 
 int	count_substrings(char *str)
 {
-	int		i;
-	int		count;
-	char	expecting;
+	int	i;
+	int	count;
+	int	expecting;
 
 	i = 0;
 	count = 1;
@@ -33,7 +33,7 @@ int	count_substrings(char *str)
 	{
 		expecting = 0;
 		if ((str[i] == '\'' || str[i] == '\"') && expecting == 0)
-			expecting = skip_quotes(&str[i]);
+			skip_quotes(&str[i], &i, &expecting);
 		else if ((str[i] == '>' || str[i] == '<' ) && expecting == 0)
 			expecting = skip_redirect(&str[i], str[i], 0, 1);
 		i += expecting;
