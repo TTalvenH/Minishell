@@ -23,12 +23,13 @@ int	our_export(char	**args, t_new_line *got_line)
 	{
 		while (args[i])
 		{
-			export_env(arg[i], 0);
+			export_env(args[i], 0);
 			i++;
 		}
 	}
 	return (EXIT_SUCCESS);
 }
+
 int	export_env(const char *export_env, int instruction)
 {
 	t_env	*head;
@@ -43,6 +44,7 @@ int	export_env(const char *export_env, int instruction)
 		if (!env_compare(head->env, holder.env))
 		{
 			update_env(holder.env, head);
+			ft_printf("we added %s$\n", head->env);
 			return (EXIT_SUCCESS);
 		}
 		if (!head->next)
@@ -50,6 +52,7 @@ int	export_env(const char *export_env, int instruction)
 		head = head->next;
 	}
 	update_env(holder.env, head);
+	ft_printf("we added %s$\n", head->env);
 	head->next = malloc(sizeof(t_env));
 	if (!head->next)
 		return (EXIT_FAILURE);

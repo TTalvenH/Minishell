@@ -18,24 +18,15 @@ int	print_all_envs(t_new_line *got_line, int instruction)
 	static char	*holder = NULL;
 
 	i = 0;
-	while (got_line->our_environ[i] && instruction == 1)
-	{
-		if (got_line->our_environ[i] && got_line->our_environ[i][0] == '?')
-		{
-			i++;
-			continue ;
-		}
-		ft_printf("%s\n", got_line->our_environ[i++]);
-	}
-	while (got_line->our_environ[i] && instruction == 0)
+	while (got_line->our_environ[i])
 	{
 		holder = ft_strchr(got_line->our_environ[i], '=');
-		if (got_line->our_environ[i] && holder[0] && (got_line->our_environ[i][0] == '?' || holder[1]))
-		{
+		if (holder[0] && got_line->our_environ[i][0] != '?' && instruction == 0 && holder[1] == '\0')
+			ft_printf("%s\n", got_line->our_environ[i++]);
+		else if (holder[0] && got_line->our_environ[i][0] != '?' && instruction == 1 && holder[1] != '\0')
+			ft_printf("%s\n", got_line->our_environ[i++]);
+		else 
 			i++;
-			continue ;
-		}
-		ft_printf("%s\n", got_line->our_environ[i++]);
 	}
 	return (EXIT_SUCCESS);
 }

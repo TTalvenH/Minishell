@@ -140,13 +140,11 @@ int	count_cmd_pointers(const char *str, int *c_args, int *c_redirects)
 
 char	*make_arg_string(char *str, int len, int i)
 {
-	int		k;
 	int		p[2];
 	char	*final;
 	int		expecting;
 
 	final = NULL;
-	k = 0;
 	len = 0;
 	expecting = 0;
 	if (!pipe(p))
@@ -315,6 +313,7 @@ char	*get_next_arg(char *str, int i, int len)
 
 	len = 0;
 	pivot = 0;
+	start = 0;
 	while (str[i] && !pivot)
 	{
 		while (str[i] && str[i] == ' ')
