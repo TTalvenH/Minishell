@@ -20,6 +20,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <termios.h>
+# include <sys/wait.h>
 # include <signal.h>
 # include "get_next_line.h"
 # include "libft.h"

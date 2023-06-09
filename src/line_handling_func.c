@@ -12,14 +12,6 @@
 
 #include "minishell.h"
 
-int handle_catcher(t_new_line *new_line, int index, int *k, int i)
-{
-	new_line = NULL;
-	index = 0;
-	k = NULL;
-	i = 0;
-	return (0);
-}
 
 int	word_compare(char *exec_line, char *word, int instruction)
 {
