@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 20:09:08 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 23:12:16 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int		create_heredoc(char *line, int i, int len);
 int		get_cmd_fds(t_cmd_pre *cmd, char *line, int i);
 int		replace_env(const char *str, int fd, char **ptrs, int *size);
 int		question_mark_found(int fd, int *size, const char *str);
+int		find_index_of(const char *str, char c);
 
 //handling 
 int		word_compare(char *exec_line, char *word, int instruction);

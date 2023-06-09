@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:58:26 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 18:39:41 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 23:13:03 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,26 @@ int	free_all_env(t_env *head)
 
 int	update_env(const char *env, t_env *new_env)
 {
-	int					i;
-	char				*holder;
+	int	i;
+	int	holder;
 
 	i = 0;
-	holder = ft_strchr(env, '=');
-	if (holder == NULL && ft_strchr(new_env->env, '=') == 0)
-		return (EXIT_SUCCESS);
+	holder = find_index_of(env, '=');
 	while (i <= 248 && env[i])
 	{
 		new_env->env[i] = env[i];
 		i++;
 	}
-	if (holder == NULL)
+	if (holder++ != 0)
 	{
-		if (i <= 248)
-			new_env->env[i++] = '=';
+		if (env[holder] == '\0' && new_env->env[holder] != 0)
+		{
+			ft_printf("we did success %s\n", new_env->env);
+			return (EXIT_SUCCESS);
+		}
 	}
+	else if (i <= 248)
+		new_env->env[i++] = '=';
 	new_env->env[i] = '\0';
 	return (EXIT_SUCCESS);
 }
