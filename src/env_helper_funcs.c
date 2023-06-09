@@ -57,7 +57,7 @@ int	env_compare(const char *env1, const char *env2)
 	int	i;
 
 	i = 0;
-	while (env1[i] && env2[i] && env1[i] != '=' && env2[i] != '=')
+	while (env1[i] && env2[i] && env1[i] != '=' && env2[i] != '=' && env1[i] == env2[i])
 		i++;
 	if (env1[i] && env2[i] && env1[i] == '=' && env2[i] == '=')
 		return (EXIT_SUCCESS);
