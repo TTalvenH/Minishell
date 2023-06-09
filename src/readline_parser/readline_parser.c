@@ -6,51 +6,12 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/01 19:08:03 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 17:00:12 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "libft.h" //! poista
 
-int	count_substrings(char *str)
-{
-	int		i;
-	int		count;
-	char	expecting;
-
-	i = 0;
-	count = 1;
-	while (str[i])
-	{
-		expecting = 0;
-		if(str[i] == '\'' || str[i] == '\"')
-		{
-			expecting = skip_quotes(&str[i]);
-			if (expecting < 0)
-				return (-1);
-			i += expecting;
-		}
-		if(str[i] == '>' || str[i] == '<')
-		{
-			expecting = skip_redirect(&str[i], str[i], 0, 1);
-			if (expecting < 0)
-				return (expecting);
-			i += expecting;
-		}
-		if (str[i] && str[i] == '|')
-			count++;
-		if(str[i])
-			i++;
-	}
-	return (count);
-}
-
-int write_and_count(int fd, int character, int *size)
-{
-	*size += write(fd, &character, 1);
-	return (1);
-}
 char *initial_parse(const char *str, t_new_line *got_line)
 {
 	char	*final;
@@ -87,23 +48,6 @@ char *initial_parse(const char *str, t_new_line *got_line)
 	final[size] = '\0';
 	read(p[0], final, size);
 	return (final);
-}
-
-int	read_line_parser(char *str, t_new_line *got_line)
-{
-	got_line->parsed_line = initial_parse(str, got_line);
-	got_line->line_count = count_substrings(got_line->parsed_line);
-	if (got_line->line_count > 0)
-	{
-		got_line->exec_lines = malloc(got_line->line_count * sizeof(char *));
-		if (!got_line->exec_lines)
-			return (free_got_line(got_line));
-		assign_pointers(got_line->parsed_line, got_line, (-1));
-		if (!assign_cmd_pre(got_line))
-			return (EXIT_FAILURE);
-		return (EXIT_SUCCESS);
-	}
-	return (EXIT_FAILURE);
 }
 
 int	count_cmd_pointers(const char *str, int *c_args, int *c_redirects)
@@ -250,27 +194,7 @@ int	create_heredoc(char *line)
 	}
 	return (-1);
 }
-int	get_cmd_fds(t_cmd_pre *cmd, char *line, int i)
-{
-	i = 0;
 
-	cmd->in_fd = (-5);
-	cmd->out_fd = (-5);
-	cmd->stopped_heredoc = 0;
-	while (line[i] && cmd->in_fd != (-2) && cmd->out_fd != (-2))
-	{
-		if (cmd->stopped_heredoc < 0)
-			return (EXIT_FAILURE);
-		if (line[i] == '>')
-			get_out_fd(cmd, line, 0);
-		else if (line[i] == '<')
-			get_in_fd(cmd, line, 0);
-		if (cmd->in_fd == -6)
-			return (EXIT_FAILURE);
-		i++;
-	}
-	return (EXIT_SUCCESS);
-}
 int	get_in_fd(t_cmd_pre *cmd, char *line, int i)
 {
 	int		in_fd;
@@ -305,62 +229,6 @@ int	get_in_fd(t_cmd_pre *cmd, char *line, int i)
 	return (EXIT_SUCCESS);
 }
 
-char	*get_next_arg(char *str, int i, int len)
-{
-	char	*final = NULL;
-	int		start;
-	int		pivot;
-
-	len = 0;
-	pivot = 0;
-	start = 0;
-	while (str[i] && !pivot)
-	{
-		while (str[i] && str[i] == ' ')
-			i++;
-		if (str[i] && (str[i] == '<' || str[i] == '>'))
-			i += skip_redirect(&str[i], str[i], 0, 1);
-		start = i;
-		while (str[i] && str[i] != ' ')
-		{
-			len++;	
-			pivot = i;
-			i++;
-		}
-	}
-	final = make_arg_string(&str[start], 0, 0);
-	return (final);
-}
-
-int	fill_cmd_struct(char *line, t_cmd_pre *cmd, int ac, t_new_line *got_line)
-{
-	int	i;
-
-	i = 0;
-	(void)got_line;
-	cmd->args = malloc(sizeof(char *) * (ac + 1));
-	if (line && cmd->args)
-	{
-		while (i < ac)
-			cmd->args[i++] = get_next_arg(line, 0, 0);
-		cmd->args[i] = NULL;
-		if (!get_cmd_fds(cmd, line, 0))
-			return (EXIT_SUCCESS);
-	}
-	return (EXIT_FAILURE);
-}
-int	question_mark_found(int fd, int *size, const char *str)
-{
-	int	i;
-
-	i = 2;
-	while (str[i])
-	{
-		write(fd, &str[i++], 1);
-		(*size)++;
-	}
-	return (2);
-}
 int	replace_env(const char *str, int fd, char **ptrs, int *size)
 {
 	char	*buffer;
@@ -393,45 +261,4 @@ int	replace_env(const char *str, int fd, char **ptrs, int *size)
 	if (found == NULL && k == 1)
 		write_and_count(fd, buffer[0], size);
 	return (k);
-}
-
-int assign_cmd_pre(t_new_line *got_line)
-{
-	int			i;
-	int			ac;
-	int			rc;
-
-	i = 0;
-	ac = 0;
-	while (i < got_line->line_count)
-	{
-		if (!count_cmd_pointers(got_line->exec_lines[i], &ac, &rc) &&
-			!fill_cmd_struct(got_line->exec_lines[i], &got_line->cmd_pre[i],
-				ac, got_line))
-			i++;
-		else
-			return (0);
-	}
-	return (got_line->length);
-}
-
-int	assign_pointers(char *str, t_new_line *got_line, int i)
-{
-	int		line;
-	char	expecting;
-
-	line = 0;
-	expecting = 0;
-	got_line->exec_lines[line] = str;
-	while (str[++i])
-	{
-		expecting = check_quotes(str, i, expecting);
-		if (str[i] == '|' && !expecting)
-		{
-			str[i++] = '\0';
-			line++;
-			got_line->exec_lines[line] = &str[i];
-		}
-	}
-	return (EXIT_SUCCESS);
 }
