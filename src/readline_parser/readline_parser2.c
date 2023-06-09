@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 16:40:07 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 19:58:56 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 20:05:23 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	get_cmd_fds(t_cmd_pre *cmd, char *line, int i)
 		if (cmd->stopped_heredoc < 0)
 			return (EXIT_FAILURE);
 		if (line[i] == '>')
-			get_out_fd(cmd, line, 0);
+			get_out_fd(cmd, line, -1, -2);
 		else if (line[i] == '<')
 			get_in_fd(cmd, line, 0);
 		if (cmd->in_fd == -6)

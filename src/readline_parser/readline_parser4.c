@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 19:58:46 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 20:05:15 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,12 @@ char	*make_arg_string(char *str, int len, int i)
 	return (final);
 }
 
-int	get_out_fd(t_cmd_pre *cmd, char *line, int i)
+int	get_out_fd(t_cmd_pre *cmd, char *line, int i, int out_fd)
 {
-	int		out_fd;
 	char	*holder;
 
 	holder = NULL;
-	out_fd = -2;
-	while (line[i])
+	while (line[++i])
 	{
 		if (line[i] == '>')
 		{
@@ -100,18 +98,15 @@ int	get_out_fd(t_cmd_pre *cmd, char *line, int i)
 			{
 				line[i + 1] = ' ';
 				holder = get_next_arg(line, 0, 0);
-				out_fd = open(holder, O_WRONLY |  O_CREAT | O_APPEND , 0666);
+				out_fd = open(holder, O_WRONLY | O_CREAT | O_APPEND, 0666);
 			}
 			else
 			{
 				holder = get_next_arg(line, 0, 0);
-				out_fd = open(holder, O_WRONLY | O_CREAT | O_TRUNC , 0666);
+				out_fd = open(holder, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 			}
-			if (out_fd == (-1))
-				out_fd = (-2);
 			break ;
-		}	
-		i++;
+		}
 	}
 	cmd->out_fd = out_fd;
 	free(holder);
