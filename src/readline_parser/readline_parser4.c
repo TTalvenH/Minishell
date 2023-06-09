@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 20:05:15 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 20:19:49 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,40 +113,32 @@ int	get_out_fd(t_cmd_pre *cmd, char *line, int i, int out_fd)
 	return (EXIT_SUCCESS);
 }
 
-int	create_heredoc(char *line)
+int	create_heredoc(char *line, int i, int len)
 {
 	int		p[2];
-	int		i;
 	char	*rline;
-	int		len;
 
-	i = 0;
-	while (line[i] == ' ')
+	while (line[i] && line[i] == ' ')
 		i++;
-	if (line && !pipe(p))
+	rline = NULL;
+	if (!line || pipe(p))
+		return (-1);
+	while (word_compare(rline, &line[i], 1))
 	{
-		while (1)
-		{
-			rline = NULL;
-			rline = readline(">");
-			if (rline == NULL)
-			{	
-				i = write(1, "\r\b\b", 1) + close(p[1]);
-				free(rline);
-				return (-6);
-			}
-			len = ft_strlen(rline);
-			if (!word_compare(rline, &line[i], 1))
-				break ;
-			if (len > 1)
-				len = write(p[1], rline, len) +	write(p[1], "\n", 1);
-			free(rline);
-		}
-		close(p[1]);
 		free(rline);
-		return (p[0]);
+		rline = readline(">");
+		if (rline == NULL)
+		{	
+			i = write(1, "\r\b\b", 1) + close(p[1]);
+			return (-6);
+		}
+		len = ft_strlen(rline);
+		if (len > 1 && word_compare(rline, &line[i], 1))
+			len = write(p[1], rline, len) + write(p[1], "\n", 1);
 	}
-	return (-1);
+	close(p[1]);
+	free(rline);
+	return (p[0]);
 }
 
 int	get_in_fd(t_cmd_pre *cmd, char *line, int i)
@@ -164,7 +156,7 @@ int	get_in_fd(t_cmd_pre *cmd, char *line, int i)
 			if (line[++i] == '<')
 			{
 				line[i] = ' ';
-				in_fd =  create_heredoc(line);
+				in_fd =  create_heredoc(line, 0, 0);
 				cmd->stopped_heredoc = in_fd;
 			}
 			else

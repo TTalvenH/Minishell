@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 20:04:04 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 20:09:08 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int		get_in_fd(t_cmd_pre *cmd, char *line, int i);
 char	*make_arg_string(char *str, int len, int i);
 int		make_arg_string_loop(int i, int fd, int *len, char *str);
 int		count_cmd_pointers(const char *str, int *c_args, int *c_redirects);
-int		create_heredoc(char *line);
+int		create_heredoc(char *line, int i, int len);
 int		get_cmd_fds(t_cmd_pre *cmd, char *line, int i);
 int		replace_env(const char *str, int fd, char **ptrs, int *size);
 int		question_mark_found(int fd, int *size, const char *str);
