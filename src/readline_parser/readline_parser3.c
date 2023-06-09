@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 16:55:36 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 17:00:26 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 19:37:31 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@ int	assign_cmd_pre(t_new_line *got_line)
 	int			rc;
 
 	i = 0;
-	ac = 0;
 	while (i < got_line->line_count)
 	{
-		if (!count_cmd_pointers(got_line->exec_lines[i], &ac, &rc) &&
-			!fill_cmd_struct(got_line->exec_lines[i], &got_line->cmd_pre[i],
+		rc = 0;
+		ac = 0;
+		if (!count_cmd_pointers(got_line->exec_lines[i], &ac, &rc)
+			&& !fill_cmd_struct(got_line->exec_lines[i], &got_line->cmd_pre[i],
 				ac))
 			i++;
 		else

@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 18:22:09 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 19:52:01 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ int	count_cmd_pointers(const char *str, int *c_args, int *c_redirects)
 
 	test = ft_strlen(str);
 	i = -1;
-	*c_args = 0;
-	*c_redirects = 0;
 	if (!str)
 		return (EXIT_FAILURE);
 	while (++i < test && str[i])
@@ -43,15 +41,12 @@ int	count_cmd_pointers(const char *str, int *c_args, int *c_redirects)
 	return (EXIT_SUCCESS);
 }
 
-char	*make_arg_string(char *str, int len, int i)
+char	*make_arg_string(char *str, int len, int i, int expecting)
 {
 	int		p[2];
 	char	*final;
-	int		expecting;
-
+	
 	final = NULL;
-	len = 0;
-	expecting = 0;
 	if (!pipe(p))
 	{
 		while (str[i] && str[i] == ' ')
@@ -70,17 +65,15 @@ char	*make_arg_string(char *str, int len, int i)
 				expecting = 0;
 			}
 			else if (str[i + len] == 1)
-				write (p[1], "$", 1);	
+				write (p[1], "$", 1);
 			else
-				write (p[1], &str[i + len], 1);	
+				write (p[1], &str[i + len], 1);
 			str[i + len++] = ' ';
 		}
 		close(p[1]);
 		final = malloc(sizeof(char) * (len + 1));
 		ft_bzero(final, (len + 1));
-		i = 0;
-		while (read(p[0], &final[i], 1))
-			i++;
+		read(p[0], &final[0], len);
 		close(p[0]);
 	}
 	return (final);

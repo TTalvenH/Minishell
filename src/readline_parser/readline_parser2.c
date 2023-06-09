@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 16:40:07 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 18:24:29 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 19:49:18 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,14 @@ int	get_cmd_fds(t_cmd_pre *cmd, char *line, int i)
 
 char	*get_next_arg(char *str, int i, int len)
 {
-	char	*final = NULL;
+	char	*final;
 	int		start;
 	int		pivot;
 
 	len = 0;
 	pivot = 0;
 	start = 0;
+	final = NULL;
 	while (str[i] && !pivot)
 	{
 		while (str[i] && str[i] == ' ')
@@ -91,11 +92,11 @@ char	*get_next_arg(char *str, int i, int len)
 		start = i;
 		while (str[i] && str[i] != ' ')
 		{
-			len++;	
+			len++;
 			pivot = i;
 			i++;
 		}
 	}
-	final = make_arg_string(&str[start], 0, 0);
+	final = make_arg_string(&str[start], 0, 0, 0);
 	return (final);
 }
