@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 10:48:55 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/01 18:18:55 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 16:16:20 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	export_env(const char *export_env, int instruction)
 	{
 		if (!env_compare(head->env, holder.env))
 		{
-			ft_printf("we are updating %s with %s$\n", head->env, holder.env);
 			update_env(holder.env, head);
 			return (EXIT_SUCCESS);
 		}
