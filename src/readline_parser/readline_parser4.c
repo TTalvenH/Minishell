@@ -1,54 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   readline_parser.c                                  :+:      :+:    :+:   */
+/*   readline_parser4.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 17:00:12 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 18:11:12 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char *initial_parse(const char *str, t_new_line *got_line)
-{
-	char	*final;
-	int		p[2];
-	int		i;
-	int		expecting;
-	int		size;
-
-	if (pipe(p))
-		return (NULL);
-	i = 0;
-	size = 0;
-	final = NULL;
-	expecting = 0;
-	while (str[i])
-	{
-		if ((str[i] == '\'' || str[i] == '\"') && !expecting)
-		{
-			expecting = str[i];
-			i += write_and_count(p[1], str[i], &size);
-		}
-		else if ((str[i] == '\'' || str[i] == '\"') && expecting == str[i])
-		{
-			expecting = 0;
-			i += write_and_count(p[1], str[i], &size);
-		}
-		else if (str[i] == '$' && expecting != '\'')
-			i += replace_env(&str[i], p[1], got_line->our_environ, &size);
-		else
-			i += write_and_count(p[1], str[i], &size);
-	}
-	close(p[1]);
-	final = malloc(size + 1);
-	final[size] = '\0';
-	read(p[0], final, size);
-	return (final);
-}
 
 int	count_cmd_pointers(const char *str, int *c_args, int *c_redirects)
 {
@@ -65,9 +27,9 @@ int	count_cmd_pointers(const char *str, int *c_args, int *c_redirects)
 	{
 		while (i < test && str[i] && str[i] == ' ')
 			i++;
-		if ( i < test && str[i] && (str[i] == '<' || str[i] == '>') && ++(*c_redirects))
+		if (i < test && str[i] && (str[i] == '<' || str[i] == '>') && ++(*c_redirects))
 			i += skip_redirect(&str[i], str[i], 0, 1);
-		if ( i < test && str[i] && str[i] != ' ')
+		if (i < test && str[i] && str[i] != ' ')
 		{
 			(*c_args)++;
 			while (str[i] && str[i] != ' ')
@@ -229,7 +191,7 @@ int	get_in_fd(t_cmd_pre *cmd, char *line, int i)
 	return (EXIT_SUCCESS);
 }
 
-int	replace_env(const char *str, int fd, char **ptrs, int *size)
+int replace_env(const char *str, int fd, char **ptrs, int *size)
 {
 	char	*buffer;
 	char	*found;
@@ -237,7 +199,9 @@ int	replace_env(const char *str, int fd, char **ptrs, int *size)
 	int		i;
 
 	if (str[1] == '?')
-		return (question_mark_found(fd, size, ptrs[0]));
+		return (question_mark_found(fd, size, ptrs[0])); 
+	if (str[1] != '_' && !ft_isalnum(str[1]))
+		return (1);
 	i = ft_strlen(str);
 	buffer = malloc(i + 1);
 	buffer[0] = str[0];

@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 17:00:49 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 17:58:33 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ typedef struct s_cmd_pre{
 	int					out_fd;
 	int					stopped_heredoc;
 }	t_cmd_pre;
+
+typedef struct s_nums{
+	int					i;
+	int					expecting;
+	int					size;
+}	t_nums;
 
 typedef struct s_env
 {
@@ -98,6 +104,8 @@ int		assign_cmd_pre(t_new_line *got_line);
 char	*get_next_arg(char *str, int i, int len);
 int		count_cmd_pointers(const char *str, int *c_args, int *c_redirects);
 char	*initial_parse(const char *str, t_new_line *got_line);
+int		initial_parse_loop(t_nums *m_n, int fd, const char *c,
+			t_new_line *got_line);
 int		fill_cmd_struct(char *line, t_cmd_pre *cmd, int ac);
 int		get_out_fd(t_cmd_pre *cmd, char *line, int i);
 int		get_in_fd(t_cmd_pre *cmd, char *line, int i);
