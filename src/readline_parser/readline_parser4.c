@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 19:52:01 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 19:58:46 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,25 @@ int	count_cmd_pointers(const char *str, int *c_args, int *c_redirects)
 	return (EXIT_SUCCESS);
 }
 
-char	*make_arg_string(char *str, int len, int i, int expecting)
+int	make_arg_string_loop(int i, int fd, int *len, char *str)
+{
+	int	expecting;
+
+	expecting = str[i + *len];
+	str[i + (*len)++] = ' ';
+	while (str[i + (*len)] && str[i + (*len)] != expecting)
+	{
+		write(fd, &str[i + (*len)], 1);
+		str[i + (*len)++] = ' ';
+	}
+	return (EXIT_SUCCESS);
+}
+
+char	*make_arg_string(char *str, int len, int i)
 {
 	int		p[2];
 	char	*final;
-	
+
 	final = NULL;
 	if (!pipe(p))
 	{
@@ -53,17 +67,8 @@ char	*make_arg_string(char *str, int len, int i, int expecting)
 			i++;
 		while (str[i + len] && str[i + len] != ' ')
 		{	
-			if ((str[i + len] == '\'' || str[i + len] == '\"') && !expecting)
-			{
-				expecting = str[i + len];
-				str[i + len++] = ' ';
-				while (str[i + len] && str[i + len] != expecting)
-				{
-					write(p[1], &str[i + len], 1);
-					str[i + len++] = ' ';
-				}
-				expecting = 0;
-			}
+			if ((str[i + len] == '\'' || str[i + len] == '\"'))
+				make_arg_string_loop(i, p[1], &len, &str[0]);
 			else if (str[i + len] == 1)
 				write (p[1], "$", 1);
 			else

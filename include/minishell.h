@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 19:49:30 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 19:58:53 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int		initial_parse_loop(t_nums *m_n, int fd, const char *c,
 int		fill_cmd_struct(char *line, t_cmd_pre *cmd, int ac);
 int		get_out_fd(t_cmd_pre *cmd, char *line, int i);
 int		get_in_fd(t_cmd_pre *cmd, char *line, int i);
-char	*make_arg_string(char *str, int len, int i, int expecting);
+char	*make_arg_string(char *str, int len, int i);
 int		count_cmd_pointers(const char *str, int *c_args, int *c_redirects);
 int		create_heredoc(char *line);
 int		get_cmd_fds(t_cmd_pre *cmd, char *line, int i);

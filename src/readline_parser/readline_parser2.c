@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 16:40:07 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 19:49:18 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/09 19:58:56 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,6 @@ char	*get_next_arg(char *str, int i, int len)
 			i++;
 		}
 	}
-	final = make_arg_string(&str[start], 0, 0, 0);
+	final = make_arg_string(&str[start], 0, 0);
 	return (final);
 }
