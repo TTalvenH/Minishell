@@ -52,17 +52,16 @@ int	llist_to_array(t_new_line *new_line)
 	return (EXIT_SUCCESS);
 }
 
-int	env_compare(const char *env1, const char *env2, int instruction)
+int	env_compare(const char *env1, const char *env2)
 {
 	int	i;
 
 	i = 0;
 	while (env1[i] && env2[i] && env1[i] != '=' && env2[i] != '=')
 		i++;
-	if (env1[i] && env2[i] && env1[i] == '=' && env2[i] == '='
-		&& instruction == EQUAL_SIGN)
+	if (env1[i] && env2[i] && env1[i] == '=' && env2[i] == '=')
 		return (EXIT_SUCCESS);
-	if (env1[i] == '\0' && env2[i] == '=' && instruction == NO_EQUAL_SIGN)
+	if (env1[i] == '\0' && env2[i] == '=')
 		return (EXIT_SUCCESS);
 	return (EXIT_FAILURE);
 }

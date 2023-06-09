@@ -12,19 +12,35 @@
 
 #include "minishell.h"
 
+int	our_export(char	**args, t_new_line *got_line)
+{
+	int	i;
+
+	i = 0;
+	if (args[i] == NULL)
+		return (print_all_envs(got_line, 0));
+	else
+	{
+		while (args[i])
+		{
+			export_env(arg[i], 0);
+			i++;
+		}
+	}
+	return (EXIT_SUCCESS);
+}
 int	export_env(const char *export_env, int instruction)
 {
 	t_env	*head;
 	t_env	holder;
 
 	head = g_environ;
-	if ((instruction == 0
-			&& valid_identifier(export_env)) || !ft_strchr(export_env, '='))
-		return (1);
+	if ((instruction == 0 && valid_identifier(export_env)))
+		return (EXIT_FAILURE);
 	update_env(export_env, &holder);
 	while (head)
 	{
-		if (!env_compare(head->env, holder.env, EQUAL_SIGN))
+		if (!env_compare(head->env, holder.env))
 		{
 			update_env(holder.env, head);
 			return (EXIT_SUCCESS);

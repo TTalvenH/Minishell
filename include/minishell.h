@@ -73,9 +73,10 @@ int		free_all_env(t_env *head);
 int		update_env(const char *env, t_env *new_env);
 int		export_env(const char *export_env, int instruction);
 int		unset_env(char **name);
-int		print_all_envs(t_new_line *got_line);
+int		our_export(char	**args, t_new_line *got_line);
+int		print_all_envs(t_new_line *got_line, int instruction);
 int		llist_to_array(t_new_line *new_line);
-int		env_compare(const char *env1, const char *env2, int instrcution);
+int		env_compare(const char *env1, const char *env2);
 int		valid_identifier(const char *export_env);
 
 //smart history

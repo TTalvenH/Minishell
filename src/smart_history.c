@@ -37,7 +37,7 @@ int	get_history_path(char path_to_history_file[50])
 	head = g_environ;
 	while (head)
 	{
-		if (!env_compare(head->env, "HOME=", EQUAL_SIGN))
+		if (!env_compare(head->env, "HOME="))
 			break ;
 		head = head->next;
 	}

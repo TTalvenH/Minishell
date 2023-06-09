@@ -12,11 +12,11 @@ int	run_builtin(char **args, t_pipe_chain *pipes, t_new_line *got_line)
 	else if (got_line->builtin == 3)
 		status = pwd(NULL);
 	else if (got_line->builtin == 4)
-		status = export_env(args[1], 0);
+		status = our_export(&args[1], got_line);
 	else if (got_line->builtin == 5)
 		status = unset_env(&args[1]);
 	else if (got_line->builtin == 6)
-		status = print_all_envs(got_line);
+		status = print_all_envs(got_line, 1);
 	else if (got_line->builtin == 7)
 		status = exit_builtin(args, pipes);
 	return (status);

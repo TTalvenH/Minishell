@@ -54,13 +54,20 @@ int	free_all_env(t_env *head)
 
 int	update_env(const char *env, t_env *new_env)
 {
-	int	i;
+	int					i;
+	char				*holder;
 
 	i = 0;
-	while (env[i])
+	holder = ft_strchr(env, '=');
+	while (i <= 248 && env[i])
 	{
 		new_env->env[i] = env[i];
 		i++;
+	}
+	if (holder == NULL)
+	{
+		if (i <= 248 )
+			new_env->env[i++] = '=';
 	}
 	new_env->env[i] = '\0';
 	return (EXIT_SUCCESS);

@@ -21,7 +21,7 @@ int	builtin_unset(const char *name)
 	if (!g_environ || !name)
 		return (EXIT_SUCCESS);
 	tmp = g_environ->next;
-	if (!env_compare(name, g_environ->env, NO_EQUAL_SIGN))
+	if (!env_compare(name, g_environ->env))
 	{
 		free(g_environ);
 		return (!(g_environ = tmp));
@@ -30,7 +30,7 @@ int	builtin_unset(const char *name)
 	while (tmp->env[0])
 	{
 		next = tmp->next;
-		if (!env_compare(name, tmp->env, NO_EQUAL_SIGN))
+		if (!env_compare(name, tmp->env))
 		{
 			free(tmp);
 			return (!(previous->next = next));

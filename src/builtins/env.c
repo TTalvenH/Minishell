@@ -12,14 +12,25 @@
 
 #include "minishell.h"
 
-int	print_all_envs(t_new_line *got_line)
+int	print_all_envs(t_new_line *got_line, int instruction)
 {
-	int	i;
+	int			i;
+	static char	*holder = NULL;
 
 	i = 0;
-	while (got_line->our_environ[i])
+	while (got_line->our_environ[i] && instruction == 1)
 	{
 		if (got_line->our_environ[i] && got_line->our_environ[i][0] == '?')
+		{
+			i++;
+			continue ;
+		}
+		ft_printf("%s\n", got_line->our_environ[i++]);
+	}
+	while (got_line->our_environ[i] && instruction == 0)
+	{
+		holder = ft_strchr(got_line->our_environ[i], '=');
+		if (got_line->our_environ[i] && holder[0] && (got_line->our_environ[i][0] == '?' || holder[1]))
 		{
 			i++;
 			continue ;

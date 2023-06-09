@@ -381,7 +381,7 @@ int	replace_env(const char *str, int fd, char **ptrs, int *size)
 	buffer[k] = '\0';
 	i = -1;
 	while (ptrs[++i] && !found)
-		if (!env_compare(&buffer[1], ptrs[i], NO_EQUAL_SIGN))
+		if (!env_compare(&buffer[1], ptrs[i]))
 			found = ptrs[i];
 	i = 0;
 	while (found != NULL && found[i] && found[i] != '=')
