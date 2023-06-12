@@ -63,7 +63,7 @@ int	get_history(char path_to_history_file[50])
 		gnl = get_next_line(fd);
 	}
 	close(fd);
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 int	add_to_history(char *str, char path_to_history_file[50])

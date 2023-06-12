@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_builtins.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/12 17:31:30 by mkaratzi          #+#    #+#             */
+/*   Updated: 2023/06/12 17:31:44 by mkaratzi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	run_builtin(char **args, t_pipe_chain *pipes, t_new_line *got_line)
@@ -26,7 +38,6 @@ int	handle_builtins(char **args, t_pipe_chain *pipes, t_new_line *got_line)
 {
 	int	stdout;
 	int	status;
-
 
 	stdout = dup(STDOUT_FILENO);
 	if (dup2(pipes->out_fd, STDOUT_FILENO) < 0)

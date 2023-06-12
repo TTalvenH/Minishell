@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 05:49:56 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/08 12:01:48 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:31:01 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ int	env_compare(const char *env1, const char *env2)
 	int	i;
 
 	i = 0;
-	while (env1[i] && env2[i] && env1[i] != '=' && env2[i] != '=' && env1[i] == env2[i])
+	while (env1[i] && env2[i] && env1[i] != '=' && env2[i] != '='
+		&& env1[i] == env2[i])
 		i++;
 	if (env1[i] && env2[i] && env1[i] == '=' && env2[i] == '=')
 		return (EXIT_SUCCESS);

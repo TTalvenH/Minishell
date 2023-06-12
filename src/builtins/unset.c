@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 10:46:21 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/05/09 12:39:40 by ttalvenh         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:30:07 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,3 @@ int	unset_env(char **name)
 		builtin_unset(name[i++]);
 	return (EXIT_SUCCESS);
 }
-
-

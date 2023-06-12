@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:58:26 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 23:13:03 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/12 18:02:05 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	free_all_env(t_env *head)
 		free(head);
 		head = current;
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 int	update_env(const char *env, t_env *new_env)

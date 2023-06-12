@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 16:55:36 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 19:37:31 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/12 18:04:32 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	read_line_parser(char *str, t_new_line *got_line)
 	{
 		got_line->exec_lines = malloc(got_line->line_count * sizeof(char *));
 		if (!got_line->exec_lines)
-			return (free_got_line(got_line));
+			return (free_got_line(got_line, str));
 		assign_pointers(got_line->parsed_line, got_line, (-1));
 		if (!assign_cmd_pre(got_line))
 			return (EXIT_FAILURE);

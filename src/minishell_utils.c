@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/12 17:32:49 by mkaratzi          #+#    #+#             */
+/*   Updated: 2023/06/12 18:03:58 by mkaratzi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "libft.h"
 
@@ -27,7 +39,7 @@ char	check_quotes(char *str, int i, char expecting)
 	return (expecting);
 }
 
-int	free_got_line(t_new_line *got_line)
+int	free_got_line(t_new_line *got_line, char *line)
 {	
 	int	i;
 
@@ -46,6 +58,7 @@ int	free_got_line(t_new_line *got_line)
 			close(got_line->cmd_pre[i].out_fd);
 		i++;
 	}
+	free(line);
 	return (-1);
 }
 

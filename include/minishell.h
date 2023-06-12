@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 23:12:16 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/12 18:04:47 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int		count_substrings(char *str);
 int		count_substring_return(int count, int expecting);
 int		write_and_count(int fd, int character, int *size);
 int		assign_pointers(char *str, t_new_line *got_line, int i);
-int		free_got_line(t_new_line *got_line);
+int		free_got_line(t_new_line *got_line, char *str);
 int		assign_cmd_pre(t_new_line *got_line);
 char	*get_next_arg(char *str, int i, int len);
 int		count_cmd_pointers(const char *str, int *c_args, int *c_redirects);
@@ -121,12 +121,10 @@ int		find_index_of(const char *str, char c);
 //handling 
 int		word_compare(char *exec_line, char *word, int instruction);
 int		has_builtin(char *exec_line);
-void	line_handling_func(t_new_line *handle_line);
 
 //minishell_utils
 int		close_pipes(t_pipe_chain *pipes);
 char	check_quotes(char *str, int i, char expecting);
-int		free_got_line(t_new_line *got_line);
 int		skip_redirect(const char *str, int key, int k, int i);
 int		skip_quotes(const char *str, int *counter, int *error);
 char	*our_getenv(char *str, t_new_line *got_line);
