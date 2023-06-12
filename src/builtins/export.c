@@ -43,7 +43,6 @@ int	export_env(const char *export_env, int instruction)
 	{
 		if (!env_compare(head->env, holder.env))
 		{
-			ft_printf("we are fgoing in with:%s$\n", head->env);
 			update_env(holder.env, head);
 			return (EXIT_SUCCESS);
 		}

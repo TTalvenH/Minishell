@@ -68,7 +68,6 @@ int	update_env(const char *env, t_env *new_env)
 	{
 		if (env[holder] == '\0' && new_env->env[holder] != 0)
 		{
-			ft_printf("we did success %s\n", new_env->env);
 			return (EXIT_SUCCESS);
 		}
 	}
