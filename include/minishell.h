@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/12 18:04:47 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/12 18:44:00 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # define EQUAL_SIGN 1
 # define PATH_MAX 1024
 
-
 typedef struct s_cmd_pre{
 	char				**args;
 	int					in_fd;
@@ -47,7 +46,6 @@ typedef struct s_env
 	char			env[250];
 	struct s_env	*next;
 }	t_env;
-
 
 typedef struct s_new_line
 {
@@ -92,7 +90,6 @@ int		get_history_path(char path_to_history_file[50]);
 int		get_history(char path_to_history_file[50]);
 int		add_to_history(char *str, char path_to_history_file[50]);
 
-
 //parsing
 int		read_line_parser(char *line, t_new_line *got_line);
 int		count_substrings(char *str);
@@ -134,8 +131,6 @@ int		piping(t_new_line *got_line);
 int		handle_builtins(char **args, t_pipe_chain *pipes, t_new_line *got_line);
 int		run_builtin(char **args, t_pipe_chain *pipes, t_new_line *got_line);
 pid_t	create_child(char **arg, t_pipe_chain *pipes, t_new_line *got_line);
-
-
 
 //builtins
 int		cd(char	*dir, t_new_line *got_line);

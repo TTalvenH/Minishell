@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttalvenh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 12:04:01 by ttalvenh          #+#    #+#             */
-/*   Updated: 2023/02/15 18:06:03 by ttalvenh         ###   ########.fr       */
+/*   Updated: 2023/06/12 18:42:44 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,5 @@ int			ft_printf(const char *str, ...);
 int			ft_printf_fd(int fd, const char *str, ...);
 void		ft_free_array(char **arr);
 char		*ft_realloc(char *str, int new_size);
-
 
 #endif
