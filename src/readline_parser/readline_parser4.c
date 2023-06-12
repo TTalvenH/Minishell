@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/09 22:35:18 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/12 16:48:31 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,74 +139,4 @@ int	create_heredoc(char *line, int i, int len)
 	close(p[1]);
 	free(rline);
 	return (p[0]);
-}
-
-int	get_in_fd(t_cmd_pre *cmd, char *line, int i)
-{
-	int		in_fd;
-	char	*holder;
-
-	holder = NULL;
-	in_fd = -2;
-	while (line[i])
-	{
-		if (line[i] == '<')
-		{
-			line[i] = ' ';
-			if (line[++i] == '<')
-			{
-				line[i] = ' ';
-				in_fd =  create_heredoc(line, 0, 0);
-				cmd->stopped_heredoc = in_fd;
-			}
-			else
-			{
-				holder = get_next_arg(line, 0, 0);
-				in_fd = open(holder, O_RDONLY, 0666);
-			}
-			if (in_fd == (-1))
-				in_fd = (-2);
-			break ;
-		}
-		i++;
-	}
-	cmd->in_fd = in_fd;
-	free(holder);
-	return (EXIT_SUCCESS);
-}
-
-int replace_env(const char *str, int fd, char **ptrs, int *size)
-{
-	char	*buffer;
-	char	*found;
-	int		k;
-	int		i;
-
-	if (str[1] == '?')
-		return (question_mark_found(fd, size, ptrs[0])); 
-	if (str[1] != '_' && !ft_isalnum(str[1]))
-		return (1);
-	i = ft_strlen(str);
-	buffer = malloc(i + 1);
-	buffer[0] = str[0];
-	k = 0;
-	found = NULL;
-	while (str[++k] && str[k] != ' ' && (ft_isalnum(str[k]) || str[k] == '_'))
-		buffer[k] = str[k];
-	buffer[k] = '\0';
-	i = -1;
-	while (ptrs[++i] && !found)
-		if (!env_compare(&buffer[1], ptrs[i]))
-			found = ptrs[i];
-	i = 0;
-	while (found != NULL && found[i] && found[i] != '=')
-		i++;
-	while (found != NULL && found[++i])
-		write_and_count(fd, found[i], size);
-	free(buffer);
-	if (found == NULL && k != 1)
-		return (k);
-	if (found == NULL && k == 1)
-		write_and_count(fd, buffer[0], size);
-	return (k);
 }
