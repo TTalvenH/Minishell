@@ -5,3 +5,4 @@ obj
 a.out
 hello_world.c
 file2
+loop_leaks.sh

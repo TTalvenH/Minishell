@@ -16,7 +16,8 @@ t_env	*g_environ;
 
 static void	handler(int sig)
 {
-	(void)sig;
+	if (sig == SIGQUIT)
+		return ;
 	write(1, "\n", 1);
 	close(STDIN_FILENO);
 }
@@ -45,11 +46,11 @@ int	add_previous_result(char **str, t_new_line *got_line)
 static int	initialise(char *history_path, int *copy, t_new_line *got_line)
 {
 	signal(SIGINT, &handler);
+	signal(SIGQUIT, &handler);
 	if (get_environments())
 		return (EXIT_FAILURE);
 	*copy = dup(STDIN_FILENO);
 	get_history(history_path);
-	ft_printf("here?\n");
 	ft_bzero(got_line, sizeof(t_new_line));
 	return (EXIT_SUCCESS);
 }
@@ -66,6 +67,7 @@ int	main(void)
 		return (EXIT_FAILURE);
 	while (!dup2(copy, STDIN_FILENO))
 	{
+		free_got_line(&got_line, line);
 		add_previous_result(&result, &got_line);
 		line = readline("Minishell: ");
 		if (line == NULL && !write(0, NULL, 0))
@@ -77,7 +79,6 @@ int	main(void)
 			if (!got_line.length || read_line_parser(line, &got_line))
 				continue ;
 			result = ft_itoa(piping(&got_line));
-			free_got_line(&got_line, line);
 		}
 	}
 	return (free_all_env(g_environ));

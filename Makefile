@@ -5,7 +5,7 @@ NAME = minishell
 CC = cc
 
 # compiler flags
-CFLAGS = -Wall -Werror -Wextra -MMD -O3
+CFLAGS = -Wall -Werror -Wextra -g -MMD -O0
 INCLUDE = -Iinclude -Ilibft/include
 LIB = -lreadline 
 DEBUG_FLAGS = -g -O0 -fsanitize=address

@@ -22,7 +22,6 @@ int	get_environments(void)
 	g_environ = malloc(sizeof(t_env));
 	ft_bzero(g_environ, sizeof(t_env));
 	export_env("?=0", 1);
-	g_environ->next = malloc(sizeof(t_env));
 	if (!g_environ)
 		return (EXIT_FAILURE);
 	current = g_environ->next;

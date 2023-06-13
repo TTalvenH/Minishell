@@ -51,7 +51,7 @@ int	free_got_line(t_new_line *got_line, char *line)
 	while (i < 100)
 	{
 		if (got_line->cmd_pre[i].args)
-			free(got_line->cmd_pre[i].args);
+			ft_free_array(got_line->cmd_pre[i].args);
 		if (got_line->cmd_pre[i].in_fd > 0)
 			close(got_line->cmd_pre[i].in_fd);
 		if (got_line->cmd_pre[i].out_fd > 0)
