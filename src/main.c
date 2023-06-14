@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/14 19:39:38 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/14 22:23:10 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	remove_sigs(void)
 void	handler(int sig)
 {
 	(void)sig;
-	write(1, "\n", 1);
 	close(STDIN_FILENO);
 }
 
@@ -43,9 +42,9 @@ int	add_previous_result(char **str, t_new_line *got_line)
 	int			i;
 	int			k;
 
+
 	i = -1;
 	k = 2;
-	remove_sigs();
 	numberstr[0] = '?';
 	numberstr[1] = '=';
 	while (str[0] && str[0][++i])
@@ -55,7 +54,9 @@ int	add_previous_result(char **str, t_new_line *got_line)
 	str[0] = NULL;
 	export_env(numberstr, 1);
 	ft_bzero(got_line, sizeof(t_new_line));
+	got_line->our_termios = *termios_get_attr();
 	llist_to_array(got_line);
+	remove_echoctl(&got_line->our_termios);
 	return (0);
 }
 

@@ -7,12 +7,12 @@ CC = cc
 # compiler flags
 CFLAGS = -Wall -Werror -Wextra -g -MMD -O0
 INCLUDE = -Iinclude -Ilibft/include 
-LIB = -lreadline 
+LIB = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 DEBUG_FLAGS = -g -O0 -fsanitize=address
 
 # src files and path for them
 VPATH = src:src/builtins:src/readline_parser
-SRC = main.c smart_history.c line_handling_func.c env_funcs.c env_helper_funcs.c minishell_utils.c piping.c cd.c pwd.c exit.c env.c export.c unset.c echo.c handle_builtins.c create_child.c readline_parser1.c readline_parser2.c readline_parser3.c readline_parser4.c readline_parser5.c
+SRC = main.c smart_history.c line_handling_func.c env_funcs.c env_helper_funcs.c minishell_utils.c piping.c cd.c pwd.c exit.c env.c export.c unset.c echo.c handle_builtins.c create_child.c readline_parser1.c readline_parser2.c readline_parser3.c readline_parser4.c readline_parser5.c remove_signals.c
 
 # obj files and path for them
 OBJ_DIR = obj

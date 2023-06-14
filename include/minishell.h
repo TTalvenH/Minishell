@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/14 18:53:54 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/14 22:23:53 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ typedef struct s_new_line
 	int					output_fd;
 	int					builtin;
 	short				exit_req;
+	struct termios		our_termios;
+
 }	t_new_line;
 
 typedef struct s_pipe_chain
@@ -85,6 +87,8 @@ int		env_compare(const char *env1, const char *env2);
 int		valid_identifier(const char *export_env);
 
 //smart history
+struct	termios	*termios_get_attr(void);
+void	remove_echoctl(const struct termios *termios_state);
 int		copy_to_location(const char *str, char *dst);
 int		get_history_path(char path_to_history_file[50]);
 int		get_history(char path_to_history_file[50]);
