@@ -6,18 +6,33 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/12 18:12:36 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/14 19:39:38 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 t_env	*g_environ;
 
-static void	handler(int sig)
+void	remove_sigs(void)
 {
-	if (sig == SIGQUIT)
+	struct termios	wanted;
+	struct termios	*get_current;
+
+	get_current = malloc(sizeof(struct termios));
+	if (get_current)
 		return ;
+	if (!tcgetattr(STDIN_FILENO, get_current))
+	{
+		wanted = *get_current;
+		wanted.c_lflag &= (~ECHOCTL);
+		tcsetattr(STDIN_FILENO, TCSANOW, &wanted);
+	}
+	free(get_current);
+}
+
+void	handler(int sig)
+{
+	(void)sig;
 	write(1, "\n", 1);
 	close(STDIN_FILENO);
 }
@@ -30,6 +45,7 @@ int	add_previous_result(char **str, t_new_line *got_line)
 
 	i = -1;
 	k = 2;
+	remove_sigs();
 	numberstr[0] = '?';
 	numberstr[1] = '=';
 	while (str[0] && str[0][++i])
@@ -45,8 +61,14 @@ int	add_previous_result(char **str, t_new_line *got_line)
 
 static int	initialise(char *history_path, int *copy, t_new_line *got_line)
 {
-	signal(SIGINT, &handler);
-	signal(SIGQUIT, &handler);
+	struct sigaction	action;
+
+	action.sa_flags = 0;
+	sigemptyset(&action.sa_mask);
+	action.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &action, NULL);
+	action.sa_handler = &handler;
+	sigaction(SIGINT, &action, NULL);
 	if (get_environments())
 		return (EXIT_FAILURE);
 	*copy = dup(STDIN_FILENO);

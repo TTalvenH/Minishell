@@ -6,7 +6,7 @@ CC = cc
 
 # compiler flags
 CFLAGS = -Wall -Werror -Wextra -g -MMD -O0
-INCLUDE = -Iinclude -Ilibft/include
+INCLUDE = -Iinclude -Ilibft/include 
 LIB = -lreadline 
 DEBUG_FLAGS = -g -O0 -fsanitize=address
 

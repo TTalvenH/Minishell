@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/12 18:44:00 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/14 18:53:54 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ int		word_compare(char *exec_line, char *word, int instruction);
 int		has_builtin(char *exec_line);
 
 //minishell_utils
+void	remove_sigs(void);
+void	handler(int sig);
 int		close_pipes(t_pipe_chain *pipes);
 char	check_quotes(char *str, int i, char expecting);
 int		skip_redirect(const char *str, int key, int k, int i);
