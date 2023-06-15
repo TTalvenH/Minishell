@@ -13,26 +13,14 @@
 #include "minishell.h"
 t_env	*g_environ;
 
-void	remove_sigs(void)
-{
-	struct termios	wanted;
-	struct termios	*get_current;
-
-	get_current = malloc(sizeof(struct termios));
-	if (get_current)
-		return ;
-	if (!tcgetattr(STDIN_FILENO, get_current))
-	{
-		wanted = *get_current;
-		wanted.c_lflag &= (~ECHOCTL);
-		tcsetattr(STDIN_FILENO, TCSANOW, &wanted);
-	}
-	free(get_current);
-}
 
 void	handler(int sig)
 {
-	(void)sig;
+	static	int check = 0;
+	if (sig == -42)
+	 check = 0;
+	if(check++ == 0)
+		write(1, "\n", 1);
 	close(STDIN_FILENO);
 }
 
