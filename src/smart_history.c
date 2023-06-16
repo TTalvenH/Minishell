@@ -58,6 +58,7 @@ int	get_history(char path_to_history_file[50])
 	gnl = get_next_line(fd);
 	while (gnl)
 	{
+		gnl[ft_strlen(gnl) - 1] = 0;
 		add_history(gnl);
 		free(gnl);
 		gnl = get_next_line(fd);
@@ -80,6 +81,7 @@ int	add_to_history(char *str, char path_to_history_file[50])
 	write(fd, str, lenght);
 	write(fd, "\n", 1);
 	add_history(str);
+	handler(-42);
 	close(fd);
 	return (lenght);
 }

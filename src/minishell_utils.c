@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 17:32:49 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/12 18:03:58 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:41:48 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	free_got_line(t_new_line *got_line, char *line)
 		i++;
 	}
 	free(line);
+	line = NULL;
 	return (-1);
 }
 

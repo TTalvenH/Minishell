@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:58:26 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/12 18:02:05 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/16 19:36:25 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	get_environments(void)
 		update_env(environ[i++], current);
 		current->next = malloc(sizeof(t_env));
 		if (!current->next)
-			exit(!free_all_env(g_environ));
+			exit(!free_all_env(g_environ, NULL));
 		current = current->next;
 		current->env[0] = '\0';
 		current->next = NULL;
@@ -38,7 +38,7 @@ int	get_environments(void)
 	return (EXIT_SUCCESS);
 }
 
-int	free_all_env(t_env *head)
+int	free_all_env(t_env *head, char **str)
 {
 	t_env	*current;
 
@@ -48,6 +48,8 @@ int	free_all_env(t_env *head)
 		free(head);
 		head = current;
 	}
+	if (str)
+		free(str[0]);
 	return (EXIT_SUCCESS);
 }
 

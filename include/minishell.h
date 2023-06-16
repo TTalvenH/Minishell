@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/14 22:23:53 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/16 19:39:56 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define NO_EQUAL_SIGN 0
 # define EQUAL_SIGN 1
 # define PATH_MAX 1024
+
+void			rl_replace_line(const char *text, int clear_undo);
 
 typedef struct s_cmd_pre{
 	char				**args;
@@ -75,73 +77,78 @@ typedef struct s_pipe_chain
 extern t_env	*g_environ;
 
 // environment functions
-int		get_environments(void);
-int		free_all_env(t_env *head);
-int		update_env(const char *env, t_env *new_env);
-int		export_env(const char *export_env, int instruction);
-int		unset_env(char **name);
-int		our_export(char	**args, t_new_line *got_line);
-int		print_all_envs(t_new_line *got_line, int instruction);
-int		llist_to_array(t_new_line *new_line);
-int		env_compare(const char *env1, const char *env2);
-int		valid_identifier(const char *export_env);
+int				get_environments(void);
+int				free_all_env(t_env *head, char **str);
+int				update_env(const char *env, t_env *new_env);
+int				export_env(const char *export_env, int instruction);
+int				unset_env(char **name);
+int				our_export(char	**args, t_new_line *got_line);
+int				print_all_envs(t_new_line *got_line, int instruction);
+int				llist_to_array(t_new_line *new_line);
+int				env_compare(const char *env1, const char *env2);
+int				valid_identifier(const char *export_env);
 
 //smart history
-struct	termios	*termios_get_attr(void);
-void	remove_echoctl(const struct termios *termios_state);
-int		copy_to_location(const char *str, char *dst);
-int		get_history_path(char path_to_history_file[50]);
-int		get_history(char path_to_history_file[50]);
-int		add_to_history(char *str, char path_to_history_file[50]);
+struct termios	termios_get_attr(void);
+void			remove_echoctl(const struct termios *termios_state);
+int				copy_to_location(const char *str, char *dst);
+int				get_history_path(char path_to_history_file[50]);
+int				get_history(char path_to_history_file[50]);
+int				add_to_history(char *str, char path_to_history_file[50]);
 
 //parsing
-int		read_line_parser(char *line, t_new_line *got_line);
-int		count_substrings(char *str);
-int		count_substring_return(int count, int expecting);
-int		write_and_count(int fd, int character, int *size);
-int		assign_pointers(char *str, t_new_line *got_line, int i);
-int		free_got_line(t_new_line *got_line, char *str);
-int		assign_cmd_pre(t_new_line *got_line);
-char	*get_next_arg(char *str, int i, int len);
-int		count_cmd_pointers(const char *str, int *c_args, int *c_redirects);
-char	*initial_parse(const char *str, t_new_line *got_line);
-int		initial_parse_loop(t_nums *m_n, int fd, const char *c,
-			t_new_line *got_line);
-int		fill_cmd_struct(char *line, t_cmd_pre *cmd, int ac);
-int		get_out_fd(t_cmd_pre *cmd, char *line, int i, int out_fd);
-int		get_in_fd(t_cmd_pre *cmd, char *line, int i);
-char	*make_arg_string(char *str, int len, int i);
-int		make_arg_string_loop(int i, int fd, int *len, char *str);
-int		count_cmd_pointers(const char *str, int *c_args, int *c_redirects);
-int		create_heredoc(char *line, int i, int len);
-int		get_cmd_fds(t_cmd_pre *cmd, char *line, int i);
-int		replace_env(const char *str, int fd, char **ptrs, int *size);
-int		question_mark_found(int fd, int *size, const char *str);
-int		find_index_of(const char *str, char c);
+int				read_line_parser(char *line, t_new_line *got_line);
+int				count_substrings(char *str);
+int				count_substring_return(int count, int expecting);
+int				write_and_count(int fd, int character, int *size);
+int				assign_pointers(char *str, t_new_line *got_line, int i);
+int				free_got_line(t_new_line *got_line, char *str);
+int				assign_cmd_pre(t_new_line *got_line);
+char			*get_next_arg(char *str, int i, int len);
+int				count_cmd_pointers(const char *str, int *c_args,
+					int *c_redirects);
+char			*initial_parse(const char *str, t_new_line *got_line);
+int				initial_parse_loop(t_nums *m_n, int fd, const char *c,
+					t_new_line *got_line);
+int				fill_cmd_struct(char *line, t_cmd_pre *cmd, int ac);
+int				get_out_fd(t_cmd_pre *cmd, char *line, int i, int out_fd);
+int				get_in_fd(t_cmd_pre *cmd, char *line, int i);
+char			*make_arg_string(char *str, int len, int i);
+int				make_arg_string_loop(int i, int fd, int *len, char *str);
+int				count_cmd_pointers(const char *str, int *c_args,
+					int *c_redirects);
+int				create_heredoc(char *line, int i, int len);
+int				get_cmd_fds(t_cmd_pre *cmd, char *line, int i);
+int				replace_env(const char *str, int fd, char **ptrs, int *size);
+int				question_mark_found(int fd, int *size, const char *str);
+int				find_index_of(const char *str, char c);
 
 //handling 
-int		word_compare(char *exec_line, char *word, int instruction);
-int		has_builtin(char *exec_line);
+int				word_compare(char *exec_line, char *word, int instruction);
+int				has_builtin(char *exec_line);
 
 //minishell_utils
-void	remove_sigs(void);
-void	handler(int sig);
-int		close_pipes(t_pipe_chain *pipes);
-char	check_quotes(char *str, int i, char expecting);
-int		skip_redirect(const char *str, int key, int k, int i);
-int		skip_quotes(const char *str, int *counter, int *error);
-char	*our_getenv(char *str, t_new_line *got_line);
+void			remove_sigs(void);
+void			handler(int sig);
+int				close_pipes(t_pipe_chain *pipes);
+char			check_quotes(char *str, int i, char expecting);
+int				skip_redirect(const char *str, int key, int k, int i);
+int				skip_quotes(const char *str, int *counter, int *error);
+char			*our_getenv(char *str, t_new_line *got_line);
 
 //piping
-int		piping(t_new_line *got_line);
-int		handle_builtins(char **args, t_pipe_chain *pipes, t_new_line *got_line);
-int		run_builtin(char **args, t_pipe_chain *pipes, t_new_line *got_line);
-pid_t	create_child(char **arg, t_pipe_chain *pipes, t_new_line *got_line);
+int				piping(t_new_line *got_line);
+int				handle_builtins(char **args, t_pipe_chain *pipes,
+					t_new_line *got_line);
+int				run_builtin(char **args, t_pipe_chain *pipes,
+					t_new_line *got_line);
+pid_t			create_child(char **arg, t_pipe_chain *pipes,
+					t_new_line *got_line);
 
 //builtins
-int		cd(char	*dir, t_new_line *got_line);
-int		pwd(char *args);
-int		exit_builtin(char **args, t_pipe_chain *pipes);
-int		echo(char **args);
+int				cd(char	*dir, t_new_line *got_line);
+int				pwd(char *args);
+int				exit_builtin(char **args, t_pipe_chain *pipes);
+int				echo(char **args);
 
 #endif

@@ -6,21 +6,32 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/14 22:23:10 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/16 19:45:25 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-t_env	*g_environ;
 
+t_env	*g_environ;
 
 void	handler(int sig)
 {
-	static	int check = 0;
-	if (sig == -42)
-	 check = 0;
-	if(check++ == 0)
-		write(1, "\n", 1);
+	static int	catcher = 0;
+
+	if (sig != SIGINT)
+	{
+		catcher = sig;
+		return ;
+	}
+	if (catcher != -42)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		return ;
+	}
+	write(STDIN_FILENO, "\n", 1);
 	close(STDIN_FILENO);
 }
 
@@ -29,7 +40,6 @@ int	add_previous_result(char **str, t_new_line *got_line)
 	char		numberstr[20];
 	int			i;
 	int			k;
-
 
 	i = -1;
 	k = 2;
@@ -42,7 +52,8 @@ int	add_previous_result(char **str, t_new_line *got_line)
 	str[0] = NULL;
 	export_env(numberstr, 1);
 	ft_bzero(got_line, sizeof(t_new_line));
-	got_line->our_termios = *termios_get_attr();
+	handler(0);
+	got_line->our_termios = termios_get_attr();
 	llist_to_array(got_line);
 	remove_echoctl(&got_line->our_termios);
 	return (0);
@@ -80,9 +91,9 @@ int	main(void)
 	{
 		free_got_line(&got_line, line);
 		add_previous_result(&result, &got_line);
-		line = readline("Minishell: ");
-		if (line == NULL && !write(0, NULL, 0))
-			if (printf("\b\bexit"))
+		line = readline("Minishell:");
+		if (line == NULL && !(write(0, NULL, 0)))
+			if (printf("\b\bexit\n"))
 				break ;
 		if (line)
 		{
@@ -92,5 +103,5 @@ int	main(void)
 			result = ft_itoa(piping(&got_line));
 		}
 	}
-	return (free_all_env(g_environ));
+	return (free_all_env(g_environ, &line));
 }

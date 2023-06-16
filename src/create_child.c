@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_child.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttalvenh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 12:56:11 by ttalvenh          #+#    #+#             */
-/*   Updated: 2023/06/03 12:56:13 by ttalvenh         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:46:48 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	child_process(char **arg, t_pipe_chain *pipes, t_new_line *got_line)
 	if (dup2(pipes->out_fd, STDOUT_FILENO) < 0)
 		return (-1);
 	close_pipes(pipes);
+	ft_printf("here we are\n");
 	cmd_path = find_cmd_path(arg[0], got_line);
 	if (got_line->builtin == 0
 		&& (cmd_path == NULL || pipes->in_fd == -2 || pipes->out_fd == -2))

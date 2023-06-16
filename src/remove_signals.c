@@ -6,22 +6,18 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 22:07:01 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/14 22:23:23 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/15 20:49:17 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-struct termios	*termios_get_attr(void)
+struct termios	termios_get_attr(void)
 {
-	struct termios	*termios_state;
+	struct termios	termios_state;
 
-	termios_state = malloc(sizeof(struct termios));
-	if (tcgetattr(STDIN_FILENO, termios_state))
-	{
-		free(termios_state);
-		return (NULL);
-	}
+	ft_bzero(&termios_state, (sizeof(struct termios)));
+	tcgetattr(STDIN_FILENO, &termios_state);
 	return (termios_state);
 }
 
@@ -29,8 +25,6 @@ void	remove_echoctl(const struct termios *termios_state)
 {
 	struct termios	new_state;
 
-	if (!termios_state)
-		return ;
 	if (termios_state->c_lflag & ECHOCTL)
 	{
 		new_state = *termios_state;
