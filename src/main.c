@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/20 08:08:03 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/20 09:27:22 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,9 @@ int	main(void)
 		if (line)
 		{
 			got_line.length = add_to_history(line, history_path);
-			ft_printf("we are first here\n");
 			if (!got_line.length || read_line_parser(line, &got_line))
 				continue ;
 			result = ft_itoa(piping(&got_line));
-			ft_printf("we are second here\n");
 		}
 	}
 	return (free_all_env(g_environ, &line));
