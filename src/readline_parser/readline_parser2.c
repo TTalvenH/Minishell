@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 16:40:07 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/12 17:23:30 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/20 10:04:25 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*get_next_arg(char *str, int i, int len)
 		if (str[i] && (str[i] == '<' || str[i] == '>'))
 			i += skip_redirect(&str[i], str[i], 0, 1);
 		start = i;
-		while (str[i] && str[i] != ' ')
+		while (str[i] && str[i] != ' ' && str[i] != '<' && str[i] != '>')
 		{
 			len++;
 			pivot = i;

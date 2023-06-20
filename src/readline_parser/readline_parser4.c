@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/12 16:48:31 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/20 10:08:05 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ char	*make_arg_string(char *str, int len, int i)
 	{
 		while (str[i] && str[i] == ' ')
 			i++;
-		while (str[i + len] && str[i + len] != ' ')
+		while (str[i + len] && str[i + len] != ' '
+			&& str[i + len] != '<' && str[i + len] != '>')
 		{	
 			if ((str[i + len] == '\'' || str[i + len] == '\"'))
 				make_arg_string_loop(i, p[1], &len, &str[0]);
@@ -78,8 +79,7 @@ char	*make_arg_string(char *str, int len, int i)
 		close(p[1]);
 		final = malloc(sizeof(char) * (len + 1));
 		ft_bzero(final, (len + 1));
-		read(p[0], &final[0], len);
-		close(p[0]);
+		i = read(p[0], &final[0], len) + close(p[0]);
 	}
 	return (final);
 }
