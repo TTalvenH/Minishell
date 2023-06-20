@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 16:55:36 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/15 20:22:39 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/20 09:31:43 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,6 @@ int	read_line_parser(char *str, t_new_line *got_line)
 			return (EXIT_FAILURE);
 		return (EXIT_SUCCESS);
 	}
-	ft_printf("Broken pipeline, please check quationmarks and redirections!\n");
+	ft_printf_fd(2, "Error, please check quotation marks and redirections!\n");
 	return (EXIT_FAILURE);
 }
