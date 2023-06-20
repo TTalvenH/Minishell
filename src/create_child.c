@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 12:56:11 by ttalvenh          #+#    #+#             */
-/*   Updated: 2023/06/20 08:16:32 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/20 08:19:05 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	child_process(char **arg, t_pipe_chain *pipes, t_new_line *got_line)
 	char		*cmd_path;
 
 	cmd_path = NULL;
+	ft_printf("we came in here with: in_fd: %d$ and out_fd> %d$\n", pipes->in_fd, pipes->out_fd);
 	if (dup2(pipes->in_fd, STDIN_FILENO) < 0)
 		return (-1);
 	if (dup2(pipes->out_fd, STDOUT_FILENO) < 0)
