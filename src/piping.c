@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttalvenh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 12:56:17 by ttalvenh          #+#    #+#             */
-/*   Updated: 2023/06/03 12:56:19 by ttalvenh         ###   ########.fr       */
+/*   Updated: 2023/06/20 08:11:09 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,13 @@ int	piping(t_new_line *got_line)
 	pipes.pipe_count = got_line->line_count - 1;
 	if (init_pipes(&pipes))
 		return (1);
+	ft_printf("piping 1\n");
 	status = pipe_logic(&pipes, got_line);
 	if (status)
 		return (status);
 	if (pipes.pipe_count)
 		close_pipes(&pipes);
+	ft_printf("piping 2\n");
 	while (pipes.pids[i])
 		waitpid(pipes.pids[i++], &status, 0);
 	return (WEXITSTATUS(status));

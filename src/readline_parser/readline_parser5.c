@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 18:05:49 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/12 17:28:16 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/20 07:59:16 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	get_in_fd(t_cmd_pre *cmd, char *line, int i)
 	}
 	if (in_fd == -1)
 		in_fd = -2;
+	ft_printf("we got the fd: %d\n", in_fd);
 	cmd->in_fd = in_fd;
 	free(holder);
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/16 19:45:25 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/20 08:08:03 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,15 +92,17 @@ int	main(void)
 		free_got_line(&got_line, line);
 		add_previous_result(&result, &got_line);
 		line = readline("Minishell:");
-		if (line == NULL && !(write(0, NULL, 0)))
+		if (line == NULL )
 			if (printf("\b\bexit\n"))
 				break ;
 		if (line)
 		{
 			got_line.length = add_to_history(line, history_path);
+			ft_printf("we are first here\n");
 			if (!got_line.length || read_line_parser(line, &got_line))
 				continue ;
 			result = ft_itoa(piping(&got_line));
+			ft_printf("we are second here\n");
 		}
 	}
 	return (free_all_env(g_environ, &line));
