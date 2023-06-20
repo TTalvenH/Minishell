@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 12:56:11 by ttalvenh          #+#    #+#             */
-/*   Updated: 2023/06/20 08:01:55 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/20 08:16:32 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	child_process(char **arg, t_pipe_chain *pipes, t_new_line *got_line)
 	cmd_path = find_cmd_path(arg[0], got_line);
 	if (got_line->builtin == 0
 		&& (cmd_path == NULL || pipes->in_fd == -2 || pipes->out_fd == -2))
-		ft_printf("Bad command/Broken I/O: %s\n", arg[0]);
+		ft_printf_fd(2, "Bad command/Broken I/O: %s\n", arg[0]);
 	else if (got_line->builtin == 0)
 	{
 		ft_printf("we are here_______\n");
