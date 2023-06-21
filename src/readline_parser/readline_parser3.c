@@ -92,7 +92,7 @@ int	read_line_parser(char *str, t_new_line *got_line)
 	{
 		got_line->exec_lines = malloc(got_line->line_count * sizeof(char *));
 		if (!got_line->exec_lines)
-			return (free_got_line(got_line, str));
+			return (free_got_line(got_line, str, 0));
 		assign_pointers(got_line->parsed_line, got_line, (-1));
 		if (!assign_cmd_pre(got_line))
 			return (EXIT_FAILURE);

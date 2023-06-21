@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "libft.h"
 
-int	close_pipes(t_pipe_chain *pipes)
+int	close_pipes(t_pipe_chain *pipes, int copy)
 {
 	int	i;
 
@@ -24,6 +24,8 @@ int	close_pipes(t_pipe_chain *pipes)
 		close(pipes->pipe_fds[i][1]);
 		i++;
 	}
+	if (copy != -1)
+		close(copy);
 	return (0);
 }
 
@@ -39,7 +41,7 @@ char	check_quotes(char *str, int i, char expecting)
 	return (expecting);
 }
 
-int	free_got_line(t_new_line *got_line, char *line)
+int	free_got_line(t_new_line *got_line, char *line, int copy)
 {	
 	int	i;
 
@@ -59,6 +61,7 @@ int	free_got_line(t_new_line *got_line, char *line)
 		i++;
 	}
 	free(line);
+	got_line->copy = copy;
 	line = NULL;
 	return (-1);
 }

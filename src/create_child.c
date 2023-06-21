@@ -88,7 +88,7 @@ int	child_process(char **arg, t_pipe_chain *pipes, t_new_line *got_line)
 		pipes->in_fd = -2;
 	if (dup2(pipes->out_fd, STDOUT_FILENO) < 0)
 		pipes->out_fd = -2;
-	close_pipes(pipes);
+	close_pipes(pipes, -1);
 	cmd_path = find_cmd_path(arg[0], got_line);
 	if (got_line->builtin == 0
 		&& (cmd_path == NULL || pipes->in_fd == -2 || pipes->out_fd == -2))

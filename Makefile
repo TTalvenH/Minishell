@@ -5,7 +5,7 @@ NAME = minishell
 CC = cc
 
 # compiler flags
-CFLAGS = -Wall -Werror -Wextra -g -MMD -O0
+CFLAGS = -Wall -Werror -Wextra -MMD -O0
 INCLUDE = -Iinclude -Ilibft/include 
 LIB = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 DEBUG_FLAGS = -g -O0 -fsanitize=address
@@ -35,7 +35,7 @@ debug: all
 $(LIBFT):
 	make -C libft
 
-$(NAME): $(OBJ)
+$(NAME): $(LIBFT) $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LIB) $(LIBFT_FLAGS) -o $@
 	
 $(OBJ_DIR)/%.o: %.c

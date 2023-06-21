@@ -48,6 +48,6 @@ char	*initial_parse(const char *str, t_new_line *got_line)
 	close(p[1]);
 	final = malloc(my_nums.size + 1);
 	final[my_nums.size] = '\0';
-	read(p[0], final, my_nums.size);
+	my_nums.i = read(p[0], final, my_nums.size) + close(p[0]);
 	return (final);
 }

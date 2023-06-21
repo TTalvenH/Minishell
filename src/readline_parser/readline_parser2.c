@@ -61,9 +61,11 @@ int	get_cmd_fds(t_cmd_pre *cmd, char *line, int i)
 	{
 		if (cmd->stopped_heredoc < 0)
 			return (EXIT_FAILURE);
-		if (line[i] == '>')
+		if (line[i] == '>'
+			&& (cmd->out_fd == -5 || close(cmd->out_fd) >= -2))
 			get_out_fd(cmd, &line[i], -1, -2);
-		else if (line[i] == '<')
+		else if (line[i] == '<'
+			&& (cmd->in_fd == -5 || close(cmd->in_fd) >= -2))
 			get_in_fd(cmd, &line[i], 0);
 		if (cmd->in_fd == -6)
 			return (EXIT_FAILURE);

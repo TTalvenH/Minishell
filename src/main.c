@@ -89,7 +89,7 @@ int	main(void)
 		return (EXIT_FAILURE);
 	while (!dup2(copy, STDIN_FILENO))
 	{
-		free_got_line(&got_line, line);
+		free_got_line(&got_line, line, copy);
 		add_previous_result(&result, &got_line);
 		line = readline("Minishell:");
 		if (line == NULL )

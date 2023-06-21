@@ -32,7 +32,7 @@ static int	check_argument(char *argument)
 	return (0);
 }
 
-int	exit_builtin(char **args, t_pipe_chain *pipes)
+int	exit_builtin(char **args, t_pipe_chain *pipes, int copy)
 {
 	int	status;
 
@@ -55,5 +55,7 @@ int	exit_builtin(char **args, t_pipe_chain *pipes)
 		ft_printf_fd(2, "Minishell: exit: too many arguments\n");
 		return (1);
 	}
+	close(pipes->copy_stdout);
+	close_pipes(pipes, copy);
 	exit(status);
 }

@@ -61,6 +61,7 @@ typedef struct s_new_line
 	int					output_fd;
 	int					builtin;
 	short				exit_req;
+	int					copy;
 	struct termios		our_termios;
 
 }	t_new_line;
@@ -71,6 +72,7 @@ typedef struct s_pipe_chain
 	int		pipe_count;
 	int		in_fd;
 	int		out_fd;
+	int		copy_stdout;
 	pid_t	pids[100];
 }	t_pipe_chain;
 
@@ -102,7 +104,7 @@ int				count_substrings(char *str);
 int				count_substring_return(int count, int expecting);
 int				write_and_count(int fd, int character, int *size);
 int				assign_pointers(char *str, t_new_line *got_line, int i);
-int				free_got_line(t_new_line *got_line, char *str);
+int				free_got_line(t_new_line *got_line, char *str, int copy);
 int				assign_cmd_pre(t_new_line *got_line);
 char			*get_next_arg(char *str, int i, int len);
 int				count_cmd_pointers(const char *str, int *c_args,
@@ -130,7 +132,7 @@ int				has_builtin(char *exec_line);
 //minishell_utils
 void			remove_sigs(void);
 void			handler(int sig);
-int				close_pipes(t_pipe_chain *pipes);
+int				close_pipes(t_pipe_chain *pipes, int copy);
 char			check_quotes(char *str, int i, char expecting);
 int				skip_redirect(const char *str, int key, int k, int i);
 int				skip_quotes(const char *str, int *counter, int *error);
@@ -148,7 +150,7 @@ pid_t			create_child(char **arg, t_pipe_chain *pipes,
 //builtins
 int				cd(char	*dir, t_new_line *got_line);
 int				pwd(char *args);
-int				exit_builtin(char **args, t_pipe_chain *pipes);
+int				exit_builtin(char **args, t_pipe_chain *pipes, int copy);
 int				echo(char **args);
 
 #endif

@@ -129,7 +129,7 @@ int	create_heredoc(char *line, int i, int len)
 		rline = readline(">");
 		if (rline == NULL)
 		{	
-			i = write(1, "\r\b\b", 1) + close(p[1]);
+			i = write(1, "\r\b\b", 1) + close(p[1]) + close(p[0]);
 			return (-6);
 		}
 		len = ft_strlen(rline);

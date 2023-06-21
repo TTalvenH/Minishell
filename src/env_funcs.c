@@ -65,12 +65,11 @@ int	update_env(const char *env, t_env *new_env)
 		new_env->env[i] = env[i];
 		i++;
 	}
-	if (holder++ != 0)
+	if (holder != 0)
 	{
 		if (env[holder] == '\0' && new_env->env[holder] != 0)
-		{
 			return (EXIT_SUCCESS);
-		}
+		holder++;
 	}
 	else if (i <= 248)
 		new_env->env[i++] = '=';

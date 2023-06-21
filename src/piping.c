@@ -89,7 +89,7 @@ int	piping(t_new_line *got_line)
 	if (status)
 		return (status);
 	if (pipes.pipe_count)
-		close_pipes(&pipes);
+		close_pipes(&pipes, got_line->copy);
 	while (pipes.pids[i])
 		waitpid(pipes.pids[i++], &status, 0);
 	return (WEXITSTATUS(status));
