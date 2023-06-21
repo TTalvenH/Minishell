@@ -15,18 +15,18 @@ VPATH = src:src/builtins:src/readline_parser
 SRC = main.c smart_history.c line_handling_func.c env_funcs.c env_helper_funcs.c minishell_utils.c piping.c cd.c pwd.c exit.c env.c export.c unset.c echo.c handle_builtins.c create_child.c readline_parser1.c readline_parser2.c readline_parser3.c readline_parser4.c readline_parser5.c remove_signals.c
 
 # obj files and path for them
-OBJ_DIR = obj
-OBJ =$(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
+OBJ_DIR = ./obj
+OBJ =$(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o))
 
 #dependencies
-DEP =$(OBJ:.o=.d)
+DEP =$(OBJ:%.o=%.d)
 
 #Libft
 LIBFT_FLAGS = -Ilibft -Llibft -lft
-LIBFT = libft.a
+LIBFT = ./libft/libft.a
 
 # rules
-all: $(LIBFT) $(NAME)
+all: $(NAME)
 
 debug: CFLAGS := $(filter-out -O3,$(CFLAGS))
 debug: CFLAGS += $(DEBUG_FLAGS)
@@ -35,11 +35,15 @@ debug: all
 $(LIBFT):
 	make -C libft
 
-$(NAME): $(LIBFT) $(OBJ)
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(NAME): $(OBJ_DIR) $(OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJ) $(LIB) $(LIBFT_FLAGS) -o $@
 	
+-include $(DEP)
+
 $(OBJ_DIR)/%.o: %.c
-	mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean:
@@ -53,4 +57,3 @@ fclean: clean
 re: fclean all 
 
 .PHONY: all debug clean fclean re
--include $(DEP)

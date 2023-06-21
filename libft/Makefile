@@ -17,11 +17,13 @@ OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ_DIR) $(OBJ)
 	ar rc $(NAME) $(OBJ)
 
-$(OBJ_DIR)/%.o: %.c
+$(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)/%.o: %.c
 	$(CC) $(CFLAGS) -I./include -c $< -o $@
 
 clean:
