@@ -93,8 +93,6 @@ int	main(void)
 		{
 			if (!write(i, NULL, 0))
 				ft_printf("Before the execution have open %dfd\n", i);
-			else if (!write(i, NULL, 0))
-				ft_printf("We have read open for %dfd\n", i);
 		}
 		free_got_line(&got_line, line, copy);
 		add_previous_result(&result, &got_line);
@@ -113,8 +111,6 @@ int	main(void)
 		{
 			if (!write(i, NULL, 0))
 				ft_printf("After the execution have open %dfd\n", i);
-			else if (!write(i, NULL, 0))
-				ft_printf("We have read open for %dfd\n", i);
 		}
 	}
 	return (free_all_env(g_environ, &line));
