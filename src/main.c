@@ -89,11 +89,6 @@ int	main(void)
 		return (EXIT_FAILURE);
 	while (!dup2(copy, STDIN_FILENO))
 	{
-		for (int i = 0; i < 100; i++)
-		{
-			if (!write(i, NULL, 0))
-				ft_printf("Before the execution have open %dfd\n", i);
-		}
 		free_got_line(&got_line, line, copy);
 		add_previous_result(&result, &got_line);
 		line = readline("Minishell:");
@@ -106,11 +101,6 @@ int	main(void)
 			if (!got_line.length || read_line_parser(line, &got_line))
 				continue ;
 			result = ft_itoa(piping(&got_line));
-		}
-		for (int i = 0; i < 100; i++)
-		{
-			if (!write(i, NULL, 0))
-				ft_printf("After the execution have open %dfd\n", i);
 		}
 	}
 	return (free_all_env(g_environ, &line));

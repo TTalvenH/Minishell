@@ -84,8 +84,8 @@ int	replace_env(const char *str, int fd, char **ptrs, int *size)
 	buffer[k] = '\0';
 	found = replace_env_helper(ptrs, &buffer[1]);
 	replace_env_writer(found, fd, size);
-	free(buffer);
 	if (found == NULL && k == 1)
 		write_and_count(fd, buffer[0], size);
+	free(buffer);
 	return (k);
 }

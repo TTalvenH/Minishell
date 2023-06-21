@@ -48,5 +48,6 @@ int	handle_builtins(char **args, t_pipe_chain *pipes, t_new_line *got_line)
 	status = run_builtin(args, pipes, got_line);
 	if (dup2(stdout, STDOUT_FILENO) < 0)
 		return (-1);
+	close(stdout);
 	return (status);
 }
