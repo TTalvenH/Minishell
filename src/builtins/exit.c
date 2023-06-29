@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:39:10 by ttalvenh          #+#    #+#             */
-/*   Updated: 2023/05/31 20:08:24 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/29 18:11:50 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,5 @@ int	exit_builtin(char **args, t_pipe_chain *pipes, int copy)
 	}
 	close(pipes->copy_stdout);
 	close_pipes(pipes, copy);
-	exit(status);
+	exit(status + reset_sig(SIGINT));
 }
