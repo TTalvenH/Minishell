@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:12:28 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/16 19:39:56 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/29 17:10:51 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ char			check_quotes(char *str, int i, char expecting);
 int				skip_redirect(const char *str, int key, int k, int i);
 int				skip_quotes(const char *str, int *counter, int *error);
 char			*our_getenv(char *str, t_new_line *got_line);
+int				reset_sig(const int sig);
 
 //piping
 int				piping(t_new_line *got_line);

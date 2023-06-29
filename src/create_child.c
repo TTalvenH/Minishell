@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 12:56:11 by ttalvenh          #+#    #+#             */
-/*   Updated: 2023/06/20 09:27:10 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/29 17:10:07 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ int	child_process(char **arg, t_pipe_chain *pipes, t_new_line *got_line)
 	char		*cmd_path;
 
 	cmd_path = NULL;
+	dup2(got_line->copy, STDIN_FILENO);
+	reset_sig(SIGINT);
 	if (dup2(pipes->in_fd, STDIN_FILENO) < 0)
 		pipes->in_fd = -2;
 	if (dup2(pipes->out_fd, STDOUT_FILENO) < 0)
