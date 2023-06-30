@@ -33,6 +33,7 @@ int	run_builtin(char **args, t_pipe_chain *pipes, t_new_line *got_line)
 		status = exit_builtin(args, pipes, got_line->copy);
 	if (got_line->line_count > 1)
 		close(got_line->copy);
+	free_got_line(got_line, NULL, 0);
 	return (status);
 }
 
