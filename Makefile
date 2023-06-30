@@ -5,7 +5,7 @@ NAME = minishell
 CC = cc
 
 # compiler flags
-CFLAGS = -Wall -Werror -Wextra -w -MMD -O0
+CFLAGS = -Wall -Werror -Wextra -w -MMD -O0 -g
 INCLUDE = -Iinclude -Ilibft/include 
 LIB = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 DEBUG_FLAGS = -g -O0 -fsanitize=address

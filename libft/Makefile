@@ -1,5 +1,5 @@
 NAME = libft.a
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 CC = cc
 VPATH = src
 SRC = ft_isalpha.c ft_isalnum.c ft_isdigit.c ft_isascii.c ft_strlen.c  \
