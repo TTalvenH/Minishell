@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/29 17:47:09 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/30 18:32:07 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*make_arg_string(char *str, int len, int i)
 		close(p[1]);
 		final = malloc(sizeof(char) * (len + 1));
 		ft_bzero(final, (len + 1));
-		i = read(p[0], &final[0], len) + close(p[0]);
+		i = read(p[0], final, len) + close(p[0]);
 	}
 	return (final);
 }

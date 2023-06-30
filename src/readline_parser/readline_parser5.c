@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 18:05:49 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/20 08:20:19 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/30 18:33:47 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	replace_env_writer(char *found, int fd, int *size)
 
 int	replace_env(const char *str, int fd, char **ptrs, int *size)
 {
-	char	*buffer;
+	char	buffer[PATH_MAX];
 	char	*found;
 	int		k;
 	int		i;
@@ -75,7 +75,7 @@ int	replace_env(const char *str, int fd, char **ptrs, int *size)
 	if (str[1] != '_' && !ft_isalnum(str[1]))
 		return (1);
 	i = ft_strlen(str);
-	buffer = malloc(i + 1);
+	ft_bzero(&buffer, PATH_MAX);
 	buffer[0] = str[0];
 	k = 0;
 	found = NULL;
@@ -86,6 +86,5 @@ int	replace_env(const char *str, int fd, char **ptrs, int *size)
 	replace_env_writer(found, fd, size);
 	if (found == NULL && k == 1)
 		write_and_count(fd, buffer[0], size);
-	free(buffer);
 	return (k);
 }
