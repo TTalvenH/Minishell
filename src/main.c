@@ -6,34 +6,13 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/20 09:27:22 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/29 18:11:22 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 t_env	*g_environ;
-
-void	handler(int sig)
-{
-	static int	catcher = 0;
-
-	if (sig != SIGINT)
-	{
-		catcher = sig;
-		return ;
-	}
-	if (catcher != -42)
-	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		return ;
-	}
-	write(STDIN_FILENO, "\n", 1);
-	close(STDIN_FILENO);
-}
 
 int	add_previous_result(char **str, t_new_line *got_line)
 {
@@ -103,5 +82,5 @@ int	main(void)
 			result = ft_itoa(piping(&got_line));
 		}
 	}
-	return (free_all_env(g_environ, &line));
+	return (free_all_env(g_environ, &line) + reset_sig(SIGINT));
 }

@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 04:06:34 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/20 10:08:05 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/06/29 17:47:09 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ int	create_heredoc(char *line, int i, int len)
 			return (-6);
 		}
 		len = ft_strlen(rline);
-		if (len > 1 && word_compare(rline, &line[i], 1))
+		if ((len && rline[0] != '\n') && word_compare(rline, &line[i], 1))
 			len = write(p[1], rline, len) + write(p[1], "\n", 1);
 	}
 	close(p[1]);
