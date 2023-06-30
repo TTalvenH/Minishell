@@ -64,15 +64,14 @@ char	*find_cmd_path(char *cmd, t_new_line *got_line)
 		return (cmd);
 	else if (!ft_strncmp(cmd, "./", 2) || !ft_strncmp(cmd, "../", 3))
 		return (relative_path(cmd));
+	if (!our_getenv("PATH", got_line))
+		return (NULL);
 	paths = ft_split(our_getenv("PATH", got_line) + 5, ':');
 	while (paths[i] != NULL)
 	{	
 		cmd_path = ft_strjoin_slash(paths[i++], cmd);
 		if (!access(cmd_path, F_OK))
-		{
-			ft_free_array(paths);
-			return (cmd_path);
-		}
+			return (ft_free_array(paths) + cmd_path);
 		free(cmd_path);
 	}
 	ft_free_array(paths);

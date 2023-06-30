@@ -65,10 +65,8 @@ int	pipe_logic(t_pipe_chain *pipes, t_new_line *got_line)
 			pipes->pids[i]
 				= create_child(got_line->cmd_pre[i].args, pipes, got_line);
 		else
-		{
 			return (
 				handle_builtins(got_line->cmd_pre[i].args, pipes, got_line));
-		}
 		i++;
 	}
 	return (0);

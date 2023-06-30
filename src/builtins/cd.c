@@ -59,7 +59,7 @@ int	cd(char	*dir, t_new_line *got_line)
 
 	ft_strlcpy(env_pwd, "PWD=", 5);
 	ft_strlcpy(env_oldpwd, "OLDPWD=", 8);
-	if (!getcwd(cwd, sizeof(cwd)))
+	if (dir && !getcwd(cwd, sizeof(cwd)))
 		return (error());
 	pwd = ft_strjoin(env_oldpwd, cwd);
 	if (dir && dir[0] != '/')

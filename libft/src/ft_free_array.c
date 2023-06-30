@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-void	ft_free_array(char **arr)
+int	ft_free_array(char **arr)
 {
 	int	i;
 
@@ -23,4 +23,5 @@ void	ft_free_array(char **arr)
 		i++;
 	}
 	free(arr - i);
+	return (0);
 }
