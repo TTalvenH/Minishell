@@ -43,7 +43,10 @@ static int	relative_path(char *dir, char *cwd, char *old_pwd)
 	if (!path)
 		return (error());
 	if (chdir(path))
+	{
+		free (path);
 		return (error());
+	}
 	free (path);
 	if (export_env(old_pwd, 0))
 		return (error());
