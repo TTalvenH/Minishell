@@ -95,7 +95,10 @@ int	child_process(char **arg, t_pipe_chain *pipes, t_new_line *got_line)
 		&& (cmd_path == NULL || pipes->in_fd == -2 || pipes->out_fd == -2))
 		ft_printf_fd(2, "Bad command/Broken I/O: %s\n", arg[0]);
 	else if (got_line->builtin == 0)
+	{
 		execve(cmd_path, arg, got_line->our_environ);
+		ft_printf_fd(2, "Bad command/Broken I/O: %s\n", arg[0]);
+	}
 	else
 		exit(run_builtin(arg, pipes, got_line));
 	exit(-1);
