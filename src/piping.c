@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 12:56:17 by ttalvenh          #+#    #+#             */
-/*   Updated: 2023/06/20 09:27:31 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/07/03 19:02:38 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ int	piping(t_new_line *got_line)
 		close_pipes(&pipes, got_line->copy);
 	while (pipes.pids[i])
 		waitpid(pipes.pids[i++], &status, 0);
+	initialise_signals();
 	return (WEXITSTATUS(status));
 }

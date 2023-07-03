@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 05:49:56 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/12 17:31:01 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/07/03 19:01:48 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,16 @@ int	env_compare(const char *env1, const char *env2)
 	if (env1[i] == '\0' && env2[i] == '=')
 		return (EXIT_SUCCESS);
 	return (EXIT_FAILURE);
+}
+
+void	initialise_signals(void)
+{
+	struct sigaction	action;
+
+	action.sa_flags = 0;
+	sigemptyset(&action.sa_mask);
+	action.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &action, NULL);
+	action.sa_handler = &handler;
+	sigaction(SIGINT, &action, NULL);
 }

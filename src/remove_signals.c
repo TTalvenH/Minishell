@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 22:07:01 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/29 17:48:09 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/07/03 19:03:56 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	reset_sig(const int sig)
 	act.sa_flags = 0;
 	new_state = termios_get_attr();
 	sigaction(SIGQUIT, &act, NULL);
-	act.sa_handler = handler;
 	sigaction(sig, &act, NULL);
 	handler(10);
 	new_state.c_lflag ^= ECHOCTL;

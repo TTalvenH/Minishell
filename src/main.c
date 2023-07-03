@@ -6,7 +6,7 @@
 /*   By: mkaratzi <mkaratzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:59:16 by mkaratzi          #+#    #+#             */
-/*   Updated: 2023/06/29 18:11:22 by mkaratzi         ###   ########.fr       */
+/*   Updated: 2023/07/03 19:02:30 by mkaratzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,7 @@ int	add_previous_result(char **str, t_new_line *got_line)
 
 static int	initialise(char *history_path, int *copy, t_new_line *got_line)
 {
-	struct sigaction	action;
-
-	action.sa_flags = 0;
-	sigemptyset(&action.sa_mask);
-	action.sa_handler = SIG_IGN;
-	sigaction(SIGQUIT, &action, NULL);
-	action.sa_handler = &handler;
-	sigaction(SIGINT, &action, NULL);
+	initialise_signals();
 	if (get_environments())
 		return (EXIT_FAILURE);
 	*copy = dup(STDIN_FILENO);
